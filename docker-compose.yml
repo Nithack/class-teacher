@@ -1,0 +1,35 @@
+services:
+  mongodb:
+    image: mongo
+    container_name: mongo_db
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo:/data
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=class-teacher
+      - MONGO_INITDB_ROOT_PASSWORD=class-teacher
+  mongo-express:
+    image: mongo-express
+    container_name: mongo_express
+    depends_on:
+      - mongodb
+    ports:
+      - 8081:8081
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=class-teacher
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=class-teacher
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - 6379:6379
+    environment:
+      - REDIS_PASSWORD=class-teacher
+      - REDIS_USERNAME=class-teacher
+    volumes:
+      - redis:/data
+volumes:
+  mongo: {}
+  redis: {}
