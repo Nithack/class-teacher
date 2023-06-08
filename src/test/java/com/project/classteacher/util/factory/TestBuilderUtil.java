@@ -5,9 +5,9 @@ import com.project.classteacher.domain.entity.Teacher;
 
 import java.util.UUID;
 
-public class TestFactoryUtil {
+public class TestBuilderUtil {
 
-    Teacher generateTeacher(String name, String email, String password){
+    public static Teacher generateTeacher(String name, String email, String password){
         return Teacher.builder()
                 .id(UUID.randomUUID())
                 .name(name)
@@ -15,7 +15,7 @@ public class TestFactoryUtil {
                 .password("")
                 .build();
     }
-    Secretary generateSecretary(String name, String email, String password){
+    public static Secretary generateSecretary(String name, String email, String password){
         return Secretary.builder()
                 .id(UUID.randomUUID())
                 .name(name)
