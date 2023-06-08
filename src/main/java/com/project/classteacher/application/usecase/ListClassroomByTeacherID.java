@@ -22,7 +22,6 @@ public class ListClassroomByTeacherID {
     public List<Classroom> execute(UUID teacherId){
         var teacher = this.userRepository.findTeacherById(teacherId);
         if(teacher == null){
-            // pass the teacher id to the exception example: teacher not found for id: {teacherId}
             throw new TeacherNotFoundException(
                     "teacher not found for id: " + teacherId
             );
