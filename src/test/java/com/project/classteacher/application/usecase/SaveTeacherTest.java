@@ -1,35 +1,53 @@
 package com.project.classteacher.application.usecase;
 
 import com.project.classteacher.ConfigContainersTest;
+import com.project.classteacher.domain.entity.Roles;
 import com.project.classteacher.domain.entity.Teacher;
 import com.project.classteacher.util.FakeUserRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.UUID;
 
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-@SpringBootTest(classes = SaveTeacher.class)
+
+@ExtendWith(MockitoExtension.class)
+@ConfigContainersTest
 public class SaveTeacherTest {
 
     private Teacher teacher;
 
-    @Autowired
-    private FakeUserRepository userRepository;
-
-    @Autowired
-    private SaveTeacher saveTeacher;
+    private SaveTeacher saveTeacher = new SaveTeacher(new FakeUserRepository());
 
     @Test
-    @ConfigContainersTest
-    public void shouldBeCreateNewTeacher() {
+    public void should_be_created_new_teacher_with_id() {
 
-        var newTeacher = new Teacher("Andrey", "andrey@nithack.com", "1234567890", UUID.randomUUID());
+        var newTeacher = Teacher.builder()
+                .id(UUID.randomUUID())
+                .name("Teacher 1")
+                .password("123456")
+                .email("teacher1@gmail.com")
+                .build();
+
         var teacherSaved = saveTeacher.execute(newTeacher);
-        assertEquals(teacherSaved.getId(), notNullValue());
-
+        assertThat(teacherSaved.getId(), notNullValue());
     }
+
+    @Test
+    public void should_be_created_new_teacher_with_teacher_role() {
+
+        var newTeacher = Teacher.builder()
+                .id(UUID.randomUUID())
+                .name("Teacher 1")
+                .password("123456")
+                .email("teacher1@gmail.com")
+                .build();
+
+        var teacherSaved = saveTeacher.execute(newTeacher);
+        assertEquals(teacherSaved.getRole(), Roles.valueOf("TEACHER"));
+    }
+
 }

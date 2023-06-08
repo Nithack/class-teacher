@@ -1,2 +1,4 @@
-package com.project.classteacher.domain;public class Password {
+package com.project.classteacher.domain;
+
+public class PasswordTest {
 }

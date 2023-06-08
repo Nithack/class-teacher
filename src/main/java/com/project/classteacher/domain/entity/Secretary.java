@@ -5,9 +5,9 @@ import lombok.Getter;
 
 import java.util.UUID;
 @Getter
-public class Secreatary extends User {
+public class Secretary extends User {
     @Builder
-    public Secreatary(UUID id, String name, String email, String password) {
+    public Secretary(UUID id, String name, String email, String password) {
         super(id, name, email, password, Roles.valueOf("SECRETARY"));
     }
 }
