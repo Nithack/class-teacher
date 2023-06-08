@@ -1,4 +1,4 @@
-package com.project.classteacher.util.factory;
+package com.project.classteacher.util.builder;
 
 import com.project.classteacher.domain.entity.Secretary;
 import com.project.classteacher.domain.entity.Teacher;
@@ -11,16 +11,16 @@ public class TestBuilderUtil {
         return Teacher.builder()
                 .id(UUID.randomUUID())
                 .name(name)
-                .email("")
-                .password("")
+                .email(email)
+                .password(password)
                 .build();
     }
     public static Secretary generateSecretary(String name, String email, String password){
         return Secretary.builder()
                 .id(UUID.randomUUID())
                 .name(name)
-                .email("")
-                .password("")
+                .email(email)
+                .password(password)
                 .build();
     }
 }

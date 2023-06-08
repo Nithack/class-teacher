@@ -1,6 +1,6 @@
-package com.project.classteacher.domain.entity.factory;
+package com.project.classteacher.application.factory;
 
-import com.project.classteacher.domain.entity.Roles;
+import com.project.classteacher.domain.enums.Roles;
 import com.project.classteacher.domain.entity.Secretary;
 import com.project.classteacher.domain.entity.Teacher;
 import com.project.classteacher.domain.entity.User;

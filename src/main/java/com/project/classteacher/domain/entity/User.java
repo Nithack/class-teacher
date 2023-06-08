@@ -1,5 +1,6 @@
 package com.project.classteacher.domain.entity;
 
+import com.project.classteacher.domain.enums.Roles;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

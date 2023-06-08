@@ -1,16 +1,12 @@
 package com.project.classteacher.application.usecase;
 
 import com.project.classteacher.ConfigContainersTest;
-import com.project.classteacher.domain.entity.Roles;
-import com.project.classteacher.domain.entity.Secretary;
-import com.project.classteacher.domain.entity.Teacher;
+import com.project.classteacher.domain.enums.Roles;
 import com.project.classteacher.util.FakeUserRepository;
-import com.project.classteacher.util.factory.TestBuilderUtil;
+import com.project.classteacher.util.builder.TestBuilderUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;

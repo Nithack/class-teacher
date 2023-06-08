@@ -1,4 +1,4 @@
-package com.project.classteacher.domain.entity;
+package com.project.classteacher.domain.enums;
 
 public enum Roles {
     TEACHER,

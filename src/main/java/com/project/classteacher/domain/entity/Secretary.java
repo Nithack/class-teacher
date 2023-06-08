@@ -1,5 +1,6 @@
 package com.project.classteacher.domain.entity;
 
+import com.project.classteacher.domain.enums.Roles;
 import lombok.Builder;
 import lombok.Getter;
 

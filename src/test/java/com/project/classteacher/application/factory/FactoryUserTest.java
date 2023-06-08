@@ -1,4 +1,4 @@
-package com.project.classteacher.domain;
+package com.project.classteacher.application.factory;
 
 import com.project.classteacher.ConfigContainersTest;
 import com.project.classteacher.domain.enums.Roles;
