@@ -2,8 +2,6 @@ package com.project.classteacher.application.usecase;
 
 import com.project.classteacher.application.repository.UserRepository;
 import com.project.classteacher.domain.entity.Teacher;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
