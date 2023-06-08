@@ -7,20 +7,26 @@ import java.util.UUID;
 
 public class TestBuilderUtil {
 
-    public static Teacher generateTeacher(String name, String email, String password){
+    public static Teacher generateTeacher(UUID id, String name, String email, String password){
         return Teacher.builder()
-                .id(UUID.randomUUID())
+                .id(id)
                 .name(name)
                 .email(email)
                 .password(password)
                 .build();
     }
-    public static Secretary generateSecretary(String name, String email, String password){
+    public static Secretary generateSecretary(UUID id, String name, String email, String password){
+                // if id is not provided, it will be generated automatically
+
         return Secretary.builder()
-                .id(UUID.randomUUID())
+                .id(id)
                 .name(name)
                 .email(email)
                 .password(password)
                 .build();
+    }
+
+    public static UUID generateId() {
+        return UUID.randomUUID();
     }
 }

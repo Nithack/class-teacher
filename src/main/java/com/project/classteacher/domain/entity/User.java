@@ -11,13 +11,13 @@ import java.util.UUID;
 @EqualsAndHashCode(of = "id")
 @AllArgsConstructor
 public class User {
-    private UUID id = generateId();
+    private UUID id;
     private String name;
     private String email;
     private String password;
     private Roles role;
 
-    UUID generateId(){
+    public static UUID generateID(){
         return UUID.randomUUID();
     }
 }

@@ -19,18 +19,18 @@ public class UserFactory {
     }
     private static Teacher createTeacher(String name, String email, String password){
         return Teacher.builder()
-                .id(UUID.randomUUID())
+                .id(User.generateID())
                 .name(name)
-                .email("")
-                .password("")
+                .email(email)
+                .password(password)
                 .build();
     }
     private static Secretary createSecretary(String name, String email, String password){
         return Secretary.builder()
-                .id(UUID.randomUUID())
+                .id(User.generateID())
                 .name(name)
-                .email("")
-                .password("")
+                .email(email)
+                .password(password)
                 .build();
     }
 }

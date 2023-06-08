@@ -14,17 +14,17 @@ import java.util.UUID;
 public class FakeUserRepository implements UserRepository {
     @Override
     public Teacher saveTeacher(Teacher teacher) {
-        teacher.setId(generateId());
+        if(teacher.getId() == null){
+            teacher.setId(UUID.randomUUID());
+        }
         return teacher;
     }
 
     @Override
     public Secretary saveSecretary(Secretary secretary) {
-        secretary.setId(generateId());
+        if(secretary.getId() == null){
+            secretary.setId(UUID.randomUUID());
+        }
         return secretary;
-    }
-
-    private static UUID generateId(){
-        return UUID.randomUUID();
     }
 }
