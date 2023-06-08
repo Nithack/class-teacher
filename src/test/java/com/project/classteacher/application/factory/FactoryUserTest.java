@@ -1,18 +1,15 @@
 package com.project.classteacher.domain;
 
 import com.project.classteacher.ConfigContainersTest;
-import com.project.classteacher.domain.entity.Roles;
+import com.project.classteacher.domain.enums.Roles;
 import com.project.classteacher.domain.entity.Secretary;
-import com.project.classteacher.domain.entity.Teacher;
-import com.project.classteacher.domain.entity.factory.UserFactory;
+import com.project.classteacher.application.factory.UserFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.UUID;
 
 
 @ExtendWith(MockitoExtension.class)
