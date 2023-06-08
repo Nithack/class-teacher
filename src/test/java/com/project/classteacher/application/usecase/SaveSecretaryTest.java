@@ -33,7 +33,7 @@ public class SaveSecretaryTest {
     }
 
     @Test
-    public void should_be_created_new_secretary_with_teacher_role() {
+    public void should_be_created_new_secretary_with_secretary_role() {
 
         var secretary = TestBuilderUtil.generateSecretary("Secretary 1", "secretary1@gmail.com", "123456");
 
