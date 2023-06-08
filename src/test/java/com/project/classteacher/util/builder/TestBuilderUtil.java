@@ -3,8 +3,6 @@ package com.project.classteacher.util.builder;
 import com.project.classteacher.domain.entity.Classroom;
 import com.project.classteacher.domain.entity.Secretary;
 import com.project.classteacher.domain.entity.Teacher;
-
-import java.sql.Date;
 import java.text.ParseException;
 import java.util.UUID;
 
