@@ -1,4 +1,4 @@
-package com.project.classteacher;
+package com.project.classteacher.config;
 
 import com.mongodb.client.MongoClients;
 

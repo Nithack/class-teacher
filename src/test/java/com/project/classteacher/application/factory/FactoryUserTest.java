@@ -1,9 +1,8 @@
 package com.project.classteacher.application.factory;
 
-import com.project.classteacher.ConfigContainersTest;
+import com.project.classteacher.config.decorators.ConfigContainersTest;
 import com.project.classteacher.domain.enums.Roles;
 import com.project.classteacher.domain.entity.Secretary;
-import com.project.classteacher.application.factory.UserFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;

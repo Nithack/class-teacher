@@ -11,7 +11,6 @@ import java.io.IOException;
 
 
 @Import(MongoConfig.class)
-
 public class ConfigMongoDBTest {
 
     @Autowired
