@@ -1,8 +1,11 @@
 package com.project.classteacher.util.builder;
 
+import com.project.classteacher.domain.entity.Classroom;
 import com.project.classteacher.domain.entity.Secretary;
 import com.project.classteacher.domain.entity.Teacher;
 
+import java.sql.Date;
+import java.text.ParseException;
 import java.util.UUID;
 
 public class TestBuilderUtil {
@@ -16,8 +19,6 @@ public class TestBuilderUtil {
                 .build();
     }
     public static Secretary generateSecretary(UUID id, String name, String email, String password){
-                // if id is not provided, it will be generated automatically
-
         return Secretary.builder()
                 .id(id)
                 .name(name)
@@ -28,5 +29,15 @@ public class TestBuilderUtil {
 
     public static UUID generateId() {
         return UUID.randomUUID();
+    }
+
+    public static Classroom generateClassroom(UUID uuid, String title, String description, String dayDate, UUID teacherId) throws ParseException {
+        return Classroom.builder()
+                .id(uuid)
+                .title(title)
+                .description(description)
+                .dayDate(Classroom.dateFormat(dayDate))
+                .teacherId(teacherId)
+                .build();
     }
 }

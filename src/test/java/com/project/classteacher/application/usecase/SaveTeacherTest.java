@@ -1,5 +1,6 @@
 package com.project.classteacher.application.usecase;
 
+import com.project.classteacher.application.repository.ClassroomRepository;
 import com.project.classteacher.application.repository.UserRepository;
 import com.project.classteacher.config.decorators.ConfigContainersTest;
 import com.project.classteacher.domain.enums.Roles;
@@ -19,6 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DisplayName("Save Teacher Test")
 @ConfigContainersTest
 public class SaveTeacherTest {
+
+    @MockBean
+    private ClassroomRepository classroomRepository;
 
     @MockBean
     private UserRepository userRepository;

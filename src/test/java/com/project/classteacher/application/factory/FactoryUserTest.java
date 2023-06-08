@@ -4,11 +4,12 @@ import com.project.classteacher.config.decorators.ConfigContainersTest;
 import com.project.classteacher.domain.entity.Teacher;
 import com.project.classteacher.domain.enums.Roles;
 import com.project.classteacher.domain.entity.Secretary;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-@ConfigContainersTest
+@DisplayName("Factory User Test")
 public class FactoryUserTest {
 
     @Test

@@ -1,5 +1,6 @@
 package com.project.classteacher.application.usecase;
 
+import com.project.classteacher.application.repository.ClassroomRepository;
 import com.project.classteacher.application.repository.UserRepository;
 import com.project.classteacher.config.decorators.ConfigContainersTest;
 import com.project.classteacher.domain.enums.Roles;
@@ -16,6 +17,9 @@ import java.util.UUID;
 @DisplayName("Save Secretary Test")
 @ConfigContainersTest
 public class SaveSecretaryTest {
+
+    @MockBean
+    private ClassroomRepository classroomRepository;
 
     @MockBean
     private UserRepository userRepository;
