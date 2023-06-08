@@ -20,8 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ConfigContainersTest
 public class SaveSecretaryTest {
 
-    private Secretary teacher;
-
     private SaveSecretary saveSecretary = new SaveSecretary(new FakeUserRepository());
 
     @Test

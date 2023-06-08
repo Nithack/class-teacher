@@ -18,8 +18,6 @@ import java.util.UUID;
 @ConfigContainersTest
 public class SaveTeacherTest {
 
-    private Teacher teacher;
-
     private SaveTeacher saveTeacher = new SaveTeacher(new FakeUserRepository());
 
     @Test

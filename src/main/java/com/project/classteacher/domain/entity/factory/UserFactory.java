@@ -17,7 +17,7 @@ public class UserFactory {
             default -> throw new IllegalArgumentException("Invalid role");
         };
     }
-    public static Teacher createTeacher(String name, String email, String password){
+    private static Teacher createTeacher(String name, String email, String password){
         return Teacher.builder()
                 .id(UUID.randomUUID())
                 .name(name)
@@ -25,7 +25,7 @@ public class UserFactory {
                 .password("")
                 .build();
     }
-    public static Secretary createSecretary(String name, String email, String password){
+    private static Secretary createSecretary(String name, String email, String password){
         return Secretary.builder()
                 .id(UUID.randomUUID())
                 .name(name)
