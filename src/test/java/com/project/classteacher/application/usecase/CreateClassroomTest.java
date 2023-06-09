@@ -3,7 +3,7 @@ package com.project.classteacher.application.usecase;
 import com.project.classteacher.application.exceptions.TeacherNotFoundException;
 import com.project.classteacher.application.repository.ClassroomRepository;
 import com.project.classteacher.application.repository.UserRepository;
-import com.project.classteacher.config.decorators.ConfigContainersTest;
+import com.project.classteacher.domain.entity.Classroom;
 import com.project.classteacher.util.builder.TestBuilderUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.text.ParseException;
@@ -20,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 @DisplayName("Create Classroom Test")
-@ConfigContainersTest
+@SpringBootTest(classes = CreateClassroom.class)
 public class CreateClassroomTest {
 
     @MockBean
@@ -51,7 +52,7 @@ public class CreateClassroomTest {
                 this.DEFAULT_UUID,
                 "Literatura",
                 "Aula focada no ensino da literatura",
-                "2021-10-10T11:15:00.000Z",
+                Classroom.dateFormat("2021-10-10T11:15:00.000Z"),
                 teacher.getId()
         );
         Mockito.when(userRepository.findTeacherById(teacher.getId())).thenReturn(teacher);
@@ -74,7 +75,7 @@ public class CreateClassroomTest {
                 this.DEFAULT_UUID,
                 "Literatura",
                 "Aula focada no ensino da literatura",
-                "2021-10-10T11:15:00.000Z",
+                Classroom.dateFormat("2021-10-10T11:15:00.000Z"),
                 TestBuilderUtil.generateId()
         );
         Mockito.when(userRepository.findTeacherById(this.DEFAULT_UUID)).thenReturn(null);

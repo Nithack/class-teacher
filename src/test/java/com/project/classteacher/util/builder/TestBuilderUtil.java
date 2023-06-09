@@ -7,6 +7,7 @@ import com.project.classteacher.domain.entity.Teacher;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.UUID;
 
 public class TestBuilderUtil {
@@ -55,12 +56,12 @@ public class TestBuilderUtil {
                     generateId(),
                     "Classroom 1",
                     "Classroom 1 description",
-                    "2021-01-01T00:00:00.000Z",
+                    Classroom.dateFormat("2021-01-01T00:00:00.000Z"),
                     generateId()
             );
     }
 
-    public static Classroom createClassroom(UUID uuid, String title, String description, String dayDate, UUID teacherId) throws ParseException {
+    public static Classroom createClassroom(UUID uuid, String title, String description, Date dayDate, UUID teacherId) throws ParseException {
         return new Classroom(
                 uuid,
                 title,

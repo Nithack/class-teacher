@@ -4,6 +4,7 @@ import com.project.classteacher.application.exceptions.TeacherNotFoundException;
 import com.project.classteacher.application.repository.ClassroomRepository;
 import com.project.classteacher.application.repository.UserRepository;
 import com.project.classteacher.config.decorators.ConfigContainersTest;
+import com.project.classteacher.config.decorators.ConfigMongoDBTest;
 import com.project.classteacher.domain.entity.Classroom;
 import com.project.classteacher.domain.entity.Teacher;
 import com.project.classteacher.util.builder.TestBuilderUtil;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.text.ParseException;
@@ -22,8 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @DisplayName("Teacher Approve Test")
-@ConfigContainersTest
-public class ApproveTeacherTest {
+@SpringBootTest(classes = ApproveTeacher.class)
+public class ApproveTeacherTest{
 
     @MockBean
     private ClassroomRepository classroomRepository;

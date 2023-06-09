@@ -14,7 +14,7 @@ import java.io.IOException;
 public class ConfigMongoDBTest {
 
     @Autowired
-    private MongodExecutable mongodExecutable;
+    MongodExecutable mongodExecutable;
 
     @BeforeEach
     public void tearUp() throws IOException {

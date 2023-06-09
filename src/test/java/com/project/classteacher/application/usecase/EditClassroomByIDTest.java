@@ -12,6 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.text.ParseException;
@@ -21,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Edit Classroom By ID Test")
-@ConfigContainersTest
+@SpringBootTest(classes = EditClassroomByID.class)
 final class EditClassroomByIDTest {
 
     @MockBean
@@ -48,14 +49,14 @@ final class EditClassroomByIDTest {
                 this.DEFAULT_UUID,
                 "Literatura",
                 "Aula focada no ensino da literatura",
-                "2021-10-10T11:15:00.000Z",
+                Classroom.dateFormat("2021-10-10T11:15:00.000Z"),
                 teacher.getId()
         );
         var inputChanges = TestBuilderUtil.createClassroom(
                 null,
                 null,
                 "Aula focada no ensino da literatura e da lingua portuguesa",
-                "2021-10-10T08:15:00.000Z",
+                Classroom.dateFormat("2021-10-10T08:15:00.000Z"),
                 null
         );
         Mockito.when(userRepository.findTeacherById(teacher.getId())).thenReturn(teacher);
@@ -78,7 +79,7 @@ final class EditClassroomByIDTest {
                 null,
                 null,
                 "Aula focada no ensino da literatura e da lingua portuguesa",
-                "2021-10-10T08:15:00.000Z",
+                Classroom.dateFormat("2021-10-10T08:15:00.000Z"),
                 null
         );
 
