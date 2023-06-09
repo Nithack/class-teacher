@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ListClassroomByTeacherID {
+final class ListClassroomByTeacherID {
 
     @Autowired
     private ClassroomRepository classroomRepository;
@@ -22,9 +22,7 @@ public class ListClassroomByTeacherID {
     public List<Classroom> execute(UUID teacherId){
         var teacher = this.userRepository.findTeacherById(teacherId);
         if(teacher == null){
-            throw new TeacherNotFoundException(
-                    "teacher not found for id: " + teacherId
-            );
+            throw new TeacherNotFoundException(teacherId);
         }
         return this.classroomRepository.listByTeacherId(teacherId);
     }

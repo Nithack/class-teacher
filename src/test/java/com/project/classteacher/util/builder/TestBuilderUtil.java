@@ -30,12 +30,12 @@ public class TestBuilderUtil {
     }
 
     public static Classroom generateClassroom(UUID uuid, String title, String description, String dayDate, UUID teacherId) throws ParseException {
-        return Classroom.builder()
-                .id(uuid)
-                .title(title)
-                .description(description)
-                .dayDate(Classroom.dateFormat(dayDate))
-                .teacherId(teacherId)
-                .build();
+        return new Classroom(
+                uuid,
+                title,
+                description,
+                teacherId,
+                dayDate
+        );
     }
 }

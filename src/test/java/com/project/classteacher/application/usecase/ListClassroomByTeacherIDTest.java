@@ -11,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import com.project.classteacher.application.repository.ClassroomRepository;
 
@@ -23,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("List Classroom By Teacher ID Test")
 @ConfigContainersTest
-public class ListClassroomByTeacherIDTest {
+final class ListClassroomByTeacherIDTest {
 
     @MockBean
     private ClassroomRepository classroomRepository;
