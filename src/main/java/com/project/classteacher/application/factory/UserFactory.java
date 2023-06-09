@@ -34,7 +34,7 @@ public class UserFactory {
     }
     private static Secretary createSecretary(UUID id, String name, String email, Password password){
         return Secretary.builder()
-                .id(User.generateID())
+                .id(id)
                 .name(name)
                 .email(email)
                 .password(password)
