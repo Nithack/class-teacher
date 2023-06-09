@@ -1,0 +1,15 @@
+spring:
+  cache:
+    type: redis
+  data:
+    mongodb:
+      uri: mongodb://class-teacher:class-teacher@localhost:27017/class-teacher?authSource=admin
+  redis:
+    host: redis
+    port: 6379
+    password: class-teacher
+basic:
+  config:
+    password:
+      encoder:
+        salt: class-teacher
