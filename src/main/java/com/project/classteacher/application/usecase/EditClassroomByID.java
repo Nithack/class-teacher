@@ -4,10 +4,8 @@ import com.project.classteacher.application.exceptions.ClassroomNotFoundExceptio
 import com.project.classteacher.application.repository.ClassroomRepository;
 import com.project.classteacher.domain.entity.Classroom;
 import com.project.classteacher.domain.mapper.ClassroomMapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
