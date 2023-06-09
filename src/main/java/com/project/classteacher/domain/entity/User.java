@@ -28,5 +28,9 @@ public class User {
     public Boolean verifyPassword(String password){
         return this.password.validate(password);
     }
+
+    public String getSalt(){
+        return password.getSalt();
+    }
 }
 

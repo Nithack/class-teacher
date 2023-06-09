@@ -8,6 +8,10 @@ public class TeacherNotFoundException extends RuntimeException {
         super("teacher not found for id: " + id);
     }
 
+    public TeacherNotFoundException(String message) {
+        super(message);
+    }
+
     public TeacherNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
