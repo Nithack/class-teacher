@@ -15,7 +15,7 @@ public class FactoryUserTest {
     @DisplayName("Should be created new secretary")
     public void should_be_created_new_secretary() {
 
-        var  secretary = UserFactory.createUser("Secretary", "Secretary@gmail.com", "123456", Roles.SECRETARY);
+        var  secretary = UserFactory.createUser(null, "Secretary", "Secretary@gmail.com", "123456", Roles.SECRETARY);
 
         assertEquals(secretary.getRole(), Roles.valueOf("SECRETARY"));
         assertEquals(secretary.getClass(), Secretary.class);
@@ -25,7 +25,7 @@ public class FactoryUserTest {
     @DisplayName("Should be created new teacher")
     public void should_be_created_new_teacher() {
 
-        var  teacher = UserFactory.createUser("Teacher", "teacher@gmail.com", "123456", Roles.TEACHER);
+        var  teacher = UserFactory.createUser(null,"Teacher", "teacher@gmail.com", "123456", Roles.TEACHER);
 
         assertEquals(teacher.getRole(), Roles.valueOf("TEACHER"));
         assertEquals(teacher.getClass(), Teacher.class);
