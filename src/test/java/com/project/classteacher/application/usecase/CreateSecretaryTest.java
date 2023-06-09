@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @DisplayName("Save Secretary Test")
 @ConfigContainersTest
-public class SaveSecretaryTest {
+public class CreateSecretaryTest {
 
     @MockBean
     private ClassroomRepository classroomRepository;
@@ -25,7 +25,7 @@ public class SaveSecretaryTest {
     private UserRepository userRepository;
 
     @Autowired
-    private SaveSecretary saveSecretary;
+    private CreateSecretary createSecretary;
 
     UUID DEFAULT_UUID;
 
@@ -40,7 +40,7 @@ public class SaveSecretaryTest {
         var secretary = TestBuilderUtil.generateSecretary(this.DEFAULT_UUID,"Secretary 1", "secretary1@gmail.com", "123456");
 
         Mockito.when(userRepository.saveSecretary(secretary)).thenReturn(secretary);
-        var secretarySaved = saveSecretary.execute(secretary);
+        var secretarySaved = createSecretary.execute(secretary);
 
 
         assertEquals(secretarySaved.getId(), this.DEFAULT_UUID);
@@ -60,7 +60,7 @@ public class SaveSecretaryTest {
                 "123456"
         );
         Mockito.when(userRepository.saveSecretary(secretary)).thenReturn(secretary);
-        var secretarySaved = saveSecretary.execute(secretary);
+        var secretarySaved = createSecretary.execute(secretary);
         assertEquals(secretarySaved.getRole(), Roles.valueOf("SECRETARY"));
     }
 

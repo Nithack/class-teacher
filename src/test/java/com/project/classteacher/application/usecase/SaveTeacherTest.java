@@ -28,7 +28,7 @@ public class SaveTeacherTest {
     private UserRepository userRepository;
 
     @Autowired
-    private SaveTeacher saveTeacher;
+    private CreateTeacher createTeacher;
 
     UUID DEFAULT_UUID;
 
@@ -48,7 +48,7 @@ public class SaveTeacherTest {
                 "123456"
         );
         Mockito.when(userRepository.saveTeacher(newTeacher)).thenReturn(newTeacher);
-        var teacherSaved = saveTeacher.execute(newTeacher);
+        var teacherSaved = createTeacher.execute(newTeacher);
         assertEquals(teacherSaved.getId(), this.DEFAULT_UUID);
         assertEquals(teacherSaved.getName(), "Teacher 1");
         assertEquals(teacherSaved.getEmail(), "teacher1@gmail.com");
@@ -66,7 +66,7 @@ public class SaveTeacherTest {
                 "123456"
         );
         Mockito.when(userRepository.saveTeacher(newTeacher)).thenReturn(newTeacher);
-        var teacherSaved = saveTeacher.execute(newTeacher);
+        var teacherSaved = createTeacher.execute(newTeacher);
         assertEquals(teacherSaved.getRole(), Roles.valueOf("TEACHER"));
     }
 

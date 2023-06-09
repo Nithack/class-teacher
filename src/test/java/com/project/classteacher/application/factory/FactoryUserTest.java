@@ -12,15 +12,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class FactoryUserTest {
 
     @Test
+    @DisplayName("Should be created new secretary")
     public void should_be_created_new_secretary() {
 
-        var  teacher = UserFactory.createUser("Secretary", "Secretary@gmail.com", "123456", Roles.SECRETARY);
+        var  secretary = UserFactory.createUser("Secretary", "Secretary@gmail.com", "123456", Roles.SECRETARY);
 
-        assertEquals(teacher.getRole(), Roles.valueOf("SECRETARY"));
-        assertEquals(teacher.getClass(), Secretary.class);
+        assertEquals(secretary.getRole(), Roles.valueOf("SECRETARY"));
+        assertEquals(secretary.getClass(), Secretary.class);
     }
 
     @Test
+    @DisplayName("Should be created new teacher")
     public void should_be_created_new_teacher() {
 
         var  teacher = UserFactory.createUser("Teacher", "teacher@gmail.com", "123456", Roles.TEACHER);
