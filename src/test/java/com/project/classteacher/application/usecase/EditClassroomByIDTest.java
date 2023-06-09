@@ -1,6 +1,7 @@
 package com.project.classteacher.application.usecase;
 
-import com.project.classteacher.application.exceptions.TeacherNotFoundException;
+import com.project.classteacher.application.exceptions.ClassroomNotFoundException;
+import com.project.classteacher.application.repository.ClassroomRepository;
 import com.project.classteacher.application.repository.UserRepository;
 import com.project.classteacher.config.decorators.ConfigContainersTest;
 import com.project.classteacher.domain.entity.Classroom;
@@ -12,18 +13,16 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import com.project.classteacher.application.repository.ClassroomRepository;
 
 import java.text.ParseException;
-import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("List Classroom By Teacher ID Test")
+@DisplayName("Edit Classroom By ID Test")
 @ConfigContainersTest
-final class ListClassroomByTeacherIDTest {
+final class EditClassroomByIDTest {
 
     @MockBean
     private ClassroomRepository classroomRepository;
@@ -32,7 +31,7 @@ final class ListClassroomByTeacherIDTest {
     private UserRepository userRepository;
 
     @Autowired
-    private ListClassroomByTeacherID listClassroomByTeacherID;
+    private EditClassroomByID editClassroomByID;
     UUID DEFAULT_UUID;
 
     @BeforeEach
@@ -52,39 +51,41 @@ final class ListClassroomByTeacherIDTest {
                 "2021-10-10T11:15:00.000Z",
                 teacher.getId()
         );
-        var classroomHistory = TestBuilderUtil.createClassroom(
-                this.DEFAULT_UUID,
-                "Historia",
-                "Aula focada no ensino da historia",
-                "2021-15-01T18:30:00.000Z",
-                teacher.getId()
+        var inputChanges = TestBuilderUtil.createClassroom(
+                null,
+                null,
+                "Aula focada no ensino da literatura e da lingua portuguesa",
+                "2021-10-10T08:15:00.000Z",
+                null
         );
-        var classMokitoTest = TestBuilderUtil.generateClassroom();
         Mockito.when(userRepository.findTeacherById(teacher.getId())).thenReturn(teacher);
-        Mockito.when(classroomRepository.listByTeacherId(teacher.getId())).thenReturn(List.of(new Classroom[]{classroomLiterature, classroomHistory}));
-        var classroomSaved = listClassroomByTeacherID.execute(teacher.getId());
+        Mockito.when(classroomRepository.getByID(classroomLiterature.getId())).thenReturn(classroomLiterature);
+        Mockito.when(classroomRepository.save(Mockito.any(Classroom.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        var classroomSaved = editClassroomByID.execute(classroomLiterature.getId(), inputChanges);
 
-        assertAll("classroomSaved",
-                () -> assertClassroom(classroomSaved.get(0), DEFAULT_UUID, "Literatura", "Aula focada no ensino da literatura", teacher.getId()),
-                () -> assertClassroom(classroomSaved.get(1), DEFAULT_UUID, "Historia", "Aula focada no ensino da historia", teacher.getId())
-        );
+        assertEquals(classroomSaved.getId(), classroomLiterature.getId());
+        assertEquals(classroomSaved.getTitle(), classroomLiterature.getTitle());
+        assertEquals(classroomSaved.getTeacherId(), classroomLiterature.getTeacherId());
+        assertEquals(classroomSaved.getDescription(), inputChanges.getDescription());
+        assertEquals(classroomSaved.getDayDate(), inputChanges.getDayDate());
     }
 
     @Test()
     @DisplayName("should be throw exception when teacher not found")
     public void should_be_throw_exception_when_teacher_not_found() throws ParseException {
 
+        var inputChanges = TestBuilderUtil.createClassroom(
+                null,
+                null,
+                "Aula focada no ensino da literatura e da lingua portuguesa",
+                "2021-10-10T08:15:00.000Z",
+                null
+        );
+
         Mockito.when(userRepository.findTeacherById(this.DEFAULT_UUID)).thenReturn(null);
 
-        Assertions.assertThrows(TeacherNotFoundException.class, () -> {
-            listClassroomByTeacherID.execute(this.DEFAULT_UUID);
+        Assertions.assertThrows(ClassroomNotFoundException.class, () -> {
+            editClassroomByID.execute(this.DEFAULT_UUID, inputChanges);
         });
-    }
-
-    public void assertClassroom(Classroom classroom, UUID expectedId, String expectedTitle, String expectedDescription, UUID expectedTeacherId) {
-        assertEquals(expectedId, classroom.getId());
-        assertEquals(expectedTitle, classroom.getTitle());
-        assertEquals(expectedDescription, classroom.getDescription());
-        assertEquals(expectedTeacherId, classroom.getTeacherId());
     }
 }

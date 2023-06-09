@@ -59,7 +59,6 @@ final class ListClassroomByTeacherIDTest {
                 "2021-15-01T18:30:00.000Z",
                 teacher.getId()
         );
-        var classMokitoTest = TestBuilderUtil.generateClassroom();
         Mockito.when(userRepository.findTeacherById(teacher.getId())).thenReturn(teacher);
         Mockito.when(classroomRepository.listByTeacherId(teacher.getId())).thenReturn(List.of(new Classroom[]{classroomLiterature, classroomHistory}));
         var classroomSaved = listClassroomByTeacherID.execute(teacher.getId());

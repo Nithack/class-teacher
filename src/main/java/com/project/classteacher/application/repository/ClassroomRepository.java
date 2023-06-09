@@ -8,4 +8,5 @@ import java.util.UUID;
 public interface ClassroomRepository {
     List<Classroom> listByTeacherId(UUID teacherId);
     Classroom save(Classroom classroom);
+    Classroom getByID(UUID id);
 }
