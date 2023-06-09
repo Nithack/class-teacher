@@ -4,6 +4,7 @@ import com.project.classteacher.domain.entity.Classroom;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Builder
 public class ClassroomModel {
     @MongoId
+    @Id
     private String id;
     private String title;
     private String description;

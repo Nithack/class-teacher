@@ -6,6 +6,7 @@ import com.project.classteacher.domain.enums.Roles;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
@@ -18,6 +19,7 @@ import java.util.UUID;
 public class UserModel {
 
     @MongoId
+    @Id
     private String id;
     private String name;
     private String email;
@@ -26,7 +28,7 @@ public class UserModel {
     private String salt;
     private String aproved;
 
-    public static UserModel toModel(User user){
+    public static UserModel toModel(User user) {
         return UserModel.builder()
                 .id(user.getId().toString())
                 .name(user.getName())
@@ -38,7 +40,7 @@ public class UserModel {
                 .build();
     }
 
-    public User toDomain(){
+    public User toDomain() {
         return UserFactory.buildExistingUser(
                 UUID.fromString(this.id),
                 this.name,

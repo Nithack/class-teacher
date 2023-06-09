@@ -10,13 +10,13 @@ import com.project.classteacher.infra.dataBase.model.UserModel;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Service
+@Component
 public class UserMongoDBServiceRepository implements UserServiceRepository {
 
     @Autowired

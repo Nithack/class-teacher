@@ -7,14 +7,14 @@ import com.project.classteacher.infra.dataBase.model.ClassroomModel;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 
-@Service
+@Component
 public class ClassroomDBServiceRepository implements ClassroomServiceRepository {
 
     @Autowired
