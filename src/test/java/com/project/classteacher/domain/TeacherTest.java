@@ -1,24 +1,29 @@
 package com.project.classteacher.domain;
 
 
-import com.project.classteacher.domain.entity.Classroom;
+import com.project.classteacher.util.builder.TestBuilderUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.text.ParseException;
 
-
-@DisplayName("Classroom Test")
+@DisplayName("Teacher Test")
 public class TeacherTest {
+    @Test()
+    @DisplayName("should be return teacher with approved status false")
+    public void should_be_return_teacher_with_approved_status_false() {
+
+        var teacher = TestBuilderUtil.generateTeacher();
+        Assertions.assertFalse(teacher.isApproved());
+    }
 
 
     @Test()
-    @DisplayName("should be throw exception when date is invalid")
-    public void should_be_throw_exception_when_date_is_invalid() {
-        Assertions.assertThrows(ParseException.class, () -> {
-            Classroom.dateFormat("20AA-10-10T11:15:00.000Z");
-        });
-    }
+    @DisplayName("should be return teacher with approved status true")
+    public void should_be_return_teacher_with_approved_status_true() {
 
+        var teacher = TestBuilderUtil.generateTeacher();
+        teacher.approve();
+        Assertions.assertTrue(teacher.isApproved());
+    }
 }

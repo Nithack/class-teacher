@@ -8,7 +8,15 @@ import java.util.UUID;
 
 public class TestBuilderUtil {
 
-    public static Teacher generateTeacher(UUID id, String name, String email, String password){
+    public static Teacher generateTeacher(){
+        return createTeacher(
+                generateId(),
+                "Secretary 1",
+                "secretary1@gmail.com",
+                "123456"
+        );
+    };
+    public static Teacher createTeacher(UUID id, String name, String email, String password){
         return Teacher.builder()
                 .id(id)
                 .name(name)
@@ -16,7 +24,15 @@ public class TestBuilderUtil {
                 .password(password)
                 .build();
     }
-    public static Secretary generateSecretary(UUID id, String name, String email, String password){
+    public static Secretary generateSecretary(){
+        return createSecretary(
+                generateId(),
+                "Teacher 1",
+                "teacher1@gmail.com",
+                "123456"
+            );
+    }
+    public static Secretary createSecretary(UUID id, String name, String email, String password){
         return Secretary.builder()
                 .id(id)
                 .name(name)
@@ -24,12 +40,21 @@ public class TestBuilderUtil {
                 .password(password)
                 .build();
     }
-
     public static UUID generateId() {
         return UUID.randomUUID();
     }
 
-    public static Classroom generateClassroom(UUID uuid, String title, String description, String dayDate, UUID teacherId) throws ParseException {
+    public static Classroom generateClassroom() throws ParseException {
+            return createClassroom(
+                    generateId(),
+                    "Classroom 1",
+                    "Classroom 1 description",
+                    "2021-01-01T00:00:00.000Z",
+                    generateId()
+            );
+    }
+
+    public static Classroom createClassroom(UUID uuid, String title, String description, String dayDate, UUID teacherId) throws ParseException {
         return new Classroom(
                 uuid,
                 title,

@@ -46,13 +46,8 @@ public class CreateClassroomTest {
     @DisplayName("Should be create a classroom")
     public void should_be_create_a_classroom() throws ParseException {
 
-        var teacher = TestBuilderUtil.generateTeacher(
-                TestBuilderUtil.generateId(),
-                "Teacher 1",
-                "teacher1@gmail.com",
-                "123456"
-        );
-        var classroomLiterature = TestBuilderUtil.generateClassroom(
+        var teacher = TestBuilderUtil.generateTeacher();
+        var classroomLiterature = TestBuilderUtil.createClassroom(
                 this.DEFAULT_UUID,
                 "Literatura",
                 "Aula focada no ensino da literatura",
@@ -75,7 +70,7 @@ public class CreateClassroomTest {
     @DisplayName("Should be throw exception when teacher not found")
     public void should_be_throw_exception_when_teacher_not_found() throws ParseException {
 
-        var classroomLiterature = TestBuilderUtil.generateClassroom(
+        var classroomLiterature = TestBuilderUtil.createClassroom(
                 this.DEFAULT_UUID,
                 "Literatura",
                 "Aula focada no ensino da literatura",

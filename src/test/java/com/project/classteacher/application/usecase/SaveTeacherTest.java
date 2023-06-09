@@ -41,7 +41,7 @@ public class SaveTeacherTest {
     @DisplayName("Should be created new teacher with information")
     public void should_be_created_new_teacher_with_id() {
 
-        var newTeacher = TestBuilderUtil.generateTeacher(
+        var newTeacher = TestBuilderUtil.createTeacher(
                 this.DEFAULT_UUID,
                 "Teacher 1",
                 "teacher1@gmail.com",
@@ -59,7 +59,7 @@ public class SaveTeacherTest {
     @DisplayName("Should be created new teacher with teacher role")
     public void should_be_created_new_teacher_with_teacher_role() {
 
-        var newTeacher = TestBuilderUtil.generateTeacher(
+        var newTeacher = TestBuilderUtil.createTeacher(
                 this.DEFAULT_UUID,
                 "Teacher 1",
                 "teacher1@gmail.com",

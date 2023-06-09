@@ -11,7 +11,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import com.project.classteacher.application.repository.ClassroomRepository;
 
@@ -45,26 +44,22 @@ final class ListClassroomByTeacherIDTest {
     @DisplayName("should be list all classroom by teacher id")
     public void should_be_list_all_classroom_by_teacher_id() throws ParseException {
 
-        var teacher = TestBuilderUtil.generateTeacher(
-                TestBuilderUtil.generateId(),
-                "Teacher 1",
-                "teacher1@gmail.com",
-                "123456"
-        );
-        var classroomLiterature = TestBuilderUtil.generateClassroom(
+        var teacher = TestBuilderUtil.generateTeacher();
+        var classroomLiterature = TestBuilderUtil.createClassroom(
                 this.DEFAULT_UUID,
                 "Literatura",
                 "Aula focada no ensino da literatura",
                 "2021-10-10T11:15:00.000Z",
                 teacher.getId()
         );
-        var classroomHistory = TestBuilderUtil.generateClassroom(
+        var classroomHistory = TestBuilderUtil.createClassroom(
                 this.DEFAULT_UUID,
                 "Historia",
                 "Aula focada no ensino da historia",
                 "2021-15-01T18:30:00.000Z",
                 teacher.getId()
         );
+        var classMokitoTest = TestBuilderUtil.generateClassroom();
         Mockito.when(userRepository.findTeacherById(teacher.getId())).thenReturn(teacher);
         Mockito.when(classroomRepository.listByTeacherId(teacher.getId())).thenReturn(List.of(new Classroom[]{classroomLiterature, classroomHistory}));
         var classroomSaved = listClassroomByTeacherID.execute(teacher.getId());
