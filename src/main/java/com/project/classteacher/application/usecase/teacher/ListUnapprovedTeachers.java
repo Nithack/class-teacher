@@ -1,4 +1,4 @@
-package com.project.classteacher.application.usecase;
+package com.project.classteacher.application.usecase.teacher;
 
 import com.project.classteacher.application.exceptions.TeacherNotFoundException;
 import com.project.classteacher.application.factory.UserFactory;
@@ -6,16 +6,17 @@ import com.project.classteacher.application.repository.UserServiceRepository;
 import com.project.classteacher.domain.entity.Teacher;
 import com.project.classteacher.domain.entity.User;
 import com.project.classteacher.domain.enums.Roles;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-class ListUnapprovedTeachers {
-    @Autowired
-    private UserServiceRepository userServiceRepository;
+@RequiredArgsConstructor
+public class ListUnapprovedTeachers {
+
+    private final UserServiceRepository userServiceRepository;
 
     public List<Teacher> execute() {
 

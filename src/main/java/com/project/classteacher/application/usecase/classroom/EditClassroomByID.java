@@ -1,19 +1,20 @@
-package com.project.classteacher.application.usecase;
+package com.project.classteacher.application.usecase.classroom;
 
 import com.project.classteacher.application.exceptions.ClassroomNotFoundException;
 import com.project.classteacher.application.repository.ClassroomServiceRepository;
 import com.project.classteacher.domain.entity.Classroom;
 import com.project.classteacher.domain.mapper.ClassroomMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class EditClassroomByID {
 
-    @Autowired
-    private ClassroomServiceRepository classroomServiceRepository;
+
+    private final ClassroomServiceRepository classroomServiceRepository;
 
     public Classroom execute(UUID id, Classroom inputClassroom) {
         var classroom = this.classroomServiceRepository.getByID(id);

@@ -1,17 +1,19 @@
-package com.project.classteacher.application.usecase;
+package com.project.classteacher.application.usecase.teacher;
 
 import com.project.classteacher.application.exceptions.TeacherNotFoundException;
 import com.project.classteacher.application.repository.UserServiceRepository;
 import com.project.classteacher.domain.entity.Teacher;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class ApproveTeacher {
-    @Autowired
-    private UserServiceRepository userServiceRepository;
+
+
+    private final UserServiceRepository userServiceRepository;
 
     public Teacher execute(UUID teacherId) {
 

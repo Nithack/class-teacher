@@ -2,6 +2,7 @@ package com.project.classteacher.application.usecase;
 
 import com.project.classteacher.application.exceptions.TeacherNotFoundException;
 import com.project.classteacher.application.repository.UserServiceRepository;
+import com.project.classteacher.application.usecase.teacher.ListUnapprovedTeachers;
 import com.project.classteacher.domain.entity.Teacher;
 import com.project.classteacher.domain.enums.Roles;
 import com.project.classteacher.util.builder.TestBuilderUtil;

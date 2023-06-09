@@ -1,6 +1,7 @@
 package com.project.classteacher.application.usecase;
 
 import com.project.classteacher.application.repository.UserServiceRepository;
+import com.project.classteacher.application.usecase.teacher.CreateTeacher;
 import com.project.classteacher.domain.enums.Roles;
 import com.project.classteacher.util.builder.TestBuilderUtil;
 import org.junit.jupiter.api.BeforeEach;

@@ -2,7 +2,7 @@ package com.project.classteacher.infra.dataBase.repository;
 
 import com.project.classteacher.application.repository.ClassroomServiceRepository;
 import com.project.classteacher.domain.entity.Classroom;
-import com.project.classteacher.infra.dataBase.connection.ClassroomMongoDB;
+import com.project.classteacher.infra.dataBase.connection.ClassroomMongoDBRepository;
 import com.project.classteacher.infra.dataBase.model.ClassroomModel;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.UUID;
 public class ClassroomDBServiceRepository implements ClassroomServiceRepository {
 
     @Autowired
-    private ClassroomMongoDB classroom;
+    private ClassroomMongoDBRepository classroom;
 
     @Override
     public List<Classroom> listByTeacherId(@NotNull UUID teacherId) {

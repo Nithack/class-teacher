@@ -1,14 +1,15 @@
-package com.project.classteacher.application.usecase;
+package com.project.classteacher.application.usecase.secretary;
 
 import com.project.classteacher.application.repository.UserServiceRepository;
 import com.project.classteacher.domain.entity.Secretary;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class CreateSecretary {
-    @Autowired
-    private UserServiceRepository userServiceRepository;
+
+    private final UserServiceRepository userServiceRepository;
 
     public Secretary execute(Secretary secretary) {
         return this.userServiceRepository.save(secretary);

@@ -5,7 +5,7 @@ import com.project.classteacher.domain.entity.Secretary;
 import com.project.classteacher.domain.entity.Teacher;
 import com.project.classteacher.domain.entity.User;
 import com.project.classteacher.domain.enums.Roles;
-import com.project.classteacher.infra.dataBase.connection.UserMongoDB;
+import com.project.classteacher.infra.dataBase.connection.UserMongoDBRepository;
 import com.project.classteacher.infra.dataBase.model.UserModel;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class UserMongoDBServiceRepository implements UserServiceRepository {
 
     @Autowired
-    private UserMongoDB user;
+    private UserMongoDBRepository user;
 
     @Override
     public Teacher save(Teacher teacher) {
