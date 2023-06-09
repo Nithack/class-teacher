@@ -1,6 +1,5 @@
 package com.project.classteacher.application.usecase;
 
-import com.project.classteacher.application.exceptions.TeacherNotFoundException;
 import com.project.classteacher.application.exceptions.UserNotFoundException;
 import com.project.classteacher.application.repository.ClassroomRepository;
 import com.project.classteacher.application.repository.UserRepository;
@@ -16,11 +15,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.text.ParseException;
 import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("Get User By Email Test")
 @ConfigContainersTest
@@ -60,7 +58,7 @@ public class GetUserByEmailTest {
         assertEquals(teacherSaved.getId(), this.DEFAULT_UUID);
         assertEquals(teacherSaved.getName(), "Teacher 1");
         assertEquals(teacherSaved.getEmail(), "teacher1@gmail.com");
-        assertEquals(teacherSaved.getPassword(), "123456");
+        assertTrue(teacherSaved.verifyPassword("123456"));
         assertEquals(teacherSaved.getRole(), Roles.TEACHER);
         assertEquals(teacherSaved.getClass(), Teacher.class);
     }
@@ -83,7 +81,7 @@ public class GetUserByEmailTest {
         assertEquals(teacherSaved.getId(), this.DEFAULT_UUID);
         assertEquals(teacherSaved.getName(), "Teacher 1");
         assertEquals(teacherSaved.getEmail(), "teacher1@gmail.com");
-        assertEquals(teacherSaved.getPassword(), "123456");
+        assertTrue(teacherSaved.verifyPassword("123456"));
         assertEquals(teacherSaved.getRole(), Roles.SECRETARY);
         assertEquals(teacherSaved.getClass(), Secretary.class);
     }

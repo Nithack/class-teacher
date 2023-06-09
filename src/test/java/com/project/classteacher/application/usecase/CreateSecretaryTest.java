@@ -12,6 +12,8 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.UUID;
 
 @DisplayName("Save Secretary Test")
@@ -37,7 +39,12 @@ public class CreateSecretaryTest {
     @DisplayName("Should be created new secretary with information")
     public void should_be_created_new_secretary_with_id() {
 
-        var secretary = TestBuilderUtil.createSecretary(this.DEFAULT_UUID,"Secretary 1", "secretary1@gmail.com", "123456");
+        var secretary = TestBuilderUtil.createSecretary(
+                this.DEFAULT_UUID,
+                "Secretary 1",
+                "secretary1@gmail.com",
+                "123456"
+        );
 
         Mockito.when(userRepository.saveSecretary(secretary)).thenReturn(secretary);
         var secretarySaved = createSecretary.execute(secretary);
@@ -46,7 +53,7 @@ public class CreateSecretaryTest {
         assertEquals(secretarySaved.getId(), this.DEFAULT_UUID);
         assertEquals(secretarySaved.getName(), "Secretary 1");
         assertEquals(secretarySaved.getEmail(), "secretary1@gmail.com");
-        assertEquals(secretarySaved.getPassword(), "123456");
+        assertTrue(secretarySaved.verifyPassword("123456"));
     }
 
     @Test

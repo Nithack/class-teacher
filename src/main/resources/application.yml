@@ -8,3 +8,5 @@ spring:
     host: redis
     port: 6379
     password: class-teacher
+basic:
+  salt: class-teacher

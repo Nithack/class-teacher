@@ -1,12 +1,18 @@
 package com.project.classteacher.util.builder;
 
 import com.project.classteacher.domain.entity.Classroom;
+import com.project.classteacher.domain.entity.Password;
 import com.project.classteacher.domain.entity.Secretary;
 import com.project.classteacher.domain.entity.Teacher;
+import org.springframework.beans.factory.annotation.Value;
+
 import java.text.ParseException;
 import java.util.UUID;
 
 public class TestBuilderUtil {
+
+    @Value("${basic.salt:salt}")
+    static String DEFAULT_SALT = "salt";
 
     public static Teacher generateTeacher(){
         return createTeacher(
@@ -21,7 +27,7 @@ public class TestBuilderUtil {
                 .id(id)
                 .name(name)
                 .email(email)
-                .password(password)
+                .password(Password.create(password, DEFAULT_SALT))
                 .build();
     }
     public static Secretary generateSecretary(){
@@ -37,7 +43,7 @@ public class TestBuilderUtil {
                 .id(id)
                 .name(name)
                 .email(email)
-                .password(password)
+                .password(Password.create(password, DEFAULT_SALT))
                 .build();
     }
     public static UUID generateId() {

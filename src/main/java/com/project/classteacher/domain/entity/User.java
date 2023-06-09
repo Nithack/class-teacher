@@ -14,11 +14,19 @@ public class User {
     private UUID id;
     private String name;
     private String email;
-    private String password;
+    private Password password;
     private Roles role;
 
     public static UUID generateID(){
         return UUID.randomUUID();
+    }
+
+    public String getPassword() {
+        return password.getValue();
+    }
+
+    public Boolean verifyPassword(String password){
+        return this.password.validate(password);
     }
 }
 

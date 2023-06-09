@@ -13,8 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @DisplayName("Save Teacher Test")
@@ -52,7 +51,7 @@ public class SaveTeacherTest {
         assertEquals(teacherSaved.getId(), this.DEFAULT_UUID);
         assertEquals(teacherSaved.getName(), "Teacher 1");
         assertEquals(teacherSaved.getEmail(), "teacher1@gmail.com");
-        assertEquals(teacherSaved.getPassword(), "123456");
+        assertTrue(teacherSaved.verifyPassword("123456"));
     }
 
     @Test
