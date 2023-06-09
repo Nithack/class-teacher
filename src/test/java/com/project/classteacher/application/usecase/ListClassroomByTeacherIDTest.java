@@ -1,8 +1,8 @@
 package com.project.classteacher.application.usecase;
 
 import com.project.classteacher.application.exceptions.TeacherNotFoundException;
-import com.project.classteacher.application.repository.UserRepository;
-import com.project.classteacher.config.decorators.ConfigContainersTest;
+import com.project.classteacher.application.repository.ClassroomServiceRepository;
+import com.project.classteacher.application.repository.UserServiceRepository;
 import com.project.classteacher.domain.entity.Classroom;
 import com.project.classteacher.util.builder.TestBuilderUtil;
 import org.junit.jupiter.api.Assertions;
@@ -13,7 +13,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import com.project.classteacher.application.repository.ClassroomRepository;
 
 import java.text.ParseException;
 import java.util.List;
@@ -26,15 +25,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest(classes = ListClassroomByTeacherID.class)
 final class ListClassroomByTeacherIDTest {
 
+    UUID DEFAULT_UUID;
     @MockBean
-    private ClassroomRepository classroomRepository;
-
+    private ClassroomServiceRepository classroomServiceRepository;
     @MockBean
-    private UserRepository userRepository;
-
+    private UserServiceRepository userServiceRepository;
     @Autowired
     private ListClassroomByTeacherID listClassroomByTeacherID;
-    UUID DEFAULT_UUID;
 
     @BeforeEach
     public void setUp() {
@@ -60,8 +57,8 @@ final class ListClassroomByTeacherIDTest {
                 Classroom.dateFormat("2021-15-01T18:30:00.000Z"),
                 teacher.getId()
         );
-        Mockito.when(userRepository.findTeacherById(teacher.getId())).thenReturn(teacher);
-        Mockito.when(classroomRepository.listByTeacherId(teacher.getId())).thenReturn(List.of(new Classroom[]{classroomLiterature, classroomHistory}));
+        Mockito.when(userServiceRepository.findById(teacher.getId())).thenReturn(teacher);
+        Mockito.when(classroomServiceRepository.listByTeacherId(teacher.getId())).thenReturn(List.of(new Classroom[]{classroomLiterature, classroomHistory}));
         var classroomSaved = listClassroomByTeacherID.execute(teacher.getId());
 
         assertAll("classroomSaved",
@@ -72,13 +69,11 @@ final class ListClassroomByTeacherIDTest {
 
     @Test()
     @DisplayName("should be throw exception when teacher not found")
-    public void should_be_throw_exception_when_teacher_not_found() throws ParseException {
+    public void should_be_throw_exception_when_teacher_not_found() {
 
-        Mockito.when(userRepository.findTeacherById(this.DEFAULT_UUID)).thenReturn(null);
+        Mockito.when(userServiceRepository.findById(this.DEFAULT_UUID)).thenReturn(null);
 
-        Assertions.assertThrows(TeacherNotFoundException.class, () -> {
-            listClassroomByTeacherID.execute(this.DEFAULT_UUID);
-        });
+        Assertions.assertThrows(TeacherNotFoundException.class, () -> listClassroomByTeacherID.execute(this.DEFAULT_UUID));
     }
 
     public void assertClassroom(Classroom classroom, UUID expectedId, String expectedTitle, String expectedDescription, UUID expectedTeacherId) {

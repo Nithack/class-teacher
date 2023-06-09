@@ -3,27 +3,28 @@ package com.project.classteacher.infra.dataBase.model;
 import com.project.classteacher.application.factory.UserFactory;
 import com.project.classteacher.domain.entity.User;
 import com.project.classteacher.domain.enums.Roles;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.util.UUID;
 
 @Data
-@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 @Builder
 @Document(collection = "user")
 public class UserModel {
 
-    @Id
+    @MongoId
     private String id;
     private String name;
     private String email;
     private String password;
     private String role;
     private String salt;
+    private String aproved;
 
     public static UserModel toModel(User user){
         return UserModel.builder()
@@ -33,8 +34,9 @@ public class UserModel {
                 .password(user.getPassword())
                 .role(user.getRole().toString())
                 .salt(user.getSalt())
+                .aproved(user.getApproved().toString())
                 .build();
-    };
+    }
 
     public User toDomain(){
         return UserFactory.buildExistingUser(
@@ -43,9 +45,10 @@ public class UserModel {
                 this.email,
                 this.password,
                 Roles.valueOf(this.role),
-                this.salt
+                this.salt,
+                this.aproved
         );
-    };
+    }
 
 }
 

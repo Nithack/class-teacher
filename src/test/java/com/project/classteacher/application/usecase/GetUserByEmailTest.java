@@ -1,9 +1,7 @@
 package com.project.classteacher.application.usecase;
 
 import com.project.classteacher.application.exceptions.UserNotFoundException;
-import com.project.classteacher.application.repository.ClassroomRepository;
-import com.project.classteacher.application.repository.UserRepository;
-import com.project.classteacher.config.decorators.ConfigContainersTest;
+import com.project.classteacher.application.repository.UserServiceRepository;
 import com.project.classteacher.domain.entity.Secretary;
 import com.project.classteacher.domain.entity.Teacher;
 import com.project.classteacher.domain.enums.Roles;
@@ -18,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -25,16 +24,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest(classes = GetUserByEmail.class)
 public class GetUserByEmailTest {
 
+    UUID DEFAULT_UUID;
     @MockBean
-    private ClassroomRepository classroomRepository;
-
-    @MockBean
-    private UserRepository userRepository;
-
+    private UserServiceRepository userServiceRepository;
     @Autowired
     private GetUserByEmail getUserbyEmail;
-
-    UUID DEFAULT_UUID;
 
     @BeforeEach
     public void setUp() {
@@ -52,7 +46,7 @@ public class GetUserByEmailTest {
                 "123456"
         );
 
-        Mockito.when(userRepository.getByEmail(newTeacher.getEmail())).thenReturn(newTeacher);
+        Mockito.when(userServiceRepository.getByEmail(newTeacher.getEmail())).thenReturn(newTeacher);
 
         var teacherSaved = getUserbyEmail.execute(newTeacher.getEmail());
 
@@ -75,7 +69,7 @@ public class GetUserByEmailTest {
                 "123456"
         );
 
-        Mockito.when(userRepository.getByEmail(newSecretary.getEmail())).thenReturn(newSecretary);
+        Mockito.when(userServiceRepository.getByEmail(newSecretary.getEmail())).thenReturn(newSecretary);
 
         var teacherSaved = getUserbyEmail.execute(newSecretary.getEmail());
 
@@ -86,15 +80,14 @@ public class GetUserByEmailTest {
         assertEquals(teacherSaved.getRole(), Roles.SECRETARY);
         assertEquals(teacherSaved.getClass(), Secretary.class);
     }
+
     @Test()
     @DisplayName("should be throw exception when teacher not found")
     public void should_be_throw_exception_when_teacher_not_found() throws UserNotFoundException {
 
-        Mockito.when(userRepository.findTeacherById(this.DEFAULT_UUID)).thenReturn(null);
+        Mockito.when(userServiceRepository.findById(this.DEFAULT_UUID)).thenReturn(null);
 
-        Assertions.assertThrows(UserNotFoundException.class, () -> {
-            getUserbyEmail.execute("teste@gmail.com");
-        });
+        Assertions.assertThrows(UserNotFoundException.class, () -> getUserbyEmail.execute("teste@gmail.com"));
     }
 
 }

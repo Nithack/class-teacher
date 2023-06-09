@@ -13,7 +13,7 @@ import java.util.UUID;
 public class TestBuilderUtil {
 
     @Value("${basic.salt:salt}")
-    static String DEFAULT_SALT = "salt";
+    static final String DEFAULT_SALT = "salt";
 
     public static Teacher generateTeacher(){
         return createTeacher(
@@ -22,7 +22,8 @@ public class TestBuilderUtil {
                 "secretary1@gmail.com",
                 "123456"
         );
-    };
+    }
+
     public static Teacher createTeacher(UUID id, String name, String email, String password){
         return Teacher.builder()
                 .id(id)
@@ -61,7 +62,7 @@ public class TestBuilderUtil {
             );
     }
 
-    public static Classroom createClassroom(UUID uuid, String title, String description, Date dayDate, UUID teacherId) throws ParseException {
+    public static Classroom createClassroom(UUID uuid, String title, String description, Date dayDate, UUID teacherId) {
         return new Classroom(
                 uuid,
                 title,

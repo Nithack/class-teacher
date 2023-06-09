@@ -1,31 +1,28 @@
 package com.project.classteacher.infra.dataBase.model;
 
 import com.project.classteacher.domain.entity.Classroom;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import org.springframework.data.annotation.Id;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.UUID;
 
-@Data
-@Getter
-@AllArgsConstructor
-@Builder
 @Document(collection = "classroom")
+@Data
+@EqualsAndHashCode(of = "id")
+@Builder
 public class ClassroomModel {
-    @Id
+    @MongoId
     private String id;
     private String title;
     private String description;
     private String teacherId;
     private Date dayDate;
 
-    public static ClassroomModel toModel(Classroom classroom){
+    public static ClassroomModel toModel(Classroom classroom) {
         return ClassroomModel.builder()
                 .id(classroom.getId().toString())
                 .title(classroom.getTitle())
@@ -43,5 +40,5 @@ public class ClassroomModel {
                 UUID.fromString(this.teacherId),
                 this.dayDate
         );
-    };
+    }
 }

@@ -43,7 +43,8 @@ public class FactoryUserTest {
                 "teacher@gmail.com",
                 "123456",
                 Roles.TEACHER,
-                "123456"
+                "123456",
+                "false"
         );
 
         assertEquals(teacher.getRole(), Roles.valueOf("TEACHER"));
@@ -55,7 +56,8 @@ public class FactoryUserTest {
                 "secretary@gmail.com",
                 "123456",
                 Roles.SECRETARY,
-                "123456"
+                "123456",
+                "false"
         );
         assertEquals(secretary.getRole(), Roles.valueOf("SECRETARY"));
         assertEquals(secretary.getClass(), Secretary.class);

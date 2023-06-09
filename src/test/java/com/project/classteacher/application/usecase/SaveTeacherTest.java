@@ -1,8 +1,6 @@
 package com.project.classteacher.application.usecase;
 
-import com.project.classteacher.application.repository.ClassroomRepository;
-import com.project.classteacher.application.repository.UserRepository;
-import com.project.classteacher.config.decorators.ConfigContainersTest;
+import com.project.classteacher.application.repository.UserServiceRepository;
 import com.project.classteacher.domain.enums.Roles;
 import com.project.classteacher.util.builder.TestBuilderUtil;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +10,9 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+
 import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -21,16 +21,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest(classes = CreateTeacher.class)
 public class SaveTeacherTest {
 
-    @MockBean
-    private ClassroomRepository classroomRepository;
-
-    @MockBean
-    private UserRepository userRepository;
-
-    @Autowired
-    private CreateTeacher createTeacher;
 
     UUID DEFAULT_UUID;
+    @MockBean
+    private UserServiceRepository userServiceRepository;
+    @Autowired
+    private CreateTeacher createTeacher;
 
     @BeforeEach
     public void setUp() {
@@ -47,7 +43,7 @@ public class SaveTeacherTest {
                 "teacher1@gmail.com",
                 "123456"
         );
-        Mockito.when(userRepository.saveTeacher(newTeacher)).thenReturn(newTeacher);
+        Mockito.when(userServiceRepository.save(newTeacher)).thenReturn(newTeacher);
         var teacherSaved = createTeacher.execute(newTeacher);
         assertEquals(teacherSaved.getId(), this.DEFAULT_UUID);
         assertEquals(teacherSaved.getName(), "Teacher 1");
@@ -65,7 +61,7 @@ public class SaveTeacherTest {
                 "teacher1@gmail.com",
                 "123456"
         );
-        Mockito.when(userRepository.saveTeacher(newTeacher)).thenReturn(newTeacher);
+        Mockito.when(userServiceRepository.save(newTeacher)).thenReturn(newTeacher);
         var teacherSaved = createTeacher.execute(newTeacher);
         assertEquals(teacherSaved.getRole(), Roles.valueOf("TEACHER"));
     }

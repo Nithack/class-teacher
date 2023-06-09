@@ -1,9 +1,8 @@
 package com.project.classteacher.application.usecase;
 
 import com.project.classteacher.application.exceptions.ClassroomNotFoundException;
-import com.project.classteacher.application.repository.ClassroomRepository;
-import com.project.classteacher.application.repository.UserRepository;
-import com.project.classteacher.config.decorators.ConfigContainersTest;
+import com.project.classteacher.application.repository.ClassroomServiceRepository;
+import com.project.classteacher.application.repository.UserServiceRepository;
 import com.project.classteacher.domain.entity.Classroom;
 import com.project.classteacher.util.builder.TestBuilderUtil;
 import org.junit.jupiter.api.Assertions;
@@ -18,22 +17,20 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.text.ParseException;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 @DisplayName("Edit Classroom By ID Test")
 @SpringBootTest(classes = EditClassroomByID.class)
 final class EditClassroomByIDTest {
 
+    UUID DEFAULT_UUID;
     @MockBean
-    private ClassroomRepository classroomRepository;
-
+    private ClassroomServiceRepository classroomServiceRepository;
     @MockBean
-    private UserRepository userRepository;
-
+    private UserServiceRepository userServiceRepository;
     @Autowired
     private EditClassroomByID editClassroomByID;
-    UUID DEFAULT_UUID;
 
     @BeforeEach
     public void setUp() {
@@ -59,9 +56,9 @@ final class EditClassroomByIDTest {
                 Classroom.dateFormat("2021-10-10T08:15:00.000Z"),
                 null
         );
-        Mockito.when(userRepository.findTeacherById(teacher.getId())).thenReturn(teacher);
-        Mockito.when(classroomRepository.getByID(classroomLiterature.getId())).thenReturn(classroomLiterature);
-        Mockito.when(classroomRepository.save(Mockito.any(Classroom.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        Mockito.when(userServiceRepository.findById(teacher.getId())).thenReturn(teacher);
+        Mockito.when(classroomServiceRepository.getByID(classroomLiterature.getId())).thenReturn(classroomLiterature);
+        Mockito.when(classroomServiceRepository.save(Mockito.any(Classroom.class))).thenAnswer(invocation -> invocation.getArgument(0));
         var classroomSaved = editClassroomByID.execute(classroomLiterature.getId(), inputChanges);
 
         assertEquals(classroomSaved.getId(), classroomLiterature.getId());
@@ -83,10 +80,8 @@ final class EditClassroomByIDTest {
                 null
         );
 
-        Mockito.when(userRepository.findTeacherById(this.DEFAULT_UUID)).thenReturn(null);
+        Mockito.when(userServiceRepository.findById(this.DEFAULT_UUID)).thenReturn(null);
 
-        Assertions.assertThrows(ClassroomNotFoundException.class, () -> {
-            editClassroomByID.execute(this.DEFAULT_UUID, inputChanges);
-        });
+        Assertions.assertThrows(ClassroomNotFoundException.class, () -> editClassroomByID.execute(this.DEFAULT_UUID, inputChanges));
     }
 }

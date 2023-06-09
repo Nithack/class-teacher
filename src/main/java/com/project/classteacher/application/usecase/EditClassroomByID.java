@@ -1,7 +1,7 @@
 package com.project.classteacher.application.usecase;
 
 import com.project.classteacher.application.exceptions.ClassroomNotFoundException;
-import com.project.classteacher.application.repository.ClassroomRepository;
+import com.project.classteacher.application.repository.ClassroomServiceRepository;
 import com.project.classteacher.domain.entity.Classroom;
 import com.project.classteacher.domain.mapper.ClassroomMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +13,10 @@ import java.util.UUID;
 public class EditClassroomByID {
 
     @Autowired
-    private ClassroomRepository classroomRepository;
+    private ClassroomServiceRepository classroomServiceRepository;
 
     public Classroom execute(UUID id, Classroom inputClassroom) {
-        var classroom = this.classroomRepository.getByID(id);
+        var classroom = this.classroomServiceRepository.getByID(id);
 
         if (classroom == null) {
             throw new ClassroomNotFoundException(inputClassroom.getId());
@@ -24,7 +24,7 @@ public class EditClassroomByID {
 
         ClassroomMapper.INSTANCE.updateClassroom(classroom, inputClassroom);
 
-        return this.classroomRepository.save(classroom);
+        return this.classroomServiceRepository.save(classroom);
 
     }
 }

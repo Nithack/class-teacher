@@ -1,8 +1,7 @@
 package com.project.classteacher.application.usecase;
 
 import com.project.classteacher.application.exceptions.TeacherNotFoundException;
-import com.project.classteacher.application.repository.UserRepository;
-import com.project.classteacher.config.decorators.ConfigContainersTest;
+import com.project.classteacher.application.repository.UserServiceRepository;
 import com.project.classteacher.domain.entity.Teacher;
 import com.project.classteacher.domain.enums.Roles;
 import com.project.classteacher.util.builder.TestBuilderUtil;
@@ -14,9 +13,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import com.project.classteacher.application.repository.ClassroomRepository;
 
-import java.text.ParseException;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,15 +24,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest(classes = ListUnapprovedTeachers.class)
 final class ListUnapprovedTeachersTest {
 
+    UUID DEFAULT_UUID;
     @MockBean
-    private ClassroomRepository classroomRepository;
-
-    @MockBean
-    private UserRepository userRepository;
-
+    private UserServiceRepository userServiceRepository;
     @Autowired
     private ListUnapprovedTeachers listUnapprovedTeachers;
-    UUID DEFAULT_UUID;
 
     @BeforeEach
     public void setUp() {
@@ -44,12 +37,12 @@ final class ListUnapprovedTeachersTest {
 
     @Test
     @DisplayName("should be list all classroom by teacher id")
-    public void should_be_list_all_classroom_by_teacher_id() throws ParseException {
+    public void should_be_list_all_classroom_by_teacher_id() {
 
         var teacherUnapprovedOne = TestBuilderUtil.generateTeacher();
         var teacherUnapprovedTwo = TestBuilderUtil.generateTeacher();
 
-        Mockito.when(userRepository.listByApprovedAndRole(false, Roles.TEACHER)).thenReturn(List.of(new Teacher[]{teacherUnapprovedOne, teacherUnapprovedTwo}));
+        Mockito.when(userServiceRepository.listByApprovedAndRole(false, Roles.TEACHER)).thenReturn(List.of(new Teacher[]{teacherUnapprovedOne, teacherUnapprovedTwo}));
 
         var unapprovedTeachers = listUnapprovedTeachers.execute();
 
@@ -61,13 +54,11 @@ final class ListUnapprovedTeachersTest {
 
     @Test()
     @DisplayName("should be throw exception when teacher not found")
-    public void should_be_throw_exception_when_teacher_not_found() throws ParseException {
+    public void should_be_throw_exception_when_teacher_not_found() {
 
-        Mockito.when(userRepository.findTeacherById(this.DEFAULT_UUID)).thenReturn(null);
+        Mockito.when(userServiceRepository.findById(this.DEFAULT_UUID)).thenReturn(null);
 
-        Assertions.assertThrows(TeacherNotFoundException.class, () -> {
-            listUnapprovedTeachers.execute();
-        });
+        Assertions.assertThrows(TeacherNotFoundException.class, () -> listUnapprovedTeachers.execute());
     }
 
     private void assertTeacher(Teacher teacher, Teacher teacherExpected) {

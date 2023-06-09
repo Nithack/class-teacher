@@ -1,8 +1,8 @@
 package com.project.classteacher.application.usecase;
 
 import com.project.classteacher.application.exceptions.TeacherNotFoundException;
-import com.project.classteacher.application.repository.ClassroomRepository;
-import com.project.classteacher.application.repository.UserRepository;
+import com.project.classteacher.application.repository.ClassroomServiceRepository;
+import com.project.classteacher.application.repository.UserServiceRepository;
 import com.project.classteacher.domain.entity.Classroom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,17 +11,16 @@ import org.springframework.stereotype.Service;
 public class CreateClassroom {
 
     @Autowired
-    private ClassroomRepository classroomRepository;
+    private ClassroomServiceRepository classroomServiceRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserServiceRepository userServiceRepository;
 
-    public Classroom execute(Classroom classroom) {
+    public Classroom execute(Classroom classroom) throws TeacherNotFoundException {
+        var teacher = this.userServiceRepository.findById(classroom.getTeacherId());
 
-        var teacher = this.userRepository.findTeacherById(classroom.getTeacherId());
-        if (teacher == null) {
-            throw new TeacherNotFoundException(classroom.getTeacherId());
-        }
-        return this.classroomRepository.save(classroom);
+        if (teacher == null) throw new TeacherNotFoundException(classroom.getTeacherId());
+
+        return this.classroomServiceRepository.save(classroom);
     }
 }

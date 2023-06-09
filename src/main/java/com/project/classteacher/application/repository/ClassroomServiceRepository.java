@@ -1,14 +1,17 @@
 package com.project.classteacher.application.repository;
 
 import com.project.classteacher.domain.entity.Classroom;
-import com.project.classteacher.infra.dataBase.model.ClassroomModel;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
 
-public interface ClassroomRepository extends MongoRepository<ClassroomModel, UUID> {
+@Repository
+public interface ClassroomServiceRepository {
     List<Classroom> listByTeacherId(UUID teacherId);
+
     Classroom save(Classroom classroom);
+
     Classroom getByID(UUID id);
+
 }

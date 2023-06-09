@@ -10,8 +10,8 @@ import java.util.UUID;
 public class Teacher extends User{
     private Boolean approved;
     @Builder
-    public Teacher(UUID id, String name, String email, Password password) {
-        super(id, name, email, password, Roles.valueOf("TEACHER"));
+    public Teacher(UUID id, String name, String email, Password password, Boolean approved) {
+        super(id, name, email, password, Roles.valueOf("TEACHER"), approved);
         this.approved = false;
     }
 
