@@ -8,6 +8,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +19,7 @@ import java.util.Collections;
 
 public class MySecurityFilter extends OncePerRequestFilter {
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
         if (request.getHeader("Authorization") != null && !request.getHeader("Authorization").isEmpty()) {
             Authentication auth = authentication(request.getHeader("Authorization"));
             if (auth == null) {
@@ -37,7 +38,7 @@ public class MySecurityFilter extends OncePerRequestFilter {
     private Authentication authentication(String token) {
         User auth = Token.decode(token);
         if (auth == null) return null;
-        return new UsernamePasswordAuthenticationToken("user", null, Collections.emptyList());
+        return new UsernamePasswordAuthenticationToken(auth, null, Collections.emptyList());
     }
 
     private void authenticationError(HttpServletResponse response) throws IOException {

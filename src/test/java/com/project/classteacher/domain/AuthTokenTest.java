@@ -1,9 +1,9 @@
 package com.project.classteacher.domain;
 
+import com.project.classteacher.application.exceptions.InvalidTokenException;
 import com.project.classteacher.domain.entity.Token;
 import com.project.classteacher.domain.entity.User;
 import com.project.classteacher.util.builder.TestBuilderUtil;
-import io.jsonwebtoken.ExpiredJwtException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -67,7 +67,7 @@ public class AuthTokenTest {
                 .build();
 
 
-        assertThrows(ExpiredJwtException.class, () -> {
+        assertThrows(InvalidTokenException.class, () -> {
             User authToken = Token.decode(expiredToken.getToken());
         });
     }

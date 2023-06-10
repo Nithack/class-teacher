@@ -1,5 +1,6 @@
 package com.project.classteacher.domain.entity;
 
+import com.project.classteacher.application.exceptions.InvalidTokenException;
 import com.project.classteacher.domain.enums.Roles;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,6 +13,7 @@ import lombok.Getter;
 import java.util.Date;
 import java.util.UUID;
 
+import static java.lang.System.currentTimeMillis;
 import static java.lang.System.getProperty;
 
 @Data
@@ -46,20 +48,30 @@ public class Token {
         return Token.builder().token(token).build();
     }
 
-    public static User decode(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(Keys.hmacShaKeyFor(TOKEN_KEY.getBytes()))
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-        return new User(
-                UUID.fromString(claims.get("id").toString()),
-                claims.get("name").toString(),
-                claims.get("email").toString(),
-                null,
-                Roles.valueOf(claims.get("role").toString()),
-                null
-        );
+    public static User decode(String token) throws InvalidTokenException {
+        try {
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(Keys.hmacShaKeyFor(TOKEN_KEY.getBytes()))
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            if (isInvalidToken(claims)) throw new InvalidTokenException(token);
+            return new User(
+                    UUID.fromString(claims.get("id").toString()),
+                    claims.get("name").toString(),
+                    claims.get("email").toString(),
+                    null,
+                    Roles.valueOf(claims.get("role").toString()),
+                    null
+            );
+        } catch (Exception e) {
+            throw new InvalidTokenException(token);
+        }
     }
 
+    private static Boolean isInvalidToken(Claims claims) {
+        String insurer = claims.getIssuer();
+        Date expiration = claims.getExpiration();
+        return !insurer.equals(INSURER) && !expiration.after(new Date(currentTimeMillis()));
+    }
 }
