@@ -1,4 +1,4 @@
-package com.project.classteacher.config.filter;
+package com.project.classteacher.infra.http.config.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

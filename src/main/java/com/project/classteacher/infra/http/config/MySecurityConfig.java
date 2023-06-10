@@ -1,6 +1,6 @@
 package com.project.classteacher.infra.http.config;
 
-import com.project.classteacher.config.filter.MySecurityFilter;
+import com.project.classteacher.infra.http.config.filter.MySecurityFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
