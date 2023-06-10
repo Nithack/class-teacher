@@ -1,9 +1,4 @@
 spring:
-  devtools:
-    livereload:
-      enabled: true
-      additional-paths: src/main/java
-      exclude: WEB-INF/**
   data:
     mongodb:
       host: localhost
