@@ -72,4 +72,13 @@ public class AuthTokenTest {
         });
     }
 
+    @Test
+    @DisplayName("should be return exception when token is invalid")
+    public void should_be_return_exception_when_token_is_invalid() {
+        assertThrows(InvalidTokenException.class, () -> {
+            User authToken = Token.decode("invalid token");
+        });
+
+    }
+
 }

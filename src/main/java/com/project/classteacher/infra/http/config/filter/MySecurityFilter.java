@@ -9,6 +9,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,26 +20,26 @@ import java.io.IOException;
 import java.util.Collections;
 
 public class MySecurityFilter extends OncePerRequestFilter {
+
+    private final Logger logger = LoggerFactory.getLogger(MySecurityFilter.class);
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
-        if (request.getHeader("Authorization") != null && !request.getHeader("Authorization").isEmpty()) {
-            Authentication auth = authentication(request.getHeader("Authorization"));
-            if (auth == null) {
-                authenticationError(response);
-                return;
+    protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
+        try {
+            if (isValidHeader(request)) {
+                Authentication auth = authentication(request.getHeader("Authorization"));
+                SecurityContextHolder.getContext().setAuthentication(auth);
             }
-            SecurityContextHolder.getContext().setAuthentication(auth);
-            System.out.println("Without authorization");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
+            filterChain.doFilter(request, response);
+        } catch (Exception e) {
+            logger.atError().log(e.getMessage());
+            authenticationError(response);
         }
-        System.out.println("With authorization");
-        filterChain.doFilter(request, response);
     }
 
     private Authentication authentication(String token) {
-        User auth = Token.decode(token);
-        return new UsernamePasswordAuthenticationToken(auth, null, Collections.emptyList());
+        User user = Token.decode(token);
+        return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
     }
 
     private void authenticationError(HttpServletResponse response) throws IOException {
@@ -47,6 +49,11 @@ public class MySecurityFilter extends OncePerRequestFilter {
         ObjectMapper mapper = new ObjectMapper();
         response.getWriter().write(mapper.writeValueAsString(error));
         response.getWriter().flush();
+
+    }
+
+    private boolean isValidHeader(HttpServletRequest request) {
+        return request.getHeader("Authorization") != null && !request.getHeader("Authorization").isEmpty();
     }
 
 }
