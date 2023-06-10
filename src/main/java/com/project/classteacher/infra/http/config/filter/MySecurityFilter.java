@@ -37,7 +37,6 @@ public class MySecurityFilter extends OncePerRequestFilter {
 
     private Authentication authentication(String token) {
         User auth = Token.decode(token);
-        if (auth == null) return null;
         return new UsernamePasswordAuthenticationToken(auth, null, Collections.emptyList());
     }
 
