@@ -1,0 +1,25 @@
+spring:
+  devtools:
+    livereload:
+      enabled: true
+      additional-paths: src/main/java
+      exclude: WEB-INF/**
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      password: class-teacher
+      username: class-teacher
+      database: mydatabase
+      authentication-database: admin
+      embedded:
+        version: 3.0.1
+  redis:
+    host: redis
+    port: 6379
+    password: class-teacher
+basic:
+  salt: class-teacher
+  server:
+    port: 8081
+
