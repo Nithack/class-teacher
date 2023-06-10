@@ -18,3 +18,7 @@ basic:
   server:
     port: 8081
 
+jwt:
+  expiration: 604800000
+  insurer: class-teacher
+  token_key: qwertyuiopasdfghjklzxcvbnm123456

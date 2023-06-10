@@ -15,11 +15,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class MySecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(
-                        AbstractHttpConfigurer::disable
-                ).authorizeHttpRequests(
-                        authorize -> authorize.requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                                .anyRequest().authenticated()
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(
+                        (authorize) -> {
+                            authorize.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
+                            authorize.anyRequest().authenticated();
+                        }
                 )
                 .formLogin(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable);
@@ -27,5 +29,6 @@ public class MySecurityConfig {
         http.addFilterBefore(new MySecurityFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
+
 
 }

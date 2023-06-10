@@ -1,21 +1,31 @@
 package com.project.classteacher.util.builder;
 
-import com.project.classteacher.domain.entity.Classroom;
-import com.project.classteacher.domain.entity.Password;
-import com.project.classteacher.domain.entity.Secretary;
-import com.project.classteacher.domain.entity.Teacher;
+import com.project.classteacher.domain.entity.*;
+import com.project.classteacher.domain.enums.Roles;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.text.ParseException;
 import java.util.Date;
 import java.util.UUID;
 
+import static java.lang.System.getProperty;
+
 public class TestBuilderUtil {
 
     @Value("${basic.salt:salt}")
     static final String DEFAULT_SALT = "salt";
+    static String INSURER;
+    static String TOKEN_KEY;
 
-    public static Teacher generateTeacher(){
+    static {
+        INSURER = getProperty("jwt.ensurer", "class-teacher");
+        TOKEN_KEY = getProperty("jwt.token_key", "qwertyuiopasdfghjklzxcvbnm123456");
+    }
+
+    public static Teacher generateTeacher() {
         return createTeacher(
                 generateId(),
                 "Secretary 1",
@@ -24,7 +34,7 @@ public class TestBuilderUtil {
         );
     }
 
-    public static Teacher createTeacher(UUID id, String name, String email, String password){
+    public static Teacher createTeacher(UUID id, String name, String email, String password) {
         return Teacher.builder()
                 .id(id)
                 .name(name)
@@ -32,15 +42,17 @@ public class TestBuilderUtil {
                 .password(Password.create(password, DEFAULT_SALT))
                 .build();
     }
-    public static Secretary generateSecretary(){
+
+    public static Secretary generateSecretary() {
         return createSecretary(
                 generateId(),
                 "Teacher 1",
                 "teacher1@gmail.com",
                 "123456"
-            );
+        );
     }
-    public static Secretary createSecretary(UUID id, String name, String email, String password){
+
+    public static Secretary createSecretary(UUID id, String name, String email, String password) {
         return Secretary.builder()
                 .id(id)
                 .name(name)
@@ -48,18 +60,19 @@ public class TestBuilderUtil {
                 .password(Password.create(password, DEFAULT_SALT))
                 .build();
     }
+
     public static UUID generateId() {
         return UUID.randomUUID();
     }
 
     public static Classroom generateClassroom() throws ParseException {
-            return createClassroom(
-                    generateId(),
-                    "Classroom 1",
-                    "Classroom 1 description",
-                    Classroom.dateFormat("2021-01-01T00:00:00.000Z"),
-                    generateId()
-            );
+        return createClassroom(
+                generateId(),
+                "Classroom 1",
+                "Classroom 1 description",
+                Classroom.dateFormat("2021-01-01T00:00:00.000Z"),
+                generateId()
+        );
     }
 
     public static Classroom createClassroom(UUID uuid, String title, String description, Date dayDate, UUID teacherId) {
@@ -71,4 +84,53 @@ public class TestBuilderUtil {
                 dayDate
         );
     }
+
+    public static Token generateToken() {
+        return createToken(generateUser());
+    }
+
+    public static Token createToken(User user) {
+        return Token.encode(
+                user
+        );
+    }
+
+    public static User generateUser() {
+        return createUser(
+                generateId(),
+                "test",
+                "test@gmail.com",
+                "123456",
+                Roles.TEACHER,
+                false
+        );
+    }
+
+    public static User createUser(UUID id, String name, String email, String password, Roles role, Boolean approved) {
+        return new User(
+                id,
+                name,
+                email,
+                Password.create(password, DEFAULT_SALT),
+                role,
+                approved
+        );
+    }
+
+    public static String createExpiredToken(User user) {
+
+        Date expirationDate = new Date(System.currentTimeMillis() - 1000);
+
+        return Jwts.builder()
+                .setIssuer(INSURER)
+                .setSubject(user.getName())
+                .claim("id", user.getId())
+                .claim("email", user.getEmail())
+                .claim("name", user.getName())
+                .claim("role", user.getRole())
+                .setExpiration(expirationDate)
+                .signWith(Keys.hmacShaKeyFor(TOKEN_KEY.getBytes()), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
 }
