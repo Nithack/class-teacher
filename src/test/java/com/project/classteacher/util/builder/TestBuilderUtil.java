@@ -150,7 +150,7 @@ public class TestBuilderUtil {
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .role(user.getRole().toString())
-                .id(user.getId().toString())
+                .id(user.getId())
                 .name(user.getName())
                 .salt(user.getSalt())
                 .build()
@@ -178,7 +178,7 @@ public class TestBuilderUtil {
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .role(user.getRole().toString())
-                .id(user.getId().toString())
+                .id(user.getId())
                 .name(user.getName())
                 .salt(user.getSalt())
                 .build();

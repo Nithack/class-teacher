@@ -18,35 +18,35 @@ import java.util.UUID;
 public class UserModel {
 
     @Id
-    private String id;
+    private UUID id;
     private String name;
     private String email;
     private String password;
     private String role;
     private String salt;
-    private String approved;
+    private Boolean approved;
 
     public static UserModel toModel(User user) {
         return UserModel.builder()
-                .id(user.getId().toString())
+                .id(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .role(user.getRole().toString())
                 .salt(user.getSalt())
-                .approved(user.getApproved().toString())
+                .approved(user.getApproved())
                 .build();
     }
 
     public User toDomain() {
         return UserFactory.buildExistingUser(
-                UUID.fromString(this.id),
+                this.id,
                 this.name,
                 this.email,
                 this.password,
                 Roles.valueOf(this.role),
                 this.salt,
-                this.approved
+                String.valueOf(this.approved)
         );
     }
 

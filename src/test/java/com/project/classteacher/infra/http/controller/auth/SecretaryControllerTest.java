@@ -19,6 +19,7 @@ import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -43,17 +44,17 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
     }
 
     @Test
-    @DisplayName("Should be approved teacher")
-    public void should_be_approved_teacher() throws Exception {
+    @DisplayName("Should be list unapproved teacher")
+    public void should_be_list_unapproved_teacher() throws Exception {
 
         var QUANTITY = 10;
         List<UserModel> users = mockGenerate.generateMultiplesTeachers(QUANTITY);
 
         List<UserModel> usersUnapproved = users.stream()
-                .filter(userModel -> Objects.equals(userModel.getApproved(), "false"))
+                .filter(userModel -> Objects.equals(userModel.getApproved(), false))
                 .toList();
 
-        UserModel secretary = mockGenerate.createUser("secretary", Roles.SECRETARY);
+        UserModel secretary = mockGenerate.createUser("secretary", Roles.SECRETARY, true);
         Token userToken = Token.encode(secretary.toDomain());
 
         var mvcResult = mockMvc.perform(get("/secretary/unapproved")
@@ -79,4 +80,25 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
             );
         }
     }
+
+    @Test
+    @DisplayName("Should be approved teacher")
+    public void should_be_approved_teacher() throws Exception {
+
+        UserModel teacher = mockGenerate.createUser("teacher", Roles.TEACHER, false);
+
+        UserModel secretary = mockGenerate.createUser("secretary", Roles.SECRETARY, true);
+
+        Token secretaryToken = Token.encode(secretary.toDomain());
+
+        mockMvc.perform(post("/secretary/approve/" + teacher.getId())
+
+                        .header("Authorization", secretaryToken.getToken())
+                ).andExpect(status().isOk())
+                .andReturn();
+
+        var teacherApproved = userMongoDBRepository.findById(teacher.getId());
+        assertEquals(true, teacherApproved.orElseThrow().getApproved());
+    }
+
 }

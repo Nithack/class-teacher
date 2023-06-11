@@ -24,27 +24,30 @@ public class MockGenerate {
     public List<UserModel> generateMultiplesTeachers(int quantity) {
         List<UserModel> userList = new java.util.ArrayList<>(Collections.emptyList());
         for (int i = 1; i <= quantity; i++) {
-            UserModel user = userMongoDBRepository.save(createUser("reference" + i, Roles.TEACHER));
+            String approved = ThreadLocalRandom.current().nextBoolean() ? "true" : "false";
+            UserModel user = createUser("reference" + i, Roles.TEACHER, Boolean.valueOf(approved));
             userList.add(user);
         }
         return userList;
     }
 
-    public UserModel createUser(String reference, Roles role) {
+    public UserModel createUser(String reference, Roles role, Boolean approved) {
         String name = "User" + reference;
         String email = "user" + reference + "@example.com";
         String password = "password" + reference;
         String salt = UUID.randomUUID().toString();
-        String approved = ThreadLocalRandom.current().nextBoolean() ? "true" : "false";
 
-        return UserModel.builder()
-                .id(UUID.randomUUID().toString())
-                .name(name)
-                .email(email)
-                .password(Password.create(password, salt).getValue())
-                .role(role.toString())
-                .salt(salt)
-                .approved(approved)
-                .build();
+        return userMongoDBRepository.save(
+                UserModel.builder()
+                        .id(UUID.randomUUID())
+                        .name(name)
+                        .email(email)
+                        .password(Password.create(password, salt).getValue())
+                        .role(role.toString())
+                        .salt(salt)
+                        .approved(approved)
+                        .build()
+        );
+
     }
 }

@@ -17,7 +17,7 @@ public class ApproveTeacher {
 
     public Teacher execute(UUID teacherId) {
 
-        var teacher = userPort.findById(teacherId);
+        var teacher = (Teacher) userPort.findById(teacherId);
 
         if (teacher == null) throw new TeacherNotFoundException(teacherId);
 

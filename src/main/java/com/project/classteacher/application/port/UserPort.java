@@ -13,7 +13,7 @@ import java.util.UUID;
 public interface UserPort {
     Teacher save(Teacher teacher);
 
-    Teacher findById(UUID teacherId);
+    User findById(UUID teacherId);
 
     Secretary save(Secretary secretary);
 

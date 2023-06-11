@@ -33,9 +33,9 @@ public class UserMongoDBAdapter implements UserPort {
     }
 
     @Override
-    public Teacher findById(UUID id) {
+    public User findById(UUID id) {
         UserModel output = this.user.findById(id).orElse(null);
-        return output == null ? null : (Teacher) output.toDomain();
+        return output == null ? null : output.toDomain();
     }
 
     @Override
@@ -55,7 +55,7 @@ public class UserMongoDBAdapter implements UserPort {
 
         List<UserModel> result = this.user.findAll(Example.of(
                 UserModel.builder()
-                        .approved(approved.toString())
+                        .approved(approved)
                         .role(role.toString())
                         .build()
         ));
