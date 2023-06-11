@@ -49,6 +49,21 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
         userMongoDBRepository.deleteAll();
     }
 
+    @Test()
+    @DisplayName("Should be return 403 when not have token")
+    public void should_be_return_401_when_not_have_token() throws Exception {
+
+        mockMvc.perform(get("/secretary/unapproved"))
+                .andExpect(status().is4xxClientError());
+
+        mockMvc.perform(post("/secretary/approve/" + TestBuilderUtil.generateId())
+        ).andExpect(status().is4xxClientError());
+
+        mockMvc.perform(post("/secretary/classroom")
+        ).andExpect(status().is4xxClientError());
+
+    }
+
     @Test
     @DisplayName("Should be list unapproved teacher")
     public void should_be_list_unapproved_teacher() throws Exception {
