@@ -1,4 +1,4 @@
-package com.project.classteacher.application.repository;
+package com.project.classteacher.application.port;
 
 import com.project.classteacher.domain.entity.Classroom;
 import org.springframework.stereotype.Repository;

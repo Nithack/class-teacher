@@ -1,8 +1,8 @@
 package com.project.classteacher.application.usecase;
 
 import com.project.classteacher.application.exceptions.ClassroomNotFoundException;
-import com.project.classteacher.application.repository.ClassroomServiceRepository;
-import com.project.classteacher.application.repository.UserServiceRepository;
+import com.project.classteacher.application.port.ClassroomServiceRepository;
+import com.project.classteacher.application.port.UserServiceRepository;
 import com.project.classteacher.application.usecase.classroom.EditClassroomByID;
 import com.project.classteacher.domain.entity.Classroom;
 import com.project.classteacher.util.builder.TestBuilderUtil;

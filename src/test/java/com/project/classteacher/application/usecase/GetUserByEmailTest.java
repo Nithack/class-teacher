@@ -1,7 +1,7 @@
 package com.project.classteacher.application.usecase;
 
 import com.project.classteacher.application.exceptions.UserNotFoundException;
-import com.project.classteacher.application.repository.UserServiceRepository;
+import com.project.classteacher.application.port.UserServiceRepository;
 import com.project.classteacher.application.usecase.user.GetUserByEmail;
 import com.project.classteacher.domain.entity.Secretary;
 import com.project.classteacher.domain.entity.Teacher;

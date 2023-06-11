@@ -1,6 +1,6 @@
 package com.project.classteacher.infra.dataBase.repository;
 
-import com.project.classteacher.application.repository.ClassroomServiceRepository;
+import com.project.classteacher.application.port.ClassroomServiceRepository;
 import com.project.classteacher.domain.entity.Classroom;
 import com.project.classteacher.infra.dataBase.connection.ClassroomMongoDBRepository;
 import com.project.classteacher.infra.dataBase.model.ClassroomModel;

@@ -1,6 +1,6 @@
 package com.project.classteacher.application.usecase.secretary;
 
-import com.project.classteacher.application.repository.UserServiceRepository;
+import com.project.classteacher.application.port.UserServiceRepository;
 import com.project.classteacher.domain.entity.Secretary;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,8 +1,8 @@
 package com.project.classteacher.application.usecase.classroom;
 
 import com.project.classteacher.application.exceptions.TeacherNotFoundException;
-import com.project.classteacher.application.repository.ClassroomServiceRepository;
-import com.project.classteacher.application.repository.UserServiceRepository;
+import com.project.classteacher.application.port.ClassroomServiceRepository;
+import com.project.classteacher.application.port.UserServiceRepository;
 import com.project.classteacher.domain.entity.Classroom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

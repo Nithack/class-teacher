@@ -2,7 +2,7 @@ package com.project.classteacher.application.usecase.teacher;
 
 import com.project.classteacher.application.exceptions.TeacherNotFoundException;
 import com.project.classteacher.application.factory.UserFactory;
-import com.project.classteacher.application.repository.UserServiceRepository;
+import com.project.classteacher.application.port.UserServiceRepository;
 import com.project.classteacher.domain.entity.Teacher;
 import com.project.classteacher.domain.entity.User;
 import com.project.classteacher.domain.enums.Roles;

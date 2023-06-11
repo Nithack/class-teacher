@@ -1,7 +1,7 @@
 package com.project.classteacher.application.usecase.classroom;
 
 import com.project.classteacher.application.exceptions.ClassroomNotFoundException;
-import com.project.classteacher.application.repository.ClassroomServiceRepository;
+import com.project.classteacher.application.port.ClassroomServiceRepository;
 import com.project.classteacher.domain.entity.Classroom;
 import com.project.classteacher.domain.mapper.ClassroomMapper;
 import lombok.RequiredArgsConstructor;

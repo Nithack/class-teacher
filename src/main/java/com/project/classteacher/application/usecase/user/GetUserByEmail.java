@@ -2,7 +2,7 @@ package com.project.classteacher.application.usecase.user;
 
 import com.project.classteacher.application.exceptions.UserNotFoundException;
 import com.project.classteacher.application.factory.UserFactory;
-import com.project.classteacher.application.repository.UserServiceRepository;
+import com.project.classteacher.application.port.UserServiceRepository;
 import com.project.classteacher.domain.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
