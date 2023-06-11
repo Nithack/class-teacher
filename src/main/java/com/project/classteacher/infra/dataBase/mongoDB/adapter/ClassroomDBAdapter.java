@@ -1,9 +1,9 @@
-package com.project.classteacher.infra.dataBase.adapter;
+package com.project.classteacher.infra.dataBase.mongoDB.adapter;
 
 import com.project.classteacher.application.port.ClassroomPort;
 import com.project.classteacher.domain.entity.Classroom;
-import com.project.classteacher.infra.dataBase.model.ClassroomModel;
-import com.project.classteacher.infra.dataBase.repository.ClassroomMongoDBRepository;
+import com.project.classteacher.infra.dataBase.mongoDB.model.ClassroomModel;
+import com.project.classteacher.infra.dataBase.mongoDB.repository.ClassroomMongoDBRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;

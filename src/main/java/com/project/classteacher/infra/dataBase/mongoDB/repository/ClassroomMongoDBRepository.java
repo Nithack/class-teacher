@@ -1,7 +1,7 @@
-package com.project.classteacher.infra.dataBase.repository;
+package com.project.classteacher.infra.dataBase.mongoDB.repository;
 
 
-import com.project.classteacher.infra.dataBase.model.ClassroomModel;
+import com.project.classteacher.infra.dataBase.mongoDB.model.ClassroomModel;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.UUID;

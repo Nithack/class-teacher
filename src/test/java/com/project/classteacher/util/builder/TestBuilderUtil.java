@@ -2,7 +2,7 @@ package com.project.classteacher.util.builder;
 
 import com.project.classteacher.domain.entity.*;
 import com.project.classteacher.domain.enums.Roles;
-import com.project.classteacher.infra.dataBase.model.UserModel;
+import com.project.classteacher.infra.dataBase.mongoDB.model.UserModel;
 import com.project.classteacher.infra.http.dtos.LoginDTO;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

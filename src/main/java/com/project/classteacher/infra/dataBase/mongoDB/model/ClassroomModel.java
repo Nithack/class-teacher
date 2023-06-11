@@ -1,4 +1,4 @@
-package com.project.classteacher.infra.dataBase.model;
+package com.project.classteacher.infra.dataBase.mongoDB.model;
 
 import com.project.classteacher.domain.entity.Classroom;
 import lombok.Builder;
