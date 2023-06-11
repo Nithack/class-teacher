@@ -1,8 +1,8 @@
 package com.project.classteacher.application.usecase;
 
 import com.project.classteacher.application.exceptions.TeacherNotFoundException;
-import com.project.classteacher.application.port.ClassroomServiceRepository;
-import com.project.classteacher.application.port.UserServiceRepository;
+import com.project.classteacher.application.port.ClassroomAdapter;
+import com.project.classteacher.application.port.UserAdapter;
 import com.project.classteacher.application.usecase.classroom.ListClassroomByTeacherID;
 import com.project.classteacher.domain.entity.Classroom;
 import com.project.classteacher.util.builder.TestBuilderUtil;
@@ -28,9 +28,9 @@ final class ListClassroomByTeacherIDTest {
 
     UUID DEFAULT_UUID;
     @MockBean
-    private ClassroomServiceRepository classroomServiceRepository;
+    private ClassroomAdapter classroomAdapter;
     @MockBean
-    private UserServiceRepository userServiceRepository;
+    private UserAdapter userAdapter;
     @Autowired
     private ListClassroomByTeacherID listClassroomByTeacherID;
 
@@ -58,8 +58,8 @@ final class ListClassroomByTeacherIDTest {
                 Classroom.dateFormat("2021-15-01T18:30:00.000Z"),
                 teacher.getId()
         );
-        Mockito.when(userServiceRepository.findById(teacher.getId())).thenReturn(teacher);
-        Mockito.when(classroomServiceRepository.listByTeacherId(teacher.getId())).thenReturn(List.of(new Classroom[]{classroomLiterature, classroomHistory}));
+        Mockito.when(userAdapter.findById(teacher.getId())).thenReturn(teacher);
+        Mockito.when(classroomAdapter.listByTeacherId(teacher.getId())).thenReturn(List.of(new Classroom[]{classroomLiterature, classroomHistory}));
         var classroomSaved = listClassroomByTeacherID.execute(teacher.getId());
 
         assertAll("classroomSaved",
@@ -72,7 +72,7 @@ final class ListClassroomByTeacherIDTest {
     @DisplayName("should be throw exception when teacher not found")
     public void should_be_throw_exception_when_teacher_not_found() {
 
-        Mockito.when(userServiceRepository.findById(this.DEFAULT_UUID)).thenReturn(null);
+        Mockito.when(userAdapter.findById(this.DEFAULT_UUID)).thenReturn(null);
 
         Assertions.assertThrows(TeacherNotFoundException.class, () -> listClassroomByTeacherID.execute(this.DEFAULT_UUID));
     }

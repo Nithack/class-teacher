@@ -1,8 +1,8 @@
 package com.project.classteacher.application.usecase;
 
 import com.project.classteacher.application.exceptions.TeacherNotFoundException;
-import com.project.classteacher.application.port.ClassroomServiceRepository;
-import com.project.classteacher.application.port.UserServiceRepository;
+import com.project.classteacher.application.port.ClassroomAdapter;
+import com.project.classteacher.application.port.UserAdapter;
 import com.project.classteacher.application.usecase.classroom.CreateClassroom;
 import com.project.classteacher.domain.entity.Classroom;
 import com.project.classteacher.util.builder.TestBuilderUtil;
@@ -27,9 +27,9 @@ public class CreateClassroomTest {
 
     UUID DEFAULT_UUID;
     @MockBean
-    private ClassroomServiceRepository classroomServiceRepository;
+    private ClassroomAdapter classroomAdapter;
     @MockBean
-    private UserServiceRepository userServiceRepository;
+    private UserAdapter userAdapter;
     @Autowired
     private CreateClassroom createClassroom;
 
@@ -50,8 +50,8 @@ public class CreateClassroomTest {
                 Classroom.dateFormat("2021-10-10T11:15:00.000Z"),
                 teacher.getId()
         );
-        when(userServiceRepository.findById(teacher.getId())).thenReturn(teacher);
-        when(classroomServiceRepository.save(classroomLiterature)).thenReturn(classroomLiterature);
+        when(userAdapter.findById(teacher.getId())).thenReturn(teacher);
+        when(classroomAdapter.save(classroomLiterature)).thenReturn(classroomLiterature);
         var classroomSaved = createClassroom.execute(classroomLiterature);
 
         assertAll(
@@ -73,7 +73,7 @@ public class CreateClassroomTest {
                 Classroom.dateFormat("2021-10-10T11:15:00.000Z"),
                 TestBuilderUtil.generateId()
         );
-        when(userServiceRepository.findById(this.DEFAULT_UUID)).thenReturn(null);
+        when(userAdapter.findById(this.DEFAULT_UUID)).thenReturn(null);
         assertThrows(TeacherNotFoundException.class, () -> createClassroom.execute(classroomLiterature));
     }
 }

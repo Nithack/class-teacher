@@ -1,7 +1,7 @@
 package com.project.classteacher.application.usecase.teacher;
 
 import com.project.classteacher.application.exceptions.TeacherNotFoundException;
-import com.project.classteacher.application.port.UserServiceRepository;
+import com.project.classteacher.application.port.UserAdapter;
 import com.project.classteacher.domain.entity.Teacher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,16 +13,16 @@ import java.util.UUID;
 public class ApproveTeacher {
 
 
-    private final UserServiceRepository userServiceRepository;
+    private final UserAdapter userAdapter;
 
     public Teacher execute(UUID teacherId) {
 
-        var teacher = userServiceRepository.findById(teacherId);
+        var teacher = userAdapter.findById(teacherId);
 
         if (teacher == null) throw new TeacherNotFoundException(teacherId);
 
         teacher.approve();
 
-        return userServiceRepository.save(teacher);
+        return userAdapter.save(teacher);
     }
 }

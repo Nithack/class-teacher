@@ -1,8 +1,8 @@
 package com.project.classteacher.application.usecase.classroom;
 
 import com.project.classteacher.application.exceptions.TeacherNotFoundException;
-import com.project.classteacher.application.port.ClassroomServiceRepository;
-import com.project.classteacher.application.port.UserServiceRepository;
+import com.project.classteacher.application.port.ClassroomAdapter;
+import com.project.classteacher.application.port.UserAdapter;
 import com.project.classteacher.domain.entity.Classroom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,15 +15,15 @@ import java.util.UUID;
 public final class ListClassroomByTeacherID {
 
 
-    private final ClassroomServiceRepository classroomServiceRepository;
-    private final UserServiceRepository userServiceRepository;
+    private final ClassroomAdapter classroomAdapter;
+    private final UserAdapter userAdapter;
 
     public List<Classroom> execute(UUID teacherId) {
-        var teacher = this.userServiceRepository.findById(teacherId);
+        var teacher = this.userAdapter.findById(teacherId);
         if (teacher == null) {
             throw new TeacherNotFoundException(teacherId);
         }
-        return this.classroomServiceRepository.listByTeacherId(teacherId);
+        return this.classroomAdapter.listByTeacherId(teacherId);
     }
 
 }

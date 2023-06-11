@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface UserServiceRepository {
+public interface UserAdapter {
     Teacher save(Teacher teacher);
 
     Teacher findById(UUID teacherId);

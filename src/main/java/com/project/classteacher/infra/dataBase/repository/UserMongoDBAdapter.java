@@ -1,6 +1,6 @@
 package com.project.classteacher.infra.dataBase.repository;
 
-import com.project.classteacher.application.port.UserServiceRepository;
+import com.project.classteacher.application.port.UserAdapter;
 import com.project.classteacher.domain.entity.Secretary;
 import com.project.classteacher.domain.entity.Teacher;
 import com.project.classteacher.domain.entity.User;
@@ -17,7 +17,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
-public class UserMongoDBServiceRepository implements UserServiceRepository {
+public class UserMongoDBAdapter implements UserAdapter {
 
     @Autowired
     private UserMongoDBRepository user;

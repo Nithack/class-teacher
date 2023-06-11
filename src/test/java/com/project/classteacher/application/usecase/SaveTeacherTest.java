@@ -1,6 +1,6 @@
 package com.project.classteacher.application.usecase;
 
-import com.project.classteacher.application.port.UserServiceRepository;
+import com.project.classteacher.application.port.UserAdapter;
 import com.project.classteacher.application.usecase.teacher.CreateTeacher;
 import com.project.classteacher.domain.enums.Roles;
 import com.project.classteacher.util.builder.TestBuilderUtil;
@@ -25,7 +25,7 @@ public class SaveTeacherTest {
 
     UUID DEFAULT_UUID;
     @MockBean
-    private UserServiceRepository userServiceRepository;
+    private UserAdapter userAdapter;
     @Autowired
     private CreateTeacher createTeacher;
 
@@ -44,7 +44,7 @@ public class SaveTeacherTest {
                 "teacher1@gmail.com",
                 "123456"
         );
-        Mockito.when(userServiceRepository.save(newTeacher)).thenReturn(newTeacher);
+        Mockito.when(userAdapter.save(newTeacher)).thenReturn(newTeacher);
         var teacherSaved = createTeacher.execute(newTeacher);
         assertEquals(teacherSaved.getId(), this.DEFAULT_UUID);
         assertEquals(teacherSaved.getName(), "Teacher 1");
@@ -62,7 +62,7 @@ public class SaveTeacherTest {
                 "teacher1@gmail.com",
                 "123456"
         );
-        Mockito.when(userServiceRepository.save(newTeacher)).thenReturn(newTeacher);
+        Mockito.when(userAdapter.save(newTeacher)).thenReturn(newTeacher);
         var teacherSaved = createTeacher.execute(newTeacher);
         assertEquals(teacherSaved.getRole(), Roles.valueOf("TEACHER"));
     }

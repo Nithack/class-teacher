@@ -1,7 +1,7 @@
 package com.project.classteacher.application.usecase;
 
-import com.project.classteacher.application.port.ClassroomServiceRepository;
-import com.project.classteacher.application.port.UserServiceRepository;
+import com.project.classteacher.application.port.ClassroomAdapter;
+import com.project.classteacher.application.port.UserAdapter;
 import com.project.classteacher.application.usecase.secretary.CreateSecretary;
 import com.project.classteacher.domain.enums.Roles;
 import com.project.classteacher.util.builder.TestBuilderUtil;
@@ -24,9 +24,9 @@ public class CreateSecretaryTest {
 
     UUID DEFAULT_UUID;
     @MockBean
-    private ClassroomServiceRepository classroomServiceRepository;
+    private ClassroomAdapter classroomAdapter;
     @MockBean
-    private UserServiceRepository userServiceRepository;
+    private UserAdapter userAdapter;
     @Autowired
     private CreateSecretary createSecretary;
 
@@ -46,7 +46,7 @@ public class CreateSecretaryTest {
                 "123456"
         );
 
-        Mockito.when(userServiceRepository.save(secretary)).thenReturn(secretary);
+        Mockito.when(userAdapter.save(secretary)).thenReturn(secretary);
         var secretarySaved = createSecretary.execute(secretary);
 
 
@@ -62,7 +62,7 @@ public class CreateSecretaryTest {
 
         var secretary = TestBuilderUtil.generateSecretary();
 
-        Mockito.when(userServiceRepository.save(secretary)).thenReturn(secretary);
+        Mockito.when(userAdapter.save(secretary)).thenReturn(secretary);
 
         var secretarySaved = createSecretary.execute(secretary);
         assertEquals(secretarySaved.getRole(), Roles.valueOf("SECRETARY"));

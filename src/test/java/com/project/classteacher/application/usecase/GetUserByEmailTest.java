@@ -1,7 +1,7 @@
 package com.project.classteacher.application.usecase;
 
 import com.project.classteacher.application.exceptions.UserNotFoundException;
-import com.project.classteacher.application.port.UserServiceRepository;
+import com.project.classteacher.application.port.UserAdapter;
 import com.project.classteacher.application.usecase.user.GetUserByEmail;
 import com.project.classteacher.domain.entity.Secretary;
 import com.project.classteacher.domain.entity.Teacher;
@@ -27,7 +27,7 @@ public class GetUserByEmailTest {
 
     UUID DEFAULT_UUID;
     @MockBean
-    private UserServiceRepository userServiceRepository;
+    private UserAdapter userAdapter;
     @Autowired
     private GetUserByEmail getUserbyEmail;
 
@@ -47,7 +47,7 @@ public class GetUserByEmailTest {
                 "123456"
         );
 
-        Mockito.when(userServiceRepository.getByEmail(newTeacher.getEmail())).thenReturn(newTeacher);
+        Mockito.when(userAdapter.getByEmail(newTeacher.getEmail())).thenReturn(newTeacher);
 
         var teacherSaved = getUserbyEmail.execute(newTeacher.getEmail());
 
@@ -70,7 +70,7 @@ public class GetUserByEmailTest {
                 "123456"
         );
 
-        Mockito.when(userServiceRepository.getByEmail(newSecretary.getEmail())).thenReturn(newSecretary);
+        Mockito.when(userAdapter.getByEmail(newSecretary.getEmail())).thenReturn(newSecretary);
 
         var teacherSaved = getUserbyEmail.execute(newSecretary.getEmail());
 
@@ -86,7 +86,7 @@ public class GetUserByEmailTest {
     @DisplayName("should be throw exception when teacher not found")
     public void should_be_throw_exception_when_teacher_not_found() throws UserNotFoundException {
 
-        Mockito.when(userServiceRepository.findById(this.DEFAULT_UUID)).thenReturn(null);
+        Mockito.when(userAdapter.findById(this.DEFAULT_UUID)).thenReturn(null);
 
         Assertions.assertThrows(UserNotFoundException.class, () -> getUserbyEmail.execute("teste@gmail.com"));
     }
