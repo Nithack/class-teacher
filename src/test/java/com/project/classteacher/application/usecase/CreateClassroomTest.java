@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.UUID;
 
@@ -41,7 +40,7 @@ public class CreateClassroomTest {
 
     @Test
     @DisplayName("Should be create a classroom")
-    public void should_be_create_a_classroom() throws ParseException {
+    public void should_be_create_a_classroom() {
 
         var teacher = TestBuilderUtil.generateTeacher();
         var classroomLiterature = TestBuilderUtil.createClassroom(
@@ -66,7 +65,7 @@ public class CreateClassroomTest {
 
     @Test
     @DisplayName("Should be throw exception when teacher not found")
-    public void should_be_throw_exception_when_teacher_not_found() throws ParseException {
+    public void should_be_throw_exception_when_teacher_not_found() {
 
         var classroomLiterature = TestBuilderUtil.createClassroom(
                 this.DEFAULT_UUID,

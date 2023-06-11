@@ -6,7 +6,6 @@ import jakarta.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.UUID;
 
@@ -23,7 +22,7 @@ public class ClassroomUpdateDTO {
     @Nullable
     private UUID teacherId;
 
-    public Classroom toDomain() throws ParseException {
+    public Classroom toDomain() {
         return Classroom.builder()
                 .title(this.title)
                 .description(this.description)

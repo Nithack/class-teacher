@@ -10,7 +10,6 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,8 +20,8 @@ public class TestBuilderUtil {
 
     @Value("${basic.salt:salt}")
     static final String DEFAULT_SALT = "salt";
-    static String INSURER;
-    static String TOKEN_KEY;
+    static final String INSURER;
+    static final String TOKEN_KEY;
 
     static {
         INSURER = getProperty("jwt.ensurer", "class-teacher");
@@ -69,7 +68,7 @@ public class TestBuilderUtil {
         return UUID.randomUUID();
     }
 
-    public static Classroom generateClassroom() throws ParseException {
+    public static Classroom generateClassroom() {
         return createClassroom(
                 generateId(),
                 "Classroom 1",
@@ -183,7 +182,7 @@ public class TestBuilderUtil {
                 .build();
     }
 
-    public static CreateClassroomDTO createClassroomDTO(UUID uuid, String literature, String thisIsALiteratureClass, Date dayDate, UUID id) throws ParseException {
+    public static CreateClassroomDTO createClassroomDTO(UUID uuid, String literature, String thisIsALiteratureClass, Date dayDate, UUID id) {
         return CreateClassroomDTO.builder()
                 .title(literature)
                 .description(thisIsALiteratureClass)

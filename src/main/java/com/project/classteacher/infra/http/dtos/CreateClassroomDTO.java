@@ -4,7 +4,6 @@ import com.project.classteacher.domain.entity.Classroom;
 import lombok.Builder;
 import lombok.Data;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.UUID;
 
@@ -16,7 +15,7 @@ public class CreateClassroomDTO {
     private Date dayDate;
     private UUID teacherId;
 
-    public Classroom toDomain() throws ParseException {
+    public Classroom toDomain() {
         return Classroom.builder()
                 .title(this.title)
                 .description(this.description)
