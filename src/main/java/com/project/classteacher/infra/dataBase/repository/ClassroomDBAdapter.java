@@ -1,6 +1,6 @@
 package com.project.classteacher.infra.dataBase.repository;
 
-import com.project.classteacher.application.port.ClassroomAdapter;
+import com.project.classteacher.application.port.ClassroomPort;
 import com.project.classteacher.domain.entity.Classroom;
 import com.project.classteacher.infra.dataBase.connection.ClassroomMongoDBRepository;
 import com.project.classteacher.infra.dataBase.model.ClassroomModel;
@@ -15,7 +15,7 @@ import java.util.UUID;
 
 
 @Component
-public class ClassroomDBAdapter implements ClassroomAdapter {
+public class ClassroomDBAdapter implements ClassroomPort {
 
     @Autowired
     private ClassroomMongoDBRepository classroom;

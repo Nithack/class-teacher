@@ -1,8 +1,8 @@
 package com.project.classteacher.application.usecase;
 
 import com.project.classteacher.application.exceptions.ClassroomNotFoundException;
-import com.project.classteacher.application.port.ClassroomAdapter;
-import com.project.classteacher.application.port.UserAdapter;
+import com.project.classteacher.application.port.ClassroomPort;
+import com.project.classteacher.application.port.UserPort;
 import com.project.classteacher.application.usecase.classroom.EditClassroomByID;
 import com.project.classteacher.domain.entity.Classroom;
 import com.project.classteacher.util.builder.TestBuilderUtil;
@@ -27,9 +27,9 @@ final class EditClassroomByIDTest {
 
     UUID DEFAULT_UUID;
     @MockBean
-    private ClassroomAdapter classroomAdapter;
+    private ClassroomPort classroomPort;
     @MockBean
-    private UserAdapter userAdapter;
+    private UserPort userPort;
     @Autowired
     private EditClassroomByID editClassroomByID;
 
@@ -57,9 +57,9 @@ final class EditClassroomByIDTest {
                 Classroom.dateFormat("2021-10-10T08:15:00.000Z"),
                 null
         );
-        Mockito.when(userAdapter.findById(teacher.getId())).thenReturn(teacher);
-        Mockito.when(classroomAdapter.getByID(classroomLiterature.getId())).thenReturn(classroomLiterature);
-        Mockito.when(classroomAdapter.save(Mockito.any(Classroom.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        Mockito.when(userPort.findById(teacher.getId())).thenReturn(teacher);
+        Mockito.when(classroomPort.getByID(classroomLiterature.getId())).thenReturn(classroomLiterature);
+        Mockito.when(classroomPort.save(Mockito.any(Classroom.class))).thenAnswer(invocation -> invocation.getArgument(0));
         var classroomSaved = editClassroomByID.execute(classroomLiterature.getId(), inputChanges);
 
         assertEquals(classroomSaved.getId(), classroomLiterature.getId());
@@ -81,7 +81,7 @@ final class EditClassroomByIDTest {
                 null
         );
 
-        Mockito.when(userAdapter.findById(this.DEFAULT_UUID)).thenReturn(null);
+        Mockito.when(userPort.findById(this.DEFAULT_UUID)).thenReturn(null);
 
         Assertions.assertThrows(ClassroomNotFoundException.class, () -> editClassroomByID.execute(this.DEFAULT_UUID, inputChanges));
     }

@@ -2,7 +2,7 @@ package com.project.classteacher.application.usecase.user;
 
 import com.project.classteacher.application.exceptions.UserNotFoundException;
 import com.project.classteacher.application.factory.UserFactory;
-import com.project.classteacher.application.port.UserAdapter;
+import com.project.classteacher.application.port.UserPort;
 import com.project.classteacher.domain.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 public class GetUserByEmail {
 
 
-    private final UserAdapter userAdapter;
+    private final UserPort userPort;
 
     public User execute(String email) {
-        User user = this.userAdapter.getByEmail(email);
+        User user = this.userPort.getByEmail(email);
         if (user == null) {
             throw new UserNotFoundException(email);
         }

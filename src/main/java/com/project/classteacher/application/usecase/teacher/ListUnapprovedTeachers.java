@@ -2,7 +2,7 @@ package com.project.classteacher.application.usecase.teacher;
 
 import com.project.classteacher.application.exceptions.TeacherNotFoundException;
 import com.project.classteacher.application.factory.UserFactory;
-import com.project.classteacher.application.port.UserAdapter;
+import com.project.classteacher.application.port.UserPort;
 import com.project.classteacher.domain.entity.Teacher;
 import com.project.classteacher.domain.entity.User;
 import com.project.classteacher.domain.enums.Roles;
@@ -16,11 +16,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ListUnapprovedTeachers {
 
-    private final UserAdapter userAdapter;
+    private final UserPort userPort;
 
     public List<Teacher> execute() {
 
-        List<User> unapprovedTeachers = userAdapter.listByApprovedAndRole(false, Roles.TEACHER);
+        List<User> unapprovedTeachers = userPort.listByApprovedAndRole(false, Roles.TEACHER);
 
         if (unapprovedTeachers.isEmpty()) throw new TeacherNotFoundException("No unapproved teachers found");
 

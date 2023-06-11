@@ -1,7 +1,7 @@
 package com.project.classteacher.application.usecase;
 
 import com.project.classteacher.application.exceptions.TeacherNotFoundException;
-import com.project.classteacher.application.port.UserAdapter;
+import com.project.classteacher.application.port.UserPort;
 import com.project.classteacher.application.usecase.teacher.ListUnapprovedTeachers;
 import com.project.classteacher.domain.entity.Teacher;
 import com.project.classteacher.domain.enums.Roles;
@@ -27,7 +27,7 @@ final class ListUnapprovedTeachersTest {
 
     UUID DEFAULT_UUID;
     @MockBean
-    private UserAdapter userAdapter;
+    private UserPort userPort;
     @Autowired
     private ListUnapprovedTeachers listUnapprovedTeachers;
 
@@ -43,7 +43,7 @@ final class ListUnapprovedTeachersTest {
         var teacherUnapprovedOne = TestBuilderUtil.generateTeacher();
         var teacherUnapprovedTwo = TestBuilderUtil.generateTeacher();
 
-        Mockito.when(userAdapter.listByApprovedAndRole(false, Roles.TEACHER)).thenReturn(List.of(new Teacher[]{teacherUnapprovedOne, teacherUnapprovedTwo}));
+        Mockito.when(userPort.listByApprovedAndRole(false, Roles.TEACHER)).thenReturn(List.of(new Teacher[]{teacherUnapprovedOne, teacherUnapprovedTwo}));
 
         var unapprovedTeachers = listUnapprovedTeachers.execute();
 
@@ -57,7 +57,7 @@ final class ListUnapprovedTeachersTest {
     @DisplayName("should be throw exception when teacher not found")
     public void should_be_throw_exception_when_teacher_not_found() {
 
-        Mockito.when(userAdapter.findById(this.DEFAULT_UUID)).thenReturn(null);
+        Mockito.when(userPort.findById(this.DEFAULT_UUID)).thenReturn(null);
 
         Assertions.assertThrows(TeacherNotFoundException.class, () -> listUnapprovedTeachers.execute());
     }

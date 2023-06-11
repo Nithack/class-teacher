@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface ClassroomAdapter {
+public interface ClassroomPort {
     List<Classroom> listByTeacherId(UUID teacherId);
 
     Classroom save(Classroom classroom);
