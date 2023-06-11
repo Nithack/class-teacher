@@ -76,7 +76,7 @@ public class TeacherControllerTest extends MyIntegrationConfig {
     }
 
     private void verifyResponseContent(List<ClassroomModel> classroomList, String responseContent, Number quantity) throws Exception {
-        List<ClassroomModel> actualClassroom = objectMapper.readValue(responseContent, new TypeReference<List<ClassroomModel>>() {
+        List<ClassroomModel> actualClassroom = objectMapper.readValue(responseContent, new TypeReference<>() {
         });
 
         assertEquals(quantity.intValue(), actualClassroom.size());

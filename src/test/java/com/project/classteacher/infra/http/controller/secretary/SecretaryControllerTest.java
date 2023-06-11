@@ -90,7 +90,7 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
     }
 
     private void verifyResponseContent(List<UserModel> expectedUsers, String responseContent, Number quantity) throws Exception {
-        List<UserModel> actualUsers = objectMapper.readValue(responseContent, new TypeReference<List<UserModel>>() {
+        List<UserModel> actualUsers = objectMapper.readValue(responseContent, new TypeReference<>() {
         });
         assertEquals(quantity.intValue(), actualUsers.size());
         for (UserModel expectedUser : expectedUsers) {

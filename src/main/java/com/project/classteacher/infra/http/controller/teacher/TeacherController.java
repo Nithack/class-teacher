@@ -5,7 +5,6 @@ import com.project.classteacher.domain.entity.Classroom;
 import com.project.classteacher.domain.entity.DecodeToken;
 import com.project.classteacher.infra.http.dtos.ClassroomOutputDTO;
 import lombok.RequiredArgsConstructor;
-import org.apache.el.parser.ParseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +21,7 @@ public class TeacherController {
     private final ListClassroomByTeacherID listClassroomByTeacherID;
 
     @GetMapping("/classroom")
-    public ResponseEntity<List<ClassroomOutputDTO>> getTeacherClassroom(@AuthenticationPrincipal DecodeToken userDetails) throws ParseException {
+    public ResponseEntity<List<ClassroomOutputDTO>> getTeacherClassroom(@AuthenticationPrincipal DecodeToken userDetails) {
 
         List<Classroom> classrooms = listClassroomByTeacherID.execute(userDetails.getId());
         List<ClassroomOutputDTO> classroomDTOs = classrooms.stream()
