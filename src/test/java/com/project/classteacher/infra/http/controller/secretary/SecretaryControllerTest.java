@@ -5,8 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.classteacher.config.MyIntegrationConfig;
 import com.project.classteacher.domain.entity.Token;
 import com.project.classteacher.domain.enums.Roles;
+import com.project.classteacher.infra.dataBase.mongoDB.model.ClassroomModel;
 import com.project.classteacher.infra.dataBase.mongoDB.model.UserModel;
 import com.project.classteacher.infra.dataBase.mongoDB.repository.UserMongoDBRepository;
+import com.project.classteacher.infra.http.dtos.ClassroomOutputDTO;
+import com.project.classteacher.infra.http.dtos.ClassroomUpdateDTO;
 import com.project.classteacher.infra.http.dtos.CreateClassroomDTO;
 import com.project.classteacher.util.builder.TestBuilderUtil;
 import com.project.classteacher.util.mock.MockGenerate;
@@ -16,7 +19,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Date;
 import java.util.List;
@@ -41,7 +43,6 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
 
     @Autowired
     private MockGenerate mockGenerate;
-
 
     @BeforeEach
     public void setUp() {
@@ -128,21 +129,64 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
                         teacher.getId()
                 );
 
-        ObjectMapper objectMapper = new ObjectMapper();
         String requestBody = objectMapper.writeValueAsString(classroomDTO);
 
-        mockMvc.perform(post("/secretary/classroom")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody)
-                        .header("Authorization", secretaryToken.getToken())
-                ).andExpect(status().isOk())
-                .andExpectAll(
-                        status().is(200),
-                        MockMvcResultMatchers.jsonPath("$.title").value(classroomDTO.getTitle()),
-                        MockMvcResultMatchers.jsonPath("$.description").value(classroomDTO.getDescription()),
-                        MockMvcResultMatchers.jsonPath("$.teacherId").value(classroomDTO.getTeacherId()),
-                        MockMvcResultMatchers.jsonPath("$.dayDate").value(classroomDTO.getDayDate())
+        var responseContent = mockMvc.perform(post("/secretary/classroom")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+                .header("Authorization", secretaryToken.getToken())
+        ).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+
+        ClassroomOutputDTO updatedClassroom = objectMapper.readValue(responseContent, new TypeReference<>() {
+        });
+
+        assertAll(
+                () -> assertEquals(classroomDTO.getTitle(), updatedClassroom.getTitle()),
+                () -> assertEquals(classroomDTO.getDescription(), updatedClassroom.getDescription()),
+                () -> assertEquals(classroomDTO.getTeacherId(), updatedClassroom.getTeacherId())
+        );
+
+    }
+
+    @DisplayName("Should be update classroom")
+    @Test
+    public void should_be_update_classroom() throws Exception {
+
+        UserModel teacher = mockGenerate.createUser("teacher", Roles.TEACHER, false);
+
+        ClassroomModel classroom = mockGenerate.createClassroom(teacher.getId());
+
+        Token teacherToken = Token.encode(teacher.toDomain());
+
+        ClassroomUpdateDTO classroomDTO = TestBuilderUtil
+                .createClassroomUpdateDTO(
+                        "Designer of Software",
+                        "This is a Designer of Software class",
+                        TestBuilderUtil.generateId(),
+                        null
                 );
+
+        String requestBodyUpdate = objectMapper.writeValueAsString(classroomDTO);
+
+
+        assert classroomDTO.getTeacherId() != null;
+        var responseContent = mockMvc.perform(put("/secretary/classroom/" + classroom.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBodyUpdate)
+                        .header("Authorization", teacherToken.getToken())
+                )
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+
+        ClassroomOutputDTO updatedClassroom = objectMapper.readValue(responseContent, new TypeReference<>() {
+        });
+
+        assertAll("Verify updated classroom",
+                () -> assertEquals(classroomDTO.getTitle(), updatedClassroom.getTitle()),
+                () -> assertEquals(classroomDTO.getDescription(), updatedClassroom.getDescription()),
+                () -> assertEquals(classroomDTO.getTeacherId().toString(), updatedClassroom.getTeacherId().toString())
+        );
 
     }
 

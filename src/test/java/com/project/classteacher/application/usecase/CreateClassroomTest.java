@@ -4,7 +4,6 @@ import com.project.classteacher.application.exceptions.TeacherNotFoundException;
 import com.project.classteacher.application.port.ClassroomPort;
 import com.project.classteacher.application.port.UserPort;
 import com.project.classteacher.application.usecase.classroom.CreateClassroom;
-import com.project.classteacher.domain.entity.Classroom;
 import com.project.classteacher.util.builder.TestBuilderUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -48,7 +48,7 @@ public class CreateClassroomTest {
                 this.DEFAULT_UUID,
                 "Literature",
                 "This is a literature classroom",
-                Classroom.dateParse("2021-10-10T11:15:00.000Z"),
+                new Date(),
                 teacher.getId()
         );
         when(userPort.findById(teacher.getId())).thenReturn(teacher);
@@ -72,7 +72,7 @@ public class CreateClassroomTest {
                 this.DEFAULT_UUID,
                 "Mathematics",
                 "This is a mathematics classroom",
-                Classroom.dateParse("2021-10-10T11:15:00.000Z"),
+                new Date(),
                 TestBuilderUtil.generateId()
         );
         when(userPort.findById(this.DEFAULT_UUID)).thenReturn(null);

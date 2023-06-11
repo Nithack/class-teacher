@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.UUID;
 
 @Data
@@ -12,15 +13,15 @@ import java.util.UUID;
 public class CreateClassroomDTO {
     private String title;
     private String description;
-    private String dayDate;
-    private String teacherId;
+    private Date dayDate;
+    private UUID teacherId;
 
     public Classroom toDomain() throws ParseException {
         return Classroom.builder()
                 .title(this.title)
                 .description(this.description)
-                .dayDate(Classroom.dateParse(this.dayDate))
-                .teacherId(UUID.fromString(this.teacherId))
+                .dayDate(this.dayDate)
+                .teacherId(this.teacherId)
                 .build();
     }
 }

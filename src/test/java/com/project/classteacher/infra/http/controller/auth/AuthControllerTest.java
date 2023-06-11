@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -72,13 +73,17 @@ public class AuthControllerTest extends MyIntegrationConfig {
         String requestBody = objectMapper.writeValueAsString(loginDTO);
 
 
-        mockMvc.perform(post("/auth/login")
+        var result = mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
-                .andExpectAll(
-                        status().is(200),
-                        MockMvcResultMatchers.jsonPath("$.token").value(token.getToken())
-                );
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        String tokenResponse = objectMapper.readTree(result).get("token").asText();
+
+        assertEquals(token.getToken(), tokenResponse);
+
+
     }
 
     @Test

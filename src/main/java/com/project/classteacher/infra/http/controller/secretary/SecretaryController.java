@@ -1,13 +1,16 @@
 package com.project.classteacher.infra.http.controller.secretary;
 
 import com.project.classteacher.application.usecase.classroom.CreateClassroom;
+import com.project.classteacher.application.usecase.classroom.UpdateClassroomById;
 import com.project.classteacher.application.usecase.teacher.ApproveTeacher;
 import com.project.classteacher.application.usecase.teacher.ListUnapprovedTeachers;
 import com.project.classteacher.domain.entity.Classroom;
 import com.project.classteacher.domain.entity.Teacher;
 import com.project.classteacher.infra.http.dtos.ClassroomOutputDTO;
+import com.project.classteacher.infra.http.dtos.ClassroomUpdateDTO;
 import com.project.classteacher.infra.http.dtos.CreateClassroomDTO;
 import com.project.classteacher.infra.http.dtos.TeacherOutputDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +29,7 @@ public class SecretaryController {
 
     final private ApproveTeacher approveTeacher;
     final private CreateClassroom createClassroom;
+    final private UpdateClassroomById updateClassroomById;
 
     @GetMapping("/unapproved")
     public ResponseEntity<List<TeacherOutputDTO>> getUnapprovedTeachers() {
@@ -52,6 +56,15 @@ public class SecretaryController {
         Classroom classroom = createClassroomDTO.toDomain();
         Classroom classroomCreated = createClassroom.execute(classroom);
         return ResponseEntity.ok(ClassroomOutputDTO.toDTO(classroomCreated));
+    }
+
+    @PutMapping("/classroom/{id}")
+    public ResponseEntity<ClassroomOutputDTO> updateClassroomById(
+            @RequestBody @Valid ClassroomUpdateDTO createClassroomDTO,
+            @PathVariable("id") UUID id
+    ) throws ParseException {
+        Classroom classroomUpdated = updateClassroomById.execute(id, createClassroomDTO.toDomain());
+        return ResponseEntity.ok(ClassroomOutputDTO.toDTO(classroomUpdated));
     }
 
 }

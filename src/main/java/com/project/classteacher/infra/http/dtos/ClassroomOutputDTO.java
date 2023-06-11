@@ -4,22 +4,25 @@ import com.project.classteacher.domain.entity.Classroom;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Date;
+import java.util.UUID;
+
 @Data
 @Builder
 public class ClassroomOutputDTO {
-    private String id;
+    private UUID id;
     private String title;
     private String description;
-    private String dayDate;
-    private String teacherId;
+    private Date dayDate;
+    private UUID teacherId;
 
     public static ClassroomOutputDTO toDTO(Classroom classroom) {
         return ClassroomOutputDTO.builder()
-                .id(classroom.getId().toString())
+                .id(classroom.getId())
                 .title(classroom.getTitle())
                 .description(classroom.getDescription())
-                .dayDate(Classroom.dateFormat(classroom.getDayDate()))
-                .teacherId(classroom.getTeacherId().toString())
+                .dayDate(classroom.getDayDate())
+                .teacherId(classroom.getTeacherId())
                 .build();
     }
 }

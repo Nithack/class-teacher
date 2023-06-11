@@ -3,13 +3,11 @@ package com.project.classteacher.util.builder;
 import com.project.classteacher.domain.entity.*;
 import com.project.classteacher.domain.enums.Roles;
 import com.project.classteacher.infra.dataBase.mongoDB.model.UserModel;
-import com.project.classteacher.infra.http.dtos.CreateClassroomDTO;
-import com.project.classteacher.infra.http.dtos.CreateTeacherDTO;
-import com.project.classteacher.infra.http.dtos.LoginDTO;
-import com.project.classteacher.infra.http.dtos.UserDTO;
+import com.project.classteacher.infra.http.dtos.*;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.text.ParseException;
@@ -76,7 +74,7 @@ public class TestBuilderUtil {
                 generateId(),
                 "Classroom 1",
                 "Classroom 1 description",
-                Classroom.dateParse("2021-01-01T00:00:00.000Z"),
+                new Date(),
                 generateId()
         );
     }
@@ -189,8 +187,17 @@ public class TestBuilderUtil {
         return CreateClassroomDTO.builder()
                 .title(literature)
                 .description(thisIsALiteratureClass)
-                .dayDate(Classroom.dateFormat(dayDate))
-                .teacherId(id.toString())
+                .dayDate(dayDate)
+                .teacherId(id)
+                .build();
+    }
+
+    public static ClassroomUpdateDTO createClassroomUpdateDTO(String title, String description, UUID teacherId, @Nullable Date dayDate) {
+        return ClassroomUpdateDTO.builder()
+                .title(title)
+                .description(description)
+                .teacherId(teacherId)
+                .dayDate(dayDate)
                 .build();
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,14 +49,14 @@ final class ListClassroomByTeacherIDTest {
                 this.DEFAULT_UUID,
                 "Literatura",
                 "Aula focada no ensino da literatura",
-                Classroom.dateParse("2021-10-10T11:15:00.000Z"),
+                new Date(),
                 teacher.getId()
         );
         var classroomHistory = TestBuilderUtil.createClassroom(
                 this.DEFAULT_UUID,
                 "Historia",
                 "Aula focada no ensino da historia",
-                Classroom.dateParse("2021-15-01T18:30:00.000Z"),
+                new Date(),
                 teacher.getId()
         );
         Mockito.when(userPort.findById(teacher.getId())).thenReturn(teacher);

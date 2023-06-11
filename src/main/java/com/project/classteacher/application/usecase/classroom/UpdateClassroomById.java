@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class EditClassroomByID {
+public class UpdateClassroomById {
 
 
     private final ClassroomPort classroomPort;

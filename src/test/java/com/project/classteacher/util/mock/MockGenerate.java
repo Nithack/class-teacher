@@ -37,7 +37,7 @@ public class MockGenerate {
         String name = "User" + reference;
         String email = "user" + reference + "@example.com";
         String password = "password" + reference;
-        String salt = UUID.randomUUID().toString();
+        String salt = "salt";
 
         return userMongoDBRepository.save(
                 UserModel.builder()
