@@ -55,7 +55,7 @@ public class UserMongoDBAdapter implements UserPort {
 
         List<UserModel> result = this.user.findAll(Example.of(
                 UserModel.builder()
-                        .aproved(approved.toString())
+                        .approved(approved.toString())
                         .role(role.toString())
                         .build()
         ));

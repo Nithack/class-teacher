@@ -3,8 +3,8 @@ package com.project.classteacher.util.builder;
 import com.project.classteacher.domain.entity.*;
 import com.project.classteacher.domain.enums.Roles;
 import com.project.classteacher.infra.dataBase.mongoDB.model.UserModel;
+import com.project.classteacher.infra.http.dtos.CreateTeacherDTO;
 import com.project.classteacher.infra.http.dtos.LoginDTO;
-import com.project.classteacher.infra.http.dtos.TeacherDTO;
 import com.project.classteacher.infra.http.dtos.UserDTO;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -165,8 +165,8 @@ public class TestBuilderUtil {
                 .build();
     }
 
-    public static TeacherDTO createTeacherDTO(User user) {
-        return TeacherDTO.builder()
+    public static CreateTeacherDTO createTeacherDTO(User user) {
+        return CreateTeacherDTO.builder()
                 .name(user.getName())
                 .email(user.getEmail())
                 .password(user.getPassword())

@@ -4,9 +4,9 @@ import com.project.classteacher.application.usecase.login.LoginUser;
 import com.project.classteacher.application.usecase.teacher.CreateTeacher;
 import com.project.classteacher.domain.entity.Teacher;
 import com.project.classteacher.domain.entity.Token;
+import com.project.classteacher.infra.http.dtos.CreateTeacherDTO;
 import com.project.classteacher.infra.http.dtos.LoginDTO;
 import com.project.classteacher.infra.http.dtos.RegisteredUserDTO;
-import com.project.classteacher.infra.http.dtos.TeacherDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +36,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<RegisteredUserDTO> register(
-            @RequestBody @Valid TeacherDTO teacherDTO
+            @RequestBody @Valid CreateTeacherDTO teacherDTO
     ) {
         Teacher user = createTeacher.execute(teacherDTO.toDomain());
         return ResponseEntity.ok(RegisteredUserDTO.toDTO(user, Token.encode(user)));

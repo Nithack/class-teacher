@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class TeacherDTO {
+public class CreateTeacherDTO {
     private String name;
     private String email;
     private String password;

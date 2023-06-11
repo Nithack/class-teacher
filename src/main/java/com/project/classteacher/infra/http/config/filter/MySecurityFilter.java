@@ -1,8 +1,8 @@
 package com.project.classteacher.infra.http.config.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.classteacher.domain.entity.DecodeToken;
 import com.project.classteacher.domain.entity.Token;
-import com.project.classteacher.domain.entity.User;
 import com.project.classteacher.infra.http.dtos.ErrorDTO;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,8 +37,8 @@ public class MySecurityFilter extends OncePerRequestFilter {
     }
 
     private Authentication authentication(String token) {
-        User user = Token.decode(token);
-        return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
+        DecodeToken userDecoded = Token.decode(token);
+        return new UsernamePasswordAuthenticationToken(userDecoded, null, Collections.emptyList());
     }
 
     private void authenticationError(HttpServletResponse response) throws IOException {

@@ -1,6 +1,7 @@
 package com.project.classteacher.domain;
 
 import com.project.classteacher.application.exceptions.InvalidTokenException;
+import com.project.classteacher.domain.entity.DecodeToken;
 import com.project.classteacher.domain.entity.Token;
 import com.project.classteacher.domain.entity.User;
 import com.project.classteacher.util.builder.TestBuilderUtil;
@@ -28,7 +29,7 @@ public class AuthTokenTest {
                 decodedToken
         );
 
-        User authToken = Token.decode(token.getToken());
+        DecodeToken authToken = Token.decode(token.getToken());
 
         assertAll(
                 () -> assertEquals("Name validated", authToken.getName(), decodedToken.getName()),
@@ -46,7 +47,7 @@ public class AuthTokenTest {
 
         Token token = Token.encode(user);
 
-        User authToken = Token.decode(token.getToken());
+        DecodeToken authToken = Token.decode(token.getToken());
 
         assertAll(
                 () -> assertEquals("Name validated", authToken.getName(), user.getName()),
@@ -68,7 +69,7 @@ public class AuthTokenTest {
 
 
         assertThrows(InvalidTokenException.class, () -> {
-            User authToken = Token.decode(expiredToken.getToken());
+            DecodeToken authToken = Token.decode(expiredToken.getToken());
         });
     }
 
@@ -76,7 +77,7 @@ public class AuthTokenTest {
     @DisplayName("should be return exception when token is invalid")
     public void should_be_return_exception_when_token_is_invalid() {
         assertThrows(InvalidTokenException.class, () -> {
-            User authToken = Token.decode("invalid token");
+            DecodeToken authToken = Token.decode("invalid token");
         });
 
     }

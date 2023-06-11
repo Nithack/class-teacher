@@ -48,7 +48,7 @@ public class Token {
         return Token.builder().token(token).build();
     }
 
-    public static User decode(String token) throws InvalidTokenException {
+    public static DecodeToken decode(String token) throws InvalidTokenException {
         try {
             Claims claims = Jwts.parserBuilder()
                     .setSigningKey(Keys.hmacShaKeyFor(TOKEN_KEY.getBytes()))
@@ -56,14 +56,13 @@ public class Token {
                     .parseClaimsJws(token)
                     .getBody();
             if (isInvalidToken(claims)) throw new InvalidTokenException(token);
-            return new User(
-                    UUID.fromString(claims.get("id").toString()),
-                    claims.get("name").toString(),
-                    claims.get("email").toString(),
-                    null,
-                    Roles.valueOf(claims.get("role").toString()),
-                    null
-            );
+            return DecodeToken.builder()
+                    .id(UUID.fromString(claims.get("id", String.class)))
+                    .email(claims.get("email", String.class))
+                    .name(claims.get("name", String.class))
+                    .role(Roles.valueOf(claims.get("role", String.class)))
+                    .approved(claims.get("approved", Boolean.class))
+                    .build();
         } catch (Exception e) {
             throw new InvalidTokenException(token);
         }

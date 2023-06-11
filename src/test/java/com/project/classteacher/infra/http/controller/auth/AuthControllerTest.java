@@ -7,8 +7,8 @@ import com.project.classteacher.domain.entity.User;
 import com.project.classteacher.domain.enums.Roles;
 import com.project.classteacher.infra.dataBase.mongoDB.model.UserModel;
 import com.project.classteacher.infra.dataBase.mongoDB.repository.UserMongoDBRepository;
+import com.project.classteacher.infra.http.dtos.CreateTeacherDTO;
 import com.project.classteacher.infra.http.dtos.LoginDTO;
-import com.project.classteacher.infra.http.dtos.TeacherDTO;
 import com.project.classteacher.util.builder.TestBuilderUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -110,7 +110,7 @@ public class AuthControllerTest extends MyIntegrationConfig {
     void should_register_new_user_and_return_200() throws Exception {
 
         User user = TestBuilderUtil.generateUser();
-        TeacherDTO teacherTDT = TestBuilderUtil.createTeacherDTO(user);
+        CreateTeacherDTO teacherTDT = TestBuilderUtil.createTeacherDTO(user);
 
         ObjectMapper objectMapper = new ObjectMapper();
         String requestBody = objectMapper.writeValueAsString(teacherTDT);
@@ -145,7 +145,7 @@ public class AuthControllerTest extends MyIntegrationConfig {
     void should_exception_because_user_already_exists() throws Exception {
 
         User user = TestBuilderUtil.generateUser();
-        TeacherDTO teacherTDT = TestBuilderUtil.createTeacherDTO(user);
+        CreateTeacherDTO teacherTDT = TestBuilderUtil.createTeacherDTO(user);
 
         ObjectMapper objectMapper = new ObjectMapper();
         String requestBody = objectMapper.writeValueAsString(teacherTDT);

@@ -24,7 +24,7 @@ public class UserModel {
     private String password;
     private String role;
     private String salt;
-    private String aproved;
+    private String approved;
 
     public static UserModel toModel(User user) {
         return UserModel.builder()
@@ -34,7 +34,7 @@ public class UserModel {
                 .password(user.getPassword())
                 .role(user.getRole().toString())
                 .salt(user.getSalt())
-                .aproved(user.getApproved().toString())
+                .approved(user.getApproved().toString())
                 .build();
     }
 
@@ -46,7 +46,7 @@ public class UserModel {
                 this.password,
                 Roles.valueOf(this.role),
                 this.salt,
-                this.aproved
+                this.approved
         );
     }
 
