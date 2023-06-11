@@ -1,4 +1,4 @@
-package com.project.classteacher.application.usecase.login;
+package com.project.classteacher.application.usecase.user;
 
 import com.project.classteacher.application.exceptions.UserNotFoundException;
 import com.project.classteacher.application.factory.UserFactory;

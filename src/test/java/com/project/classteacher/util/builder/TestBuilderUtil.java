@@ -2,6 +2,8 @@ package com.project.classteacher.util.builder;
 
 import com.project.classteacher.domain.entity.*;
 import com.project.classteacher.domain.enums.Roles;
+import com.project.classteacher.infra.dataBase.model.UserModel;
+import com.project.classteacher.infra.http.dtos.LoginDTO;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 import static java.lang.System.getProperty;
@@ -133,4 +136,22 @@ public class TestBuilderUtil {
                 .compact();
     }
 
+    public static LoginDTO createLoginDTO(User user) {
+        return LoginDTO.builder()
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .build();
+    }
+
+    public static Optional<UserModel> createOptionalUserModel(User user) {
+        return Optional.ofNullable(UserModel.builder()
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .role(user.getRole().toString())
+                .id(user.getId().toString())
+                .name(user.getName())
+                .salt(user.getSalt())
+                .build()
+        );
+    }
 }

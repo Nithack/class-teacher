@@ -5,7 +5,6 @@ import com.project.classteacher.domain.entity.Token;
 import com.project.classteacher.domain.entity.User;
 import com.project.classteacher.infra.http.dtos.ErrorDTO;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +23,7 @@ public class MySecurityFilter extends OncePerRequestFilter {
     private final Logger logger = LoggerFactory.getLogger(MySecurityFilter.class);
 
     @Override
-    protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws IOException {
         try {
             if (isValidHeader(request)) {
                 Authentication auth = authentication(request.getHeader("Authorization"));
@@ -49,7 +48,6 @@ public class MySecurityFilter extends OncePerRequestFilter {
         ObjectMapper mapper = new ObjectMapper();
         response.getWriter().write(mapper.writeValueAsString(error));
         response.getWriter().flush();
-
     }
 
     private boolean isValidHeader(HttpServletRequest request) {
