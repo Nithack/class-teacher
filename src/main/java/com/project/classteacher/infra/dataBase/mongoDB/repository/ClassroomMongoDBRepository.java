@@ -1,4 +1,4 @@
-package com.project.classteacher.infra.dataBase.connection;
+package com.project.classteacher.infra.dataBase.repository;
 
 
 import com.project.classteacher.infra.dataBase.model.ClassroomModel;

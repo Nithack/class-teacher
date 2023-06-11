@@ -1,12 +1,12 @@
-package com.project.classteacher.infra.dataBase.repository;
+package com.project.classteacher.infra.dataBase.adapter;
 
 import com.project.classteacher.application.port.UserPort;
 import com.project.classteacher.domain.entity.Secretary;
 import com.project.classteacher.domain.entity.Teacher;
 import com.project.classteacher.domain.entity.User;
 import com.project.classteacher.domain.enums.Roles;
-import com.project.classteacher.infra.dataBase.connection.UserMongoDBRepository;
 import com.project.classteacher.infra.dataBase.model.UserModel;
+import com.project.classteacher.infra.dataBase.repository.UserMongoDBRepository;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
