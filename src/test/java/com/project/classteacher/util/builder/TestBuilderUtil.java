@@ -3,6 +3,7 @@ package com.project.classteacher.util.builder;
 import com.project.classteacher.domain.entity.*;
 import com.project.classteacher.domain.enums.Roles;
 import com.project.classteacher.infra.dataBase.mongoDB.model.UserModel;
+import com.project.classteacher.infra.http.dtos.CreateClassroomDTO;
 import com.project.classteacher.infra.http.dtos.CreateTeacherDTO;
 import com.project.classteacher.infra.http.dtos.LoginDTO;
 import com.project.classteacher.infra.http.dtos.UserDTO;
@@ -75,19 +76,19 @@ public class TestBuilderUtil {
                 generateId(),
                 "Classroom 1",
                 "Classroom 1 description",
-                Classroom.dateFormat("2021-01-01T00:00:00.000Z"),
+                Classroom.dateParse("2021-01-01T00:00:00.000Z"),
                 generateId()
         );
     }
 
     public static Classroom createClassroom(UUID uuid, String title, String description, Date dayDate, UUID teacherId) {
-        return new Classroom(
-                uuid,
-                title,
-                description,
-                teacherId,
-                dayDate
-        );
+        return Classroom.builder()
+                .id(uuid)
+                .title(title)
+                .description(description)
+                .dayDate(dayDate)
+                .teacherId(teacherId)
+                .build();
     }
 
     public static Token generateToken() {
@@ -181,6 +182,15 @@ public class TestBuilderUtil {
                 .id(user.getId())
                 .name(user.getName())
                 .salt(user.getSalt())
+                .build();
+    }
+
+    public static CreateClassroomDTO createClassroomDTO(UUID uuid, String literature, String thisIsALiteratureClass, Date dayDate, UUID id) throws ParseException {
+        return CreateClassroomDTO.builder()
+                .title(literature)
+                .description(thisIsALiteratureClass)
+                .dayDate(Classroom.dateFormat(dayDate))
+                .teacherId(id.toString())
                 .build();
     }
 }

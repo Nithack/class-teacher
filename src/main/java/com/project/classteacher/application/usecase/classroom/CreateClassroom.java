@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class CreateClassroom {
@@ -19,7 +21,8 @@ public class CreateClassroom {
         var teacher = this.userPort.findById(classroom.getTeacherId());
 
         if (teacher == null) throw new TeacherNotFoundException(classroom.getTeacherId());
-
+        UUID newClassroomId = UUID.randomUUID();
+        classroom.setId(newClassroomId);
         return this.classroomPort.save(classroom);
     }
 }

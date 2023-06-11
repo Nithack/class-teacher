@@ -1,6 +1,8 @@
 package com.project.classteacher.domain.entity;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,6 +11,7 @@ import java.util.UUID;
 
 @Data
 @EqualsAndHashCode(of = "id")
+@Builder
 public class Classroom {
     private UUID id;
     private String title;
@@ -16,16 +19,13 @@ public class Classroom {
     private UUID teacherId;
     private Date dayDate;
 
-    public Classroom(UUID id, String title, String description, UUID teacherId, Date dayDate){
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.teacherId = teacherId;
-        this.dayDate = dayDate;
-    }
-
-    public static Date dateFormat(String dayDate) throws ParseException {
+    public static Date dateParse(String dayDate) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-dd-MM'T'HH:mm:ss.SSS'Z'");
         return format.parse(dayDate);
+    }
+
+    public static String dateFormat(Date dayDate) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-dd-MM'T'HH:mm:ss.SSS'Z'");
+        return format.format(dayDate);
     }
 }

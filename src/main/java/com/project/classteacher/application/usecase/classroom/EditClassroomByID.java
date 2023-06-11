@@ -2,8 +2,8 @@ package com.project.classteacher.application.usecase.classroom;
 
 import com.project.classteacher.application.exceptions.ClassroomNotFoundException;
 import com.project.classteacher.application.port.ClassroomPort;
+import com.project.classteacher.application.util.mapper.ClassroomMapper;
 import com.project.classteacher.domain.entity.Classroom;
-import com.project.classteacher.domain.mapper.ClassroomMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

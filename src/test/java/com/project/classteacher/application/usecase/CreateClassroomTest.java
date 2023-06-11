@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
+import static org.springframework.test.util.AssertionErrors.assertNotNull;
 
 @DisplayName("Create Classroom Test")
 @SpringBootTest(classes = CreateClassroom.class)
@@ -45,9 +46,9 @@ public class CreateClassroomTest {
         var teacher = TestBuilderUtil.generateTeacher();
         var classroomLiterature = TestBuilderUtil.createClassroom(
                 this.DEFAULT_UUID,
-                "Literatura",
-                "Aula focada no ensino da literatura",
-                Classroom.dateFormat("2021-10-10T11:15:00.000Z"),
+                "Literature",
+                "This is a literature classroom",
+                Classroom.dateParse("2021-10-10T11:15:00.000Z"),
                 teacher.getId()
         );
         when(userPort.findById(teacher.getId())).thenReturn(teacher);
@@ -55,11 +56,12 @@ public class CreateClassroomTest {
         var classroomSaved = createClassroom.execute(classroomLiterature);
 
         assertAll(
-                () -> assertEquals("ID", classroomLiterature.getId(), this.DEFAULT_UUID),
                 () -> assertEquals("Title", classroomLiterature.getTitle(), classroomSaved.getTitle()),
                 () -> assertEquals("Description", classroomLiterature.getDescription(), classroomSaved.getDescription()),
                 () -> assertEquals("Teacher", classroomLiterature.getTeacherId(), classroomSaved.getTeacherId()),
-                () -> assertEquals("Schedule", classroomLiterature.getDayDate(), classroomSaved.getDayDate()));
+                () -> assertEquals("Schedule", classroomLiterature.getDayDate(), classroomSaved.getDayDate()),
+                () -> assertNotNull("Id", classroomSaved.getId())
+        );
     }
 
     @Test
@@ -68,9 +70,9 @@ public class CreateClassroomTest {
 
         var classroomLiterature = TestBuilderUtil.createClassroom(
                 this.DEFAULT_UUID,
-                "Literatura",
-                "Aula focada no ensino da literatura",
-                Classroom.dateFormat("2021-10-10T11:15:00.000Z"),
+                "Mathematics",
+                "This is a mathematics classroom",
+                Classroom.dateParse("2021-10-10T11:15:00.000Z"),
                 TestBuilderUtil.generateId()
         );
         when(userPort.findById(this.DEFAULT_UUID)).thenReturn(null);

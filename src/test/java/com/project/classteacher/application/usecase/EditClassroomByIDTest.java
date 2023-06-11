@@ -47,14 +47,14 @@ final class EditClassroomByIDTest {
                 this.DEFAULT_UUID,
                 "Literatura",
                 "Aula focada no ensino da literatura",
-                Classroom.dateFormat("2021-10-10T11:15:00.000Z"),
+                Classroom.dateParse("2021-10-10T11:15:00.000Z"),
                 teacher.getId()
         );
         var inputChanges = TestBuilderUtil.createClassroom(
                 null,
                 null,
                 "Aula focada no ensino da literatura e da lingua portuguesa",
-                Classroom.dateFormat("2021-10-10T08:15:00.000Z"),
+                Classroom.dateParse("2021-10-10T08:15:00.000Z"),
                 null
         );
         Mockito.when(userPort.findById(teacher.getId())).thenReturn(teacher);
@@ -77,7 +77,7 @@ final class EditClassroomByIDTest {
                 null,
                 null,
                 "Aula focada no ensino da literatura e da lingua portuguesa",
-                Classroom.dateFormat("2021-10-10T08:15:00.000Z"),
+                Classroom.dateParse("2021-10-10T08:15:00.000Z"),
                 null
         );
 

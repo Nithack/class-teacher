@@ -48,14 +48,14 @@ final class ListClassroomByTeacherIDTest {
                 this.DEFAULT_UUID,
                 "Literatura",
                 "Aula focada no ensino da literatura",
-                Classroom.dateFormat("2021-10-10T11:15:00.000Z"),
+                Classroom.dateParse("2021-10-10T11:15:00.000Z"),
                 teacher.getId()
         );
         var classroomHistory = TestBuilderUtil.createClassroom(
                 this.DEFAULT_UUID,
                 "Historia",
                 "Aula focada no ensino da historia",
-                Classroom.dateFormat("2021-15-01T18:30:00.000Z"),
+                Classroom.dateParse("2021-15-01T18:30:00.000Z"),
                 teacher.getId()
         );
         Mockito.when(userPort.findById(teacher.getId())).thenReturn(teacher);

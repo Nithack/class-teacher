@@ -33,12 +33,12 @@ public class ClassroomModel {
     }
 
     public Classroom toDomain() {
-        return new Classroom(
-                UUID.fromString(this.id),
-                this.title,
-                this.description,
-                UUID.fromString(this.teacherId),
-                this.dayDate
-        );
+        return Classroom.builder()
+                .id(UUID.fromString(this.id))
+                .title(this.title)
+                .description(this.description)
+                .teacherId(UUID.fromString(this.teacherId))
+                .dayDate(this.dayDate)
+                .build();
     }
 }

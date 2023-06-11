@@ -7,15 +7,21 @@ import com.project.classteacher.domain.entity.Token;
 import com.project.classteacher.domain.enums.Roles;
 import com.project.classteacher.infra.dataBase.mongoDB.model.UserModel;
 import com.project.classteacher.infra.dataBase.mongoDB.repository.UserMongoDBRepository;
+import com.project.classteacher.infra.http.dtos.CreateClassroomDTO;
+import com.project.classteacher.util.builder.TestBuilderUtil;
 import com.project.classteacher.util.mock.MockGenerate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -99,6 +105,43 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
 
         var teacherApproved = userMongoDBRepository.findById(teacher.getId());
         assertEquals(true, teacherApproved.orElseThrow().getApproved());
+    }
+
+    @DisplayName("Should be create new classromm")
+    @Test
+    public void should_be_create_new_classroom() throws Exception {
+
+        UserModel teacher = mockGenerate.createUser("teacher", Roles.TEACHER, false);
+
+        UserModel secretary = mockGenerate.createUser("secretary", Roles.SECRETARY, true);
+
+        Token secretaryToken = Token.encode(secretary.toDomain());
+
+        CreateClassroomDTO classroomDTO = TestBuilderUtil
+                .createClassroomDTO(
+                        UUID.randomUUID(),
+                        "Literature",
+                        "This is a literature class",
+                        new Date(),
+                        teacher.getId()
+                );
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = objectMapper.writeValueAsString(classroomDTO);
+
+        mockMvc.perform(post("/secretary/classroom")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody)
+                        .header("Authorization", secretaryToken.getToken())
+                ).andExpect(status().isOk())
+                .andExpectAll(
+                        status().is(200),
+                        MockMvcResultMatchers.jsonPath("$.title").value(classroomDTO.getTitle()),
+                        MockMvcResultMatchers.jsonPath("$.description").value(classroomDTO.getDescription()),
+                        MockMvcResultMatchers.jsonPath("$.teacherId").value(classroomDTO.getTeacherId()),
+                        MockMvcResultMatchers.jsonPath("$.dayDate").value(classroomDTO.getDayDate())
+                );
+
     }
 
 }
