@@ -4,8 +4,6 @@ import com.project.classteacher.domain.entity.Classroom;
 import lombok.Builder;
 import lombok.Data;
 
-import java.text.ParseException;
-
 @Data
 @Builder
 public class ClassroomOutputDTO {
@@ -15,7 +13,7 @@ public class ClassroomOutputDTO {
     private String dayDate;
     private String teacherId;
 
-    public static ClassroomOutputDTO toDTO(Classroom classroom) throws ParseException {
+    public static ClassroomOutputDTO toDTO(Classroom classroom) {
         return ClassroomOutputDTO.builder()
                 .id(classroom.getId().toString())
                 .title(classroom.getTitle())

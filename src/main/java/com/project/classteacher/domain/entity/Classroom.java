@@ -20,12 +20,12 @@ public class Classroom {
     private Date dayDate;
 
     public static Date dateParse(String dayDate) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-dd-MM'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         return format.parse(dayDate);
     }
 
-    public static String dateFormat(Date dayDate) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-dd-MM'T'HH:mm:ss.SSS'Z'");
+    public static String dateFormat(Date dayDate) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         return format.format(dayDate);
     }
 }

@@ -25,7 +25,7 @@ public class ClassroomDBAdapter implements ClassroomPort {
 
         var query = Example.of(
                 ClassroomModel.builder()
-                        .teacherId(teacherId.toString())
+                        .teacherId(teacherId)
                         .build()
         );
 

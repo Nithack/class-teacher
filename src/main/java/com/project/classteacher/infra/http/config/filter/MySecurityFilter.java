@@ -28,6 +28,7 @@ public class MySecurityFilter extends OncePerRequestFilter {
             if (isValidHeader(request)) {
                 Authentication auth = authentication(request.getHeader("Authorization"));
                 SecurityContextHolder.getContext().setAuthentication(auth);
+                request.setAttribute("user", auth.getPrincipal());
             }
             filterChain.doFilter(request, response);
         } catch (Exception e) {

@@ -1,4 +1,4 @@
-package com.project.classteacher.infra.http.controller.auth;
+package com.project.classteacher.infra.http.controller.secretary;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,8 +24,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -60,6 +59,9 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
         ).andExpect(status().is4xxClientError());
 
         mockMvc.perform(post("/secretary/classroom")
+        ).andExpect(status().is4xxClientError());
+
+        mockMvc.perform(put("/secretary/classroom/" + TestBuilderUtil.generateId())
         ).andExpect(status().is4xxClientError());
 
     }
@@ -122,7 +124,7 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
         assertEquals(true, teacherApproved.orElseThrow().getApproved());
     }
 
-    @DisplayName("Should be create new classromm")
+    @DisplayName("Should be create new classroom")
     @Test
     public void should_be_create_new_classroom() throws Exception {
 

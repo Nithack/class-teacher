@@ -10,7 +10,6 @@ import com.project.classteacher.infra.dataBase.mongoDB.repository.UserMongoDBRep
 import com.project.classteacher.infra.http.dtos.CreateTeacherDTO;
 import com.project.classteacher.infra.http.dtos.LoginDTO;
 import com.project.classteacher.util.builder.TestBuilderUtil;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -36,10 +35,6 @@ public class AuthControllerTest extends MyIntegrationConfig {
     @MockBean
     private UserMongoDBRepository userMongoDBRepository;
 
-    @BeforeEach
-    void setUp() {
-        Mockito.reset(userMongoDBRepository);
-    }
 
     @Test
     @DisplayName("Should return 400 when missing user and password")

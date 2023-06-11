@@ -16,28 +16,28 @@ import java.util.UUID;
 @Builder
 public class ClassroomModel {
     @Id
-    private String id;
+    private UUID id;
     private String title;
     private String description;
-    private String teacherId;
+    private UUID teacherId;
     private Date dayDate;
 
     public static ClassroomModel toModel(Classroom classroom) {
         return ClassroomModel.builder()
-                .id(classroom.getId().toString())
+                .id(classroom.getId())
                 .title(classroom.getTitle())
                 .description(classroom.getDescription())
-                .teacherId(classroom.getTeacherId().toString())
+                .teacherId(classroom.getTeacherId())
                 .dayDate(classroom.getDayDate())
                 .build();
     }
 
     public Classroom toDomain() {
         return Classroom.builder()
-                .id(UUID.fromString(this.id))
+                .id(this.id)
                 .title(this.title)
                 .description(this.description)
-                .teacherId(UUID.fromString(this.teacherId))
+                .teacherId(this.teacherId)
                 .dayDate(this.dayDate)
                 .build();
     }
