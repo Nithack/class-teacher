@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Comparator;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -80,9 +79,6 @@ public class TeacherControllerTest extends MyIntegrationConfig {
         });
 
         assertEquals(quantity.intValue(), actualClassroom.size());
-
-        actualClassroom.sort(Comparator.comparing(ClassroomModel::getTeacherId));
-
         for (int i = 0; i < classroomList.size(); i++) {
             ClassroomModel expectedClassroom = classroomList.get(i);
             ClassroomModel actualClassroomItem = actualClassroom.get(i);

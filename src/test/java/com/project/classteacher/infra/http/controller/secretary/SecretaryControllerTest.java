@@ -39,9 +39,9 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
     @Autowired
     private UserMongoDBRepository userMongoDBRepository;
 
-
     @Autowired
     private MockGenerate mockGenerate;
+
 
     @BeforeEach
     public void setUp() {
@@ -87,21 +87,6 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
                 .andReturn();
 
         verifyResponseContent(usersUnapproved, mvcResult.getResponse().getContentAsString(), usersUnapproved.size());
-    }
-
-    private void verifyResponseContent(List<UserModel> expectedUsers, String responseContent, Number quantity) throws Exception {
-        List<UserModel> actualUsers = objectMapper.readValue(responseContent, new TypeReference<>() {
-        });
-        assertEquals(quantity.intValue(), actualUsers.size());
-        for (UserModel expectedUser : expectedUsers) {
-            assertAll(
-                    () -> assertTrue(actualUsers.stream().anyMatch(actualUser -> actualUser.getId().equals(expectedUser.getId()))),
-                    () -> assertTrue(actualUsers.stream().anyMatch(actualUser -> actualUser.getName().equals(expectedUser.getName()))),
-                    () -> assertTrue(actualUsers.stream().anyMatch(actualUser -> actualUser.getEmail().equals(expectedUser.getEmail()))),
-                    () -> assertTrue(actualUsers.stream().anyMatch(actualUser -> actualUser.getRole().equals(expectedUser.getRole()))),
-                    () -> assertTrue(actualUsers.stream().anyMatch(actualUser -> actualUser.getApproved().equals(expectedUser.getApproved())))
-            );
-        }
     }
 
     @Test
@@ -159,6 +144,21 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
                         MockMvcResultMatchers.jsonPath("$.dayDate").value(classroomDTO.getDayDate())
                 );
 
+    }
+
+    private void verifyResponseContent(List<UserModel> expectedUsers, String responseContent, Number quantity) throws Exception {
+        List<UserModel> actualUsers = objectMapper.readValue(responseContent, new TypeReference<>() {
+        });
+        assertEquals(quantity.intValue(), actualUsers.size());
+        for (UserModel expectedUser : expectedUsers) {
+            assertAll(
+                    () -> assertTrue(actualUsers.stream().anyMatch(actualUser -> actualUser.getId().equals(expectedUser.getId()))),
+                    () -> assertTrue(actualUsers.stream().anyMatch(actualUser -> actualUser.getName().equals(expectedUser.getName()))),
+                    () -> assertTrue(actualUsers.stream().anyMatch(actualUser -> actualUser.getEmail().equals(expectedUser.getEmail()))),
+                    () -> assertTrue(actualUsers.stream().anyMatch(actualUser -> actualUser.getRole().equals(expectedUser.getRole()))),
+                    () -> assertTrue(actualUsers.stream().anyMatch(actualUser -> actualUser.getApproved().equals(expectedUser.getApproved())))
+            );
+        }
     }
 
 }

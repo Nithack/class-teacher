@@ -6,22 +6,16 @@ import com.project.classteacher.domain.entity.Token;
 import com.project.classteacher.domain.entity.User;
 import com.project.classteacher.domain.enums.Roles;
 import com.project.classteacher.infra.dataBase.mongoDB.model.UserModel;
-import com.project.classteacher.infra.dataBase.mongoDB.repository.UserMongoDBRepository;
 import com.project.classteacher.infra.http.dtos.CreateTeacherDTO;
 import com.project.classteacher.infra.http.dtos.LoginDTO;
 import com.project.classteacher.util.builder.TestBuilderUtil;
+import com.project.classteacher.util.mock.MockGenerate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Example;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -32,8 +26,8 @@ public class AuthControllerTest extends MyIntegrationConfig {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
-    private UserMongoDBRepository userMongoDBRepository;
+    @Autowired
+    private MockGenerate mockGenerate;
 
 
     @Test
@@ -67,29 +61,16 @@ public class AuthControllerTest extends MyIntegrationConfig {
     @DisplayName("Should return 200 when providing valid email and password to login")
     void should_return_200_when_providing_valid_email_and_password_to_login() throws Exception {
 
+        String REFERENCE = "REFERENCE";
 
-        String password = "123456";
+        UserModel user = mockGenerate.createUser(REFERENCE, Roles.TEACHER, false);
 
-        User user = TestBuilderUtil.createUser(
-                TestBuilderUtil.generateId(),
-                "test",
-                "test@gmail.com",
-                password,
-                Roles.TEACHER,
-                false
-        );
-        LoginDTO loginDTO = TestBuilderUtil.createLoginDTO(user.getName(), password);
-        Token token = TestBuilderUtil.createToken(user);
+        LoginDTO loginDTO = TestBuilderUtil.createLoginDTO(user.getEmail(), "password" + REFERENCE);
+        Token token = TestBuilderUtil.createToken(user.toDomain());
 
         ObjectMapper objectMapper = new ObjectMapper();
         String requestBody = objectMapper.writeValueAsString(loginDTO);
 
-
-        Mockito.when(userMongoDBRepository.findOne(
-                ArgumentMatchers.any(Example.class)
-        )).thenReturn(
-                TestBuilderUtil.createOptionalUserModel(user)
-        );
 
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -105,18 +86,11 @@ public class AuthControllerTest extends MyIntegrationConfig {
     void should_register_new_user_and_return_200() throws Exception {
 
         User user = TestBuilderUtil.generateUser();
+
         CreateTeacherDTO teacherTDT = TestBuilderUtil.createTeacherDTO(user);
 
         ObjectMapper objectMapper = new ObjectMapper();
         String requestBody = objectMapper.writeValueAsString(teacherTDT);
-
-        Optional<UserModel> emptyOptional = Optional.empty();
-        Mockito.when(userMongoDBRepository.findOne(ArgumentMatchers.any()))
-                .thenReturn(emptyOptional);
-
-        Mockito.when(userMongoDBRepository.save(Mockito.any(UserModel.class))).thenReturn(
-                TestBuilderUtil.createUserModel(user)
-        );
 
         mockMvc.perform(
                         post("/auth/register")
@@ -139,20 +113,12 @@ public class AuthControllerTest extends MyIntegrationConfig {
     @DisplayName("Should exception because user already exists")
     void should_exception_because_user_already_exists() throws Exception {
 
-        User user = TestBuilderUtil.generateUser();
-        CreateTeacherDTO teacherTDT = TestBuilderUtil.createTeacherDTO(user);
+        UserModel user = mockGenerate.createUser("teacher", Roles.TEACHER, false);
+        CreateTeacherDTO teacherTDT = TestBuilderUtil.createTeacherDTO(user.toDomain());
 
         ObjectMapper objectMapper = new ObjectMapper();
         String requestBody = objectMapper.writeValueAsString(teacherTDT);
 
-        Mockito.when(userMongoDBRepository.findOne(ArgumentMatchers.any()))
-                .thenReturn(
-                        TestBuilderUtil.createOptionalUserModel(user)
-                );
-
-        Mockito.when(userMongoDBRepository.save(Mockito.any(UserModel.class))).thenReturn(
-                TestBuilderUtil.createUserModel(user)
-        );
 
         mockMvc.perform(
                         post("/auth/register")
@@ -161,7 +127,7 @@ public class AuthControllerTest extends MyIntegrationConfig {
                 )
                 .andExpectAll(
                         MockMvcResultMatchers.jsonPath("$.status").value(409),
-                        MockMvcResultMatchers.jsonPath("$.message").value("User exist in database: test@gmail.com")
+                        MockMvcResultMatchers.jsonPath("$.message").value("User exist in database: " + user.getEmail())
                 );
 
     }
