@@ -18,7 +18,6 @@ public class SecretaryController {
 
     final private ListUnapprovedTeachers listUnapprovedTeachers;
 
-
     @GetMapping("/unapproved")
     public ResponseEntity<List<TeacherOutputDTO>> getUnapprovedTeachers() {
         List<TeacherOutputDTO> unapprovedTeachers = listUnapprovedTeachers.execute()

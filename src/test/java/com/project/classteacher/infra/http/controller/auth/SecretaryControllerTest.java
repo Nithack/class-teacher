@@ -17,8 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -46,7 +45,10 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
     @Test
     @DisplayName("Should be approved teacher")
     public void should_be_approved_teacher() throws Exception {
-        List<UserModel> users = mockGenerate.generateMultiplesTeachers(10);
+
+        var QUANTITY = 10;
+        List<UserModel> users = mockGenerate.generateMultiplesTeachers(QUANTITY);
+
         List<UserModel> usersUnapproved = users.stream()
                 .filter(userModel -> Objects.equals(userModel.getApproved(), "false"))
                 .toList();
@@ -54,20 +56,19 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
         UserModel secretary = mockGenerate.createUser("secretary", Roles.SECRETARY);
         Token userToken = Token.encode(secretary.toDomain());
 
-        mockGenerate.generateMultiplesTeachers(10);
         var mvcResult = mockMvc.perform(get("/secretary/unapproved")
 
                         .header("Authorization", userToken.getToken())
                 ).andExpect(status().isOk())
                 .andReturn();
-        verifyResponseContent(usersUnapproved, mvcResult.getResponse().getContentAsString());
 
+        verifyResponseContent(usersUnapproved, mvcResult.getResponse().getContentAsString(), usersUnapproved.size());
     }
 
-    private void verifyResponseContent(List<UserModel> expectedUsers, String responseContent) throws Exception {
+    private void verifyResponseContent(List<UserModel> expectedUsers, String responseContent, Number quantity) throws Exception {
         List<UserModel> actualUsers = objectMapper.readValue(responseContent, new TypeReference<List<UserModel>>() {
         });
-
+        assertEquals(quantity.intValue(), actualUsers.size());
         for (UserModel expectedUser : expectedUsers) {
             assertAll(
                     () -> assertTrue(actualUsers.stream().anyMatch(actualUser -> actualUser.getId().equals(expectedUser.getId()))),
