@@ -1,5 +1,6 @@
 package com.project.classteacher.application.usecase.login;
 
+import com.project.classteacher.application.exceptions.InvalidPasswordException;
 import com.project.classteacher.application.usecase.user.GetUserByEmail;
 import com.project.classteacher.domain.entity.Token;
 import com.project.classteacher.domain.entity.User;
@@ -14,7 +15,7 @@ public class LoginUser {
 
     public Token execute(String email, String password) {
         User user = getUserByEmail.execute(email);
-        user.verifyPassword(password);
+        if (!user.isValidPassword(password)) throw new InvalidPasswordException(password);
         return Token.encode(user);
     }
 }

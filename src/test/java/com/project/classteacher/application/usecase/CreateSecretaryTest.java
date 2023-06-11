@@ -53,7 +53,7 @@ public class CreateSecretaryTest {
         assertEquals(secretarySaved.getId(), this.DEFAULT_UUID);
         assertEquals(secretarySaved.getName(), "Secretary 1");
         assertEquals(secretarySaved.getEmail(), "secretary1@gmail.com");
-        assertTrue(secretarySaved.verifyPassword("123456"));
+        assertTrue(secretarySaved.isValidPassword("123456"));
     }
 
     @Test

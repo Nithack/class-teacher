@@ -4,6 +4,8 @@ import com.project.classteacher.domain.entity.*;
 import com.project.classteacher.domain.enums.Roles;
 import com.project.classteacher.infra.dataBase.mongoDB.model.UserModel;
 import com.project.classteacher.infra.http.dtos.LoginDTO;
+import com.project.classteacher.infra.http.dtos.TeacherDTO;
+import com.project.classteacher.infra.http.dtos.UserDTO;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -136,10 +138,10 @@ public class TestBuilderUtil {
                 .compact();
     }
 
-    public static LoginDTO createLoginDTO(User user) {
+    public static LoginDTO createLoginDTO(String name, String password) {
         return LoginDTO.builder()
-                .email(user.getEmail())
-                .password(user.getPassword())
+                .email(name)
+                .password(password)
                 .build();
     }
 
@@ -153,5 +155,32 @@ public class TestBuilderUtil {
                 .salt(user.getSalt())
                 .build()
         );
+    }
+
+    public static UserDTO createUserDTO(User user) {
+        return UserDTO.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .build();
+    }
+
+    public static TeacherDTO createTeacherDTO(User user) {
+        return TeacherDTO.builder()
+                .name(user.getName())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .build();
+    }
+
+    public static UserModel createUserModel(User user) {
+        return UserModel.builder()
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .role(user.getRole().toString())
+                .id(user.getId().toString())
+                .name(user.getName())
+                .salt(user.getSalt())
+                .build();
     }
 }

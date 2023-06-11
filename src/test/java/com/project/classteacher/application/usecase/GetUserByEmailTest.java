@@ -54,7 +54,7 @@ public class GetUserByEmailTest {
         assertEquals(teacherSaved.getId(), this.DEFAULT_UUID);
         assertEquals(teacherSaved.getName(), "Teacher 1");
         assertEquals(teacherSaved.getEmail(), "teacher1@gmail.com");
-        assertTrue(teacherSaved.verifyPassword("123456"));
+        assertTrue(teacherSaved.isValidPassword("123456"));
         assertEquals(teacherSaved.getRole(), Roles.TEACHER);
         assertEquals(teacherSaved.getClass(), Teacher.class);
     }
@@ -77,7 +77,7 @@ public class GetUserByEmailTest {
         assertEquals(teacherSaved.getId(), this.DEFAULT_UUID);
         assertEquals(teacherSaved.getName(), "Teacher 1");
         assertEquals(teacherSaved.getEmail(), "teacher1@gmail.com");
-        assertTrue(teacherSaved.verifyPassword("123456"));
+        assertTrue(teacherSaved.isValidPassword("123456"));
         assertEquals(teacherSaved.getRole(), Roles.SECRETARY);
         assertEquals(teacherSaved.getClass(), Secretary.class);
     }

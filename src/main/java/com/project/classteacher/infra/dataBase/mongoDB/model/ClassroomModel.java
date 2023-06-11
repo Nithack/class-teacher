@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.util.Date;
 import java.util.UUID;
@@ -16,7 +15,6 @@ import java.util.UUID;
 @EqualsAndHashCode(of = "id")
 @Builder
 public class ClassroomModel {
-    @MongoId
     @Id
     private String id;
     private String title;

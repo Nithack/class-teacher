@@ -1,9 +1,6 @@
 package com.project.classteacher.infra.http.controller.handler;
 
-import com.project.classteacher.application.exceptions.ClassroomNotFoundException;
-import com.project.classteacher.application.exceptions.InvalidTokenException;
-import com.project.classteacher.application.exceptions.TeacherNotFoundException;
-import com.project.classteacher.application.exceptions.UserNotFoundException;
+import com.project.classteacher.application.exceptions.*;
 import com.project.classteacher.infra.http.dtos.ErrorDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -44,6 +41,24 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorDTO> handleUserNotFoundException(UserNotFoundException exception) {
         ErrorDTO errorDTO = ErrorDTO.builder()
                 .status(404)
+                .message(exception.getMessage())
+                .build();
+        return ResponseEntity.status(errorDTO.getStatus()).body(errorDTO);
+    }
+
+    @ExceptionHandler(InvalidPasswordException.class)
+    public ResponseEntity<ErrorDTO> handleInvalidPasswordException(InvalidPasswordException exception) {
+        ErrorDTO errorDTO = ErrorDTO.builder()
+                .status(401)
+                .message("Invalid login")
+                .build();
+        return ResponseEntity.status(errorDTO.getStatus()).body(errorDTO);
+    }
+
+    @ExceptionHandler(ExistsUserException.class)
+    public ResponseEntity<ErrorDTO> handleExistsUserException(ExistsUserException exception) {
+        ErrorDTO errorDTO = ErrorDTO.builder()
+                .status(409)
                 .message(exception.getMessage())
                 .build();
         return ResponseEntity.status(errorDTO.getStatus()).body(errorDTO);

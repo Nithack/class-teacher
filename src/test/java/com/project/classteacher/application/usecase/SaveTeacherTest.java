@@ -49,7 +49,7 @@ public class SaveTeacherTest {
         assertEquals(teacherSaved.getId(), this.DEFAULT_UUID);
         assertEquals(teacherSaved.getName(), "Teacher 1");
         assertEquals(teacherSaved.getEmail(), "teacher1@gmail.com");
-        assertTrue(teacherSaved.verifyPassword("123456"));
+        assertTrue(teacherSaved.isValidPassword("123456"));
     }
 
     @Test

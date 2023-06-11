@@ -20,7 +20,7 @@ public class User {
     private Roles role;
     private Boolean approved;
 
-    public static UUID generateID(){
+    public static UUID generateID() {
         return UUID.randomUUID();
     }
 
@@ -28,11 +28,11 @@ public class User {
         return password.getValue();
     }
 
-    public Boolean verifyPassword(String password){
+    public Boolean isValidPassword(String password) {
         return this.password.validate(password);
     }
 
-    public String getSalt(){
+    public String getSalt() {
         return password.getSalt();
     }
 }

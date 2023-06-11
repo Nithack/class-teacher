@@ -9,6 +9,7 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=class-teacher
       - MONGO_INITDB_ROOT_PASSWORD=class-teacher
+      - MONGO_INITDB_DATABASE=class-teacher
   mongo-express:
     image: mongo-express
     container_name: mongo_express
@@ -31,5 +32,5 @@ services:
     volumes:
       - redis:/data
 volumes:
-  mongo: {}
-  redis: {}
+  mongo: { }
+  redis: { }

@@ -10,7 +10,7 @@ spring:
       port: 27017
       password: class-teacher
       username: class-teacher
-      database: mydatabase
+      database: class-teacher
       authentication-database: admin
       embedded:
         version: 3.0.1
