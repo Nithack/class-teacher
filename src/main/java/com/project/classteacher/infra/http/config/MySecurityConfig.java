@@ -20,6 +20,8 @@ public class MySecurityConfig {
                 .authorizeHttpRequests(
                         (authorize) -> {
                             authorize.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
+                            authorize.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
+                            authorize.requestMatchers(HttpMethod.POST, "/backoffice/register").permitAll();
                             authorize.anyRequest().authenticated();
                         }
                 )
