@@ -16,13 +16,33 @@ public class MySecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(
+                .csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
                         (authorize) -> {
-                            authorize.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
-                            authorize.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
-                            authorize.requestMatchers(HttpMethod.POST, "/backoffice/register").permitAll();
+
+                            authorize.requestMatchers(
+                                    HttpMethod.POST, "/auth/login").permitAll();
+                            authorize.requestMatchers(
+                                    HttpMethod.POST, "/auth/register").permitAll();
+                            authorize.requestMatchers(
+                                    HttpMethod.POST, "/backoffice/register").permitAll();
+                            authorize.requestMatchers(
+                                    "/v2/api-docs",
+                                    "/v3/api-docs",
+                                    "/v3/api-docs/**",
+                                    "/swagger-resources",
+                                    "/swagger-resources/**",
+                                    "/configuration/ui",
+                                    "/configuration/security",
+                                    "/swagger-ui/**",
+                                    "/swagger-ui/",
+                                    "/webjars/**",
+                                    "/swagger-ui.html"
+                            ).permitAll();
+                            authorize.requestMatchers(
+                                    "/api/v1/auth/**"
+                            ).permitAll();
                             authorize.anyRequest().authenticated();
+
                         }
                 )
                 .formLogin(AbstractHttpConfigurer::disable)
@@ -31,6 +51,4 @@ public class MySecurityConfig {
         http.addFilterBefore(new MySecurityFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
-
 }

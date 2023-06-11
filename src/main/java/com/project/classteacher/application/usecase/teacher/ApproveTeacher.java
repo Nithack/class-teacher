@@ -22,7 +22,9 @@ public class ApproveTeacher {
         if (teacher == null) throw new TeacherNotFoundException(teacherId);
 
         teacher.approve();
+        userPort.save(teacher);
 
-        return userPort.save(teacher);
+        return teacher;
+
     }
 }

@@ -5,9 +5,9 @@ import com.project.classteacher.domain.entity.DecodeToken;
 import com.project.classteacher.domain.entity.Token;
 import com.project.classteacher.infra.http.dtos.ErrorDTO;
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,18 +23,20 @@ public class MySecurityFilter extends OncePerRequestFilter {
     private final Logger logger = LoggerFactory.getLogger(MySecurityFilter.class);
 
     @Override
-    protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         try {
             if (isValidHeader(request)) {
                 Authentication auth = authentication(request.getHeader("Authorization"));
                 SecurityContextHolder.getContext().setAuthentication(auth);
                 request.setAttribute("user", auth.getPrincipal());
             }
-            filterChain.doFilter(request, response);
         } catch (Exception e) {
-            logger.atError().log(e.getMessage());
+            logger.error(e.getMessage(), e);
             authenticationError(response);
+            return;
         }
+
+        filterChain.doFilter(request, response);
     }
 
     private Authentication authentication(String token) {
