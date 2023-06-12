@@ -23,13 +23,13 @@ public class Token {
 
     static String INSURER;
     static String TOKEN_KEY;
-    static String EXPIRATION_TIME;
+    static Integer EXPIRATION_TIME;
 
 
     static {
         INSURER = getProperty("jwt.ensurer", "class-teacher");
         TOKEN_KEY = getProperty("jwt.token_key", "qwertyuiopasdfghjklzxcvbnm123456");
-        EXPIRATION_TIME = getProperty("jwt.expiration_time", "3600000");
+        EXPIRATION_TIME = Integer.parseInt(getProperty("jwt.expiration_time", "3600000"));
     }
 
     private String token;
@@ -42,7 +42,7 @@ public class Token {
                 .claim("email", user.getEmail())
                 .claim("name", user.getName())
                 .claim("role", user.getRole())
-                .setExpiration(new Date(new Date().getTime() + Long.parseLong(EXPIRATION_TIME)))
+                .setExpiration(new Date(new Date().getTime() + EXPIRATION_TIME))
                 .signWith(Keys.hmacShaKeyFor(TOKEN_KEY.getBytes()), SignatureAlgorithm.HS256)
                 .compact();
         return Token.builder().token(token).build();

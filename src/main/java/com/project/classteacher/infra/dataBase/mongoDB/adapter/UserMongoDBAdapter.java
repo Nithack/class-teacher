@@ -59,6 +59,13 @@ public class UserMongoDBAdapter implements UserPort {
     }
 
     @Override
+    public User findByID(UUID id) {
+        UserModel output = this.user.findById(id)
+                .orElse(null);
+        return output == null ? null : output.toDomain();
+    }
+
+    @Override
     public List<User> listByApprovedAndRole(@NotNull Boolean approved, @NotNull Roles role) {
 
         List<UserModel> result = this.user.findAll(Example.of(

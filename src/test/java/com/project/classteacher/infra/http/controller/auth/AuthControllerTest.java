@@ -2,6 +2,7 @@ package com.project.classteacher.infra.http.controller.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.classteacher.config.MyIntegrationConfig;
+import com.project.classteacher.domain.entity.DecodeToken;
 import com.project.classteacher.domain.entity.Token;
 import com.project.classteacher.domain.entity.User;
 import com.project.classteacher.domain.enums.Roles;
@@ -17,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -67,11 +69,9 @@ public class AuthControllerTest extends MyIntegrationConfig {
         UserModel user = mockGenerate.createUser(REFERENCE, Roles.TEACHER, false);
 
         LoginDTO loginDTO = TestBuilderUtil.createLoginDTO(user.getEmail(), "password" + REFERENCE);
-        Token token = TestBuilderUtil.createToken(user.toDomain());
 
         ObjectMapper objectMapper = new ObjectMapper();
         String requestBody = objectMapper.writeValueAsString(loginDTO);
-
 
         var result = mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -81,9 +81,13 @@ public class AuthControllerTest extends MyIntegrationConfig {
                 .getContentAsString();
         String tokenResponse = objectMapper.readTree(result).get("token").asText();
 
-        assertEquals(token.getToken(), tokenResponse);
-
-
+        DecodeToken resultToken = Token.decode(tokenResponse);
+        assertAll(
+                () -> assertEquals(user.getEmail(), resultToken.getEmail()),
+                () -> assertEquals(Roles.valueOf(user.getRole()), resultToken.getRole()),
+                () -> assertEquals(user.getId(), resultToken.getId()),
+                () -> assertEquals(user.getName(), resultToken.getName())
+        );
     }
 
     @Test

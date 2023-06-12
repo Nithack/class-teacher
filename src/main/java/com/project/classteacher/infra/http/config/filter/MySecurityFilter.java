@@ -1,9 +1,11 @@
 package com.project.classteacher.infra.http.config.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.classteacher.application.exceptions.InvalidTokenException;
 import com.project.classteacher.application.port.UserPort;
 import com.project.classteacher.domain.entity.DecodeToken;
 import com.project.classteacher.domain.entity.Token;
+import com.project.classteacher.domain.entity.User;
 import com.project.classteacher.infra.http.dtos.ErrorDTO;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -26,6 +28,7 @@ public class MySecurityFilter extends OncePerRequestFilter {
     private final UserPort userPort;
 
     public MySecurityFilter(UserPort userPort) {
+        super();
         this.userPort = userPort;
     }
 
@@ -49,7 +52,9 @@ public class MySecurityFilter extends OncePerRequestFilter {
 
     private Authentication authentication(String token) {
         DecodeToken userDecoded = Token.decode(token);
-        return new UsernamePasswordAuthenticationToken(userDecoded, null, Collections.emptyList());
+        User user = userPort.findByID(userDecoded.getId());
+        if (user == null) throw new InvalidTokenException(token);
+        return new UsernamePasswordAuthenticationToken(userDecoded, "ROLE_" + user.getRole().toString(), Collections.emptyList());
     }
 
     private void authenticationError(HttpServletResponse response) throws IOException {

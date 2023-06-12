@@ -21,4 +21,6 @@ public interface UserPort {
 
     List<User> listByApprovedAndRole(Boolean approved, Roles role);
 
+    User findByID(UUID id);
+
 }
