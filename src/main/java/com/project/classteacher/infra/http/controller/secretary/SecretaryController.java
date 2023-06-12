@@ -11,6 +11,8 @@ import com.project.classteacher.infra.http.dtos.TeacherOutputDTO;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,12 +33,14 @@ public class SecretaryController {
     final private UpdateClassroomById updateClassroomById;
 
     @GetMapping("/unapproved")
+    @Cacheable("list-unapproved-teachers")
     public ResponseEntity<List<TeacherOutputDTO>> getUnapprovedTeachers() {
         var unapprovedTeachers = listUnapprovedTeachers.execute();
         return ResponseEntity.ok(TeacherOutputDTO.toDTO(unapprovedTeachers));
     }
 
     @PostMapping("/approve/{id}")
+    @CacheEvict(value = {"list-unapproved-teachers", "list-teacher-classrooms"}, allEntries = true)
     public ResponseEntity<TeacherOutputDTO> approveTeacher(
             @PathVariable("id") UUID id
     ) {
@@ -45,6 +49,7 @@ public class SecretaryController {
     }
 
     @PostMapping("/classroom")
+    @CacheEvict("list-teacher-classrooms")
     public ResponseEntity<ClassroomOutputDTO> createClassroom(
             @RequestBody CreateClassroomDTO createClassroomDTO
     ) throws ParseException {
@@ -53,6 +58,7 @@ public class SecretaryController {
     }
 
     @PutMapping("/classroom/{id}")
+    @CacheEvict("list-teacher-classrooms")
     public ResponseEntity<ClassroomOutputDTO> updateClassroomById(
             @RequestBody @Valid ClassroomUpdateDTO createClassroomDTO,
             @PathVariable("id") UUID id

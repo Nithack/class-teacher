@@ -6,6 +6,7 @@ import com.project.classteacher.domain.entity.DecodeToken;
 import com.project.classteacher.infra.http.dtos.ClassroomOutputDTO;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,7 @@ public class TeacherController {
     private final ListClassroomByTeacherID listClassroomByTeacherID;
 
     @GetMapping("/classroom")
+    @Cacheable("list-teacher-classrooms")
     public ResponseEntity<List<ClassroomOutputDTO>> getTeacherClassroom(@AuthenticationPrincipal DecodeToken userDetails) {
 
         List<Classroom> classrooms = listClassroomByTeacherID.execute(userDetails.getId());

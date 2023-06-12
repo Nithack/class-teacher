@@ -6,24 +6,22 @@ import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.Calendar;
-import java.util.Date;
-
-import static org.mockito.Mockito.when;
+import java.util.Objects;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@EnableCaching()
 public class MyIntegrationConfig {
-    private final String DEFAULT_DATE = "2021-01-01";
     @Autowired
     private UserMongoDBRepository userMongoDBRepository;
-    @MockBean
-    private Date date;
 
+    @Autowired
+    private CacheManager cacheManager;
     @Autowired
     private ClassroomMongoDBRepository classroomMongoDBRepository;
 
@@ -32,11 +30,9 @@ public class MyIntegrationConfig {
     public void setUp() {
         userMongoDBRepository.deleteAll();
         classroomMongoDBRepository.deleteAll();
-        Calendar cal = Calendar.getInstance();
-        cal.set(2023, Calendar.FEBRUARY, 20, 12, 20, 0);
-        when(date.getTime()).thenReturn(
-                cal.getTime().getTime()
-        );
+        for (String name : cacheManager.getCacheNames()) {
+            Objects.requireNonNull(cacheManager.getCache(name)).clear();
+        }
     }
 
 }

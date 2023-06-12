@@ -1,4 +1,6 @@
 spring:
+  cache:
+    type: NONE
   devtools:
     livereload:
       enabled: true

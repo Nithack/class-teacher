@@ -9,6 +9,7 @@ import com.project.classteacher.infra.http.dtos.LoginDTO;
 import com.project.classteacher.infra.http.dtos.RegisteredUserDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,6 +36,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
+    @CacheEvict("list-unapproved-teachers")
     public ResponseEntity<RegisteredUserDTO> register(
             @RequestBody @Valid CreateTeacherDTO teacherDTO
     ) {
