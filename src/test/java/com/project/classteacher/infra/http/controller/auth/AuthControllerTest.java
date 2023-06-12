@@ -13,15 +13,11 @@ import com.project.classteacher.util.mock.MockGenerate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.Date;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -33,10 +29,6 @@ public class AuthControllerTest extends MyIntegrationConfig {
 
     @Autowired
     private MockGenerate mockGenerate;
-    @MockBean
-    private Date mockedDate;
-
-    // Defina o que o método getTime() deve retornar
 
 
     @Test
@@ -69,7 +61,7 @@ public class AuthControllerTest extends MyIntegrationConfig {
     @Test
     @DisplayName("Should return 200 when providing valid email and password to login")
     void should_return_200_when_providing_valid_email_and_password_to_login() throws Exception {
-        when(mockedDate.getTime()).thenReturn(1623435600000L);
+
         String REFERENCE = "REFERENCE";
 
         UserModel user = mockGenerate.createUser(REFERENCE, Roles.TEACHER, false);

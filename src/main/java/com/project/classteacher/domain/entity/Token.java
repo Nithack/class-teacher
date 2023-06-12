@@ -42,7 +42,7 @@ public class Token {
                 .claim("email", user.getEmail())
                 .claim("name", user.getName())
                 .claim("role", user.getRole())
-                .setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(EXPIRATION_TIME)))
+                .setExpiration(new Date(new Date().getTime() + Long.parseLong(EXPIRATION_TIME)))
                 .signWith(Keys.hmacShaKeyFor(TOKEN_KEY.getBytes()), SignatureAlgorithm.HS256)
                 .compact();
         return Token.builder().token(token).build();
