@@ -64,6 +64,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(errorDTO.getStatus()).body(errorDTO);
     }
 
+    @ExceptionHandler(TeacherNotApprovedException.class)
+    public ResponseEntity<ErrorDTO> handleTeacherNotApprovedException(TeacherNotApprovedException exception) {
+        ErrorDTO errorDTO = ErrorDTO.builder()
+                .status(401)
+                .message(exception.getMessage())
+                .build();
+        return ResponseEntity.status(errorDTO.getStatus()).body(errorDTO);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDTO> handleException(Exception exception) {
         ErrorDTO errorDTO = ErrorDTO.builder()

@@ -66,7 +66,7 @@ public class AuthControllerTest extends MyIntegrationConfig {
 
         String REFERENCE = "REFERENCE";
 
-        UserModel user = mockGenerate.createUser(REFERENCE, Roles.TEACHER, false);
+        UserModel user = mockGenerate.createUser(REFERENCE, Roles.TEACHER, true);
 
         LoginDTO loginDTO = TestBuilderUtil.createLoginDTO(user.getEmail(), "password" + REFERENCE);
 
@@ -88,6 +88,26 @@ public class AuthControllerTest extends MyIntegrationConfig {
                 () -> assertEquals(user.getId(), resultToken.getId()),
                 () -> assertEquals(user.getName(), resultToken.getName())
         );
+    }
+
+    @Test
+    @DisplayName("Should return 401 when login with teacher not approved")
+    void should_return_401_when_teacher_is_not_approved() throws Exception {
+
+        String REFERENCE = "REFERENCE";
+
+        UserModel user = mockGenerate.createUser(REFERENCE, Roles.TEACHER, false);
+
+        LoginDTO loginDTO = TestBuilderUtil.createLoginDTO(user.getEmail(), "password" + REFERENCE);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = objectMapper.writeValueAsString(loginDTO);
+
+        mockMvc.perform(post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isUnauthorized());
+
     }
 
     @Test

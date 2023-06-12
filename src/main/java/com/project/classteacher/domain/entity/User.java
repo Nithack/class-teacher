@@ -32,6 +32,10 @@ public class User {
         return this.password.validate(password);
     }
 
+    public Boolean isApproved() {
+        return this.approved;
+    }
+
     public String getSalt() {
         return password.getSalt();
     }

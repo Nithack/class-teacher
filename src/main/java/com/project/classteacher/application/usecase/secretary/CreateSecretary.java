@@ -12,6 +12,10 @@ public class CreateSecretary {
     private final UserPort userPort;
 
     public Secretary execute(Secretary secretary) {
+        var secretaryResult = userPort.getByEmail(secretary.getEmail());
+        if (secretaryResult != null) {
+            secretaryResult.setId(secretary.getId());
+        }
         return this.userPort.save(secretary);
     }
 }

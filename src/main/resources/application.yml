@@ -17,6 +17,9 @@ basic:
   salt: class-teacher
   server:
     port: 8081
+manager:
+  SECRETARY_USER: andrey
+  SECRETARY_PASSWORD: andrey
 
 jwt:
   expiration: 604800000
