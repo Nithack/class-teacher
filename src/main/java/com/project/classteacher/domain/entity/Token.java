@@ -27,9 +27,9 @@ public class Token {
 
 
     static {
-        INSURER = getProperty("jwt.ensurer", "class-teacher");
-        TOKEN_KEY = getProperty("jwt.token_key", "qwertyuiopasdfghjklzxcvbnm123456");
-        EXPIRATION_TIME = Integer.parseInt(getProperty("jwt.expiration_time", "3600000"));
+        INSURER = getProperty("INSURER", "class-teacher");
+        TOKEN_KEY = getProperty("TOKEN_KEY", "qwertyuiopasdfghjklzxcvbnm123456");
+        EXPIRATION_TIME = Integer.parseInt(getProperty("EXPIRATION_TIME", "3600000"));
     }
 
     private String token;

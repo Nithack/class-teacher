@@ -8,7 +8,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.Nullable;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
 import java.util.Optional;
@@ -19,14 +18,13 @@ import static java.lang.System.getProperty;
 
 public class TestBuilderUtil {
 
-    @Value("${basic.salt:salt}")
     static final String DEFAULT_SALT = "salt";
     static final String INSURER;
     static final String TOKEN_KEY;
 
     static {
-        INSURER = getProperty("jwt.ensurer", "class-teacher");
-        TOKEN_KEY = getProperty("jwt.token_key", "qwertyuiopasdfghjklzxcvbnm123456");
+        INSURER = getProperty("INSURER", "class-teacher");
+        TOKEN_KEY = getProperty("TOKEN_KEY", "qwertyuiopasdfghjklzxcvbnm123456");
     }
 
     public static Teacher generateTeacher() {
