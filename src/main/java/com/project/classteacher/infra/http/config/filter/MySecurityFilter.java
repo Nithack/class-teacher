@@ -32,7 +32,7 @@ public class MySecurityFilter extends OncePerRequestFilter {
                 request.setAttribute("user", auth.getPrincipal());
             }
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+            logger.error(e.getMessage());
             authenticationError(response);
             return;
         }

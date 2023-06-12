@@ -20,12 +20,14 @@ public class UpdateClassroomById {
     private final UserPort userPort;
 
     public Classroom execute(UUID id, Classroom inputClassroom) {
+        var classroom = this.classroomPort.getByID(id);
 
-        this.validateClassroom(id);
+        this.validateClassroom(id, classroom);
         this.validateTeacher(inputClassroom.getTeacherId());
 
-        inputClassroom.setId(id);
-        return this.classroomPort.save(inputClassroom);
+        var updatedClassroom = this.updateClassroom(inputClassroom, classroom);
+
+        return this.classroomPort.save(updatedClassroom);
     }
 
     private void validateTeacher(UUID teacherId) {
@@ -36,8 +38,15 @@ public class UpdateClassroomById {
         }
     }
 
-    private void validateClassroom(UUID classroomId) {
-        var classroom = this.classroomPort.getByID(classroomId);
-        if (classroom == null) throw new ClassroomNotFoundException(classroomId);
+    private void validateClassroom(UUID id, Classroom classroom) {
+        if (classroom == null) throw new ClassroomNotFoundException(id);
+    }
+
+    private Classroom updateClassroom(Classroom inputClassroom, Classroom classroom) {
+        if (inputClassroom.getTitle() != null) classroom.setTitle(inputClassroom.getTitle());
+        if (inputClassroom.getTeacherId() != null) classroom.setTeacherId(inputClassroom.getTeacherId());
+        if (inputClassroom.getDescription() != null) classroom.setDescription(inputClassroom.getDescription());
+        if (inputClassroom.getDayDate() != null) classroom.setDayDate(inputClassroom.getDayDate());
+        return classroom;
     }
 }

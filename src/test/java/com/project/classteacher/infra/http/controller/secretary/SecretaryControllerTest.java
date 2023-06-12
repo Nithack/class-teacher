@@ -183,9 +183,9 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
         assertAll("Verify updated classroom",
                 () -> assertEquals(classroomDTO.getTitle(), updatedClassroom.getTitle()),
                 () -> assertEquals(classroomDTO.getDescription(), updatedClassroom.getDescription()),
-                () -> assertEquals(classroomDTO.getTeacherId(), updatedClassroom.getTeacherId())
+                () -> assertEquals(classroomDTO.getTeacherId(), updatedClassroom.getTeacherId()),
+                () -> assertNotNull(updatedClassroom.getDayDate())
         );
-
     }
 
     private void verifyResponseContent(List<UserModel> expectedUsers, String responseContent, Number quantity) throws Exception {
