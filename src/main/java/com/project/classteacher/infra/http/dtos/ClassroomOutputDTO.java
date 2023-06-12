@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -26,5 +27,11 @@ public class ClassroomOutputDTO {
                 .dayDate(classroom.getDayDate())
                 .teacherId(classroom.getTeacherId())
                 .build();
+    }
+
+    public static List<ClassroomOutputDTO> toDTOList(List<Classroom> classrooms) {
+        return classrooms.stream()
+                .map(ClassroomOutputDTO::toDTO)
+                .toList();
     }
 }

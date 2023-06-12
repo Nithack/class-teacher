@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
                         url = "https://github.com/Nithack"
                 ),
                 title = "Class Teacher API",
-                description = "API for Teachers monitor their classroom information",
+                description = "API for Teachers monitor teacher and classroom information",
                 version = "1.0.0",
                 license = @io.swagger.v3.oas.annotations.info.License(
                         name = "MIT Licence",

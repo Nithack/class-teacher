@@ -1,6 +1,5 @@
 package com.project.classteacher.application.usecase.teacher;
 
-import com.project.classteacher.application.exceptions.TeacherNotFoundException;
 import com.project.classteacher.application.factory.UserFactory;
 import com.project.classteacher.application.port.UserPort;
 import com.project.classteacher.domain.entity.Teacher;
@@ -22,9 +21,8 @@ public class ListUnapprovedTeachers {
 
         List<User> unapprovedTeachers = userPort.listByApprovedAndRole(false, Roles.TEACHER);
 
-        if (unapprovedTeachers.isEmpty()) throw new TeacherNotFoundException("No unapproved teachers found");
-
         List<Teacher> output = new ArrayList<>();
+
         unapprovedTeachers.forEach(teacher -> output.add(
                 (Teacher) UserFactory.buildExistingUser(
                         teacher.getId(),
@@ -33,9 +31,9 @@ public class ListUnapprovedTeachers {
                         teacher.getPassword(),
                         teacher.getRole(),
                         teacher.getSalt(),
-                        teacher.getApproved().toString()
+                        teacher.getApproved()
                 )));
-        return output;
+        return output.isEmpty() ? null : output;
     }
 
 }

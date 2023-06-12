@@ -1,12 +1,10 @@
 package com.project.classteacher.application.usecase;
 
-import com.project.classteacher.application.exceptions.TeacherNotFoundException;
 import com.project.classteacher.application.port.UserPort;
 import com.project.classteacher.application.usecase.teacher.ListUnapprovedTeachers;
 import com.project.classteacher.domain.entity.Teacher;
 import com.project.classteacher.domain.enums.Roles;
 import com.project.classteacher.util.builder.TestBuilderUtil;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,8 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("List Classroom By Teacher ID Test")
 @SpringBootTest(classes = ListUnapprovedTeachers.class)
@@ -43,7 +40,7 @@ final class ListUnapprovedTeachersTest {
         var teacherUnapprovedOne = TestBuilderUtil.generateTeacher();
         var teacherUnapprovedTwo = TestBuilderUtil.generateTeacher();
 
-        Mockito.when(userPort.listByApprovedAndRole(false, Roles.TEACHER)).thenReturn(List.of(new Teacher[]{teacherUnapprovedOne, teacherUnapprovedTwo}));
+        Mockito.when(userPort.listByApprovedAndRole(false, Roles.TEACHER)).thenReturn(List.of(teacherUnapprovedOne, teacherUnapprovedTwo));
 
         var unapprovedTeachers = listUnapprovedTeachers.execute();
 
@@ -54,12 +51,12 @@ final class ListUnapprovedTeachersTest {
     }
 
     @Test()
-    @DisplayName("should be throw exception when teacher not found")
-    public void should_be_throw_exception_when_teacher_not_found() {
+    @DisplayName("should return null when teachers not found")
+    public void should_return_null_when_teacher_not_found() {
 
         Mockito.when(userPort.findTeacherById(this.DEFAULT_UUID)).thenReturn(null);
 
-        Assertions.assertThrows(TeacherNotFoundException.class, () -> listUnapprovedTeachers.execute());
+        assertNull(listUnapprovedTeachers.execute());
     }
 
     private void assertTeacher(Teacher teacher, Teacher teacherExpected) {

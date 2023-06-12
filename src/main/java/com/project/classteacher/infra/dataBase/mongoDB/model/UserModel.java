@@ -46,7 +46,7 @@ public class UserModel {
                 this.password,
                 Roles.valueOf(this.role),
                 this.salt,
-                String.valueOf(this.approved)
+                this.approved
         );
     }
 

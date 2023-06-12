@@ -5,7 +5,7 @@ import java.util.UUID;
 public class TeacherNotFoundException extends RuntimeException {
 
     public TeacherNotFoundException(UUID id) {
-        super("teacher not found for id: " + id);
+        super("Teacher not found for id: " + id);
     }
 
     public TeacherNotFoundException(String message) {

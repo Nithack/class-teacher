@@ -92,10 +92,10 @@ public class AuthControllerTest extends MyIntegrationConfig {
 
         User user = TestBuilderUtil.generateUser();
 
-        CreateTeacherDTO teacherTDT = TestBuilderUtil.createTeacherDTO(user);
+        CreateTeacherDTO DTO = TestBuilderUtil.createTeacherDTO(user);
 
         ObjectMapper objectMapper = new ObjectMapper();
-        String requestBody = objectMapper.writeValueAsString(teacherTDT);
+        String requestBody = objectMapper.writeValueAsString(DTO);
 
         mockMvc.perform(
                         post("/auth/register")
@@ -118,7 +118,7 @@ public class AuthControllerTest extends MyIntegrationConfig {
     @DisplayName("Should exception because user already exists")
     void should_exception_because_user_already_exists() throws Exception {
 
-        UserModel user = mockGenerate.createUser("teacher", Roles.TEACHER, false);
+        UserModel user = mockGenerate.createUser("teacher", Roles.TEACHER, true);
         CreateTeacherDTO teacherTDT = TestBuilderUtil.createTeacherDTO(user.toDomain());
 
         ObjectMapper objectMapper = new ObjectMapper();

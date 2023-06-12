@@ -1,8 +1,10 @@
 package com.project.classteacher.application.usecase.classroom;
 
 import com.project.classteacher.application.exceptions.ClassroomNotFoundException;
+import com.project.classteacher.application.exceptions.TeacherNotApprovedException;
+import com.project.classteacher.application.exceptions.TeacherNotFoundException;
 import com.project.classteacher.application.port.ClassroomPort;
-import com.project.classteacher.application.util.mapper.ClassroomMapper;
+import com.project.classteacher.application.port.UserPort;
 import com.project.classteacher.domain.entity.Classroom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,19 +17,27 @@ public class UpdateClassroomById {
 
 
     private final ClassroomPort classroomPort;
+    private final UserPort userPort;
 
     public Classroom execute(UUID id, Classroom inputClassroom) {
 
-        var teacher = this.classroomPort.getByID(inputClassroom.getId());
-        var classroom = this.classroomPort.getByID(id);
+        this.validateClassroom(id);
+        this.validateTeacher(inputClassroom.getTeacherId());
 
-        if (classroom == null) {
-            throw new ClassroomNotFoundException(inputClassroom.getId());
+        inputClassroom.setId(id);
+        return this.classroomPort.save(inputClassroom);
+    }
+
+    private void validateTeacher(UUID teacherId) {
+        if (teacherId != null) {
+            var teacher = this.userPort.findTeacherById(teacherId);
+            if (teacher == null) throw new TeacherNotFoundException(teacherId);
+            if (!teacher.isApproved()) throw new TeacherNotApprovedException(teacherId);
         }
+    }
 
-        ClassroomMapper.INSTANCE.updateClassroom(classroom, inputClassroom);
-
-        return this.classroomPort.save(classroom);
-
+    private void validateClassroom(UUID classroomId) {
+        var classroom = this.classroomPort.getByID(classroomId);
+        if (classroom == null) throw new ClassroomNotFoundException(classroomId);
     }
 }

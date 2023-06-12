@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -67,7 +68,7 @@ public class UserMongoDBAdapter implements UserPort {
                         .build()
         ));
 
-        if (result.isEmpty()) return null;
+        if (result.isEmpty()) return Collections.emptyList();
 
         return result.stream()
                 .map(UserModel::toDomain)

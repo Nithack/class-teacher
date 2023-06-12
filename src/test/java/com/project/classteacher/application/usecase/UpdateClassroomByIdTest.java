@@ -42,7 +42,7 @@ final class UpdateClassroomByIdTest {
     @DisplayName("should be list all classroom by teacher id")
     public void should_be_list_all_classroom_by_teacher_id() {
 
-        var teacher = TestBuilderUtil.generateTeacher();
+        var teacher = TestBuilderUtil.generateApprovedTeacher();
         var classroomLiterature = TestBuilderUtil.createClassroom(
                 this.DEFAULT_UUID,
                 "Literatura",
@@ -57,9 +57,19 @@ final class UpdateClassroomByIdTest {
                 new Date(),
                 null
         );
+
+        var classroomSavedMock = TestBuilderUtil.createClassroom(
+                classroomLiterature.getId(),
+                classroomLiterature.getTitle(),
+                inputChanges.getDescription(),
+                inputChanges.getDayDate(),
+                classroomLiterature.getTeacherId()
+        );
         Mockito.when(userPort.findTeacherById(teacher.getId())).thenReturn(teacher);
         Mockito.when(classroomPort.getByID(classroomLiterature.getId())).thenReturn(classroomLiterature);
-        Mockito.when(classroomPort.save(Mockito.any(Classroom.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        Mockito.when(classroomPort.save(Mockito.any(Classroom.class))).thenAnswer(invocation -> classroomSavedMock);
+
+        
         var classroomSaved = updateClassroomById.execute(classroomLiterature.getId(), inputChanges);
 
         assertEquals(classroomSaved.getId(), classroomLiterature.getId());

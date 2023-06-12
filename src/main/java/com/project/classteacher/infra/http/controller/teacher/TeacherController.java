@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -26,9 +27,10 @@ public class TeacherController {
     public ResponseEntity<List<ClassroomOutputDTO>> getTeacherClassroom(@AuthenticationPrincipal DecodeToken userDetails) {
 
         List<Classroom> classrooms = listClassroomByTeacherID.execute(userDetails.getId());
-        List<ClassroomOutputDTO> classroomDTOs = classrooms.stream()
+
+        List<ClassroomOutputDTO> classroomDTOs = classrooms != null ? classrooms.stream()
                 .map(ClassroomOutputDTO::toDTO)
-                .toList();
+                .toList() : Collections.emptyList();
 
         return ResponseEntity.ok(classroomDTOs);
     }

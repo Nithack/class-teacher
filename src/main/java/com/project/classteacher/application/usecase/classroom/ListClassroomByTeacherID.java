@@ -20,9 +20,7 @@ public final class ListClassroomByTeacherID {
 
     public List<Classroom> execute(UUID teacherId) {
         var teacher = this.userPort.findTeacherById(teacherId);
-        if (teacher == null) {
-            throw new TeacherNotFoundException(teacherId);
-        }
+        if (teacher == null) throw new TeacherNotFoundException(teacherId);
         return this.classroomPort.listByTeacherId(teacherId);
     }
 

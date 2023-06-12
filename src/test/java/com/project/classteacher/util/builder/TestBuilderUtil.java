@@ -39,6 +39,16 @@ public class TestBuilderUtil {
         );
     }
 
+    public static Teacher generateApprovedTeacher() {
+        return createTeacher(
+                generateId(),
+                "Secretary 1",
+                "secretary1@gmail.com",
+                "123456",
+                Boolean.valueOf(ThreadLocalRandom.current().nextBoolean() ? "true" : "false")
+        );
+    }
+
     public static Teacher generateUnapprovedTeacher() {
         return createTeacher(
                 generateId(),

@@ -156,19 +156,20 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
 
         ClassroomModel classroom = mockGenerate.createClassroom(teacher.getId());
 
+        var teacherFromUpdate = mockGenerate.createUser("teacher", Roles.TEACHER, true);
+
         Token teacherToken = Token.encode(teacher.toDomain());
 
         ClassroomUpdateDTO classroomDTO = TestBuilderUtil
                 .createClassroomUpdateDTO(
                         "Designer of Software",
                         "This is a Designer of Software class",
-                        TestBuilderUtil.generateId(),
+                        teacherFromUpdate.getId(),
                         null
                 );
 
         String requestBodyUpdate = objectMapper.writeValueAsString(classroomDTO);
 
-        assert classroomDTO.getTeacherId() != null;
         var responseContent = mockMvc.perform(put("/secretary/classroom/" + classroom.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBodyUpdate)
@@ -182,13 +183,13 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
         assertAll("Verify updated classroom",
                 () -> assertEquals(classroomDTO.getTitle(), updatedClassroom.getTitle()),
                 () -> assertEquals(classroomDTO.getDescription(), updatedClassroom.getDescription()),
-                () -> assertEquals(classroomDTO.getTeacherId().toString(), updatedClassroom.getTeacherId().toString())
+                () -> assertEquals(classroomDTO.getTeacherId(), updatedClassroom.getTeacherId())
         );
 
     }
 
     private void verifyResponseContent(List<UserModel> expectedUsers, String responseContent, Number quantity) throws Exception {
-        List<UserModel> actualUsers = objectMapper.readValue(responseContent, new TypeReference<>() {
+        List<UserModel> actualUsers = objectMapper.readValue(responseContent, new TypeReference<List<UserModel>>() {
         });
         assertEquals(quantity.intValue(), actualUsers.size());
         for (UserModel expectedUser : expectedUsers) {

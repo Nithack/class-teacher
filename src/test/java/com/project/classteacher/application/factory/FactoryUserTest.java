@@ -1,11 +1,12 @@
 package com.project.classteacher.application.factory;
 
+import com.project.classteacher.domain.entity.Secretary;
 import com.project.classteacher.domain.entity.Teacher;
 import com.project.classteacher.domain.enums.Roles;
-import com.project.classteacher.domain.entity.Secretary;
 import com.project.classteacher.util.builder.TestBuilderUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -16,7 +17,7 @@ public class FactoryUserTest {
     @DisplayName("Should be created new secretary")
     public void should_be_created_new_secretary() {
 
-        var  secretary = UserFactory.createUser(null, "Secretary", "Secretary@gmail.com", "123456", Roles.SECRETARY);
+        var secretary = UserFactory.createUser(null, "Secretary", "Secretary@gmail.com", "123456", Roles.SECRETARY);
 
         assertEquals(secretary.getRole(), Roles.valueOf("SECRETARY"));
         assertEquals(secretary.getClass(), Secretary.class);
@@ -26,7 +27,7 @@ public class FactoryUserTest {
     @DisplayName("Should be created new teacher")
     public void should_be_created_new_teacher() {
 
-        var  teacher = UserFactory.createUser(null,"Teacher", "teacher@gmail.com", "123456", Roles.TEACHER);
+        var teacher = UserFactory.createUser(null, "Teacher", "teacher@gmail.com", "123456", Roles.TEACHER);
 
         assertEquals(teacher.getRole(), Roles.valueOf("TEACHER"));
         assertEquals(teacher.getClass(), Teacher.class);
@@ -44,7 +45,7 @@ public class FactoryUserTest {
                 "123456",
                 Roles.TEACHER,
                 "123456",
-                "false"
+                false
         );
 
         assertEquals(teacher.getRole(), Roles.valueOf("TEACHER"));
@@ -57,7 +58,7 @@ public class FactoryUserTest {
                 "123456",
                 Roles.SECRETARY,
                 "123456",
-                "false"
+                false
         );
         assertEquals(secretary.getRole(), Roles.valueOf("SECRETARY"));
         assertEquals(secretary.getClass(), Secretary.class);
