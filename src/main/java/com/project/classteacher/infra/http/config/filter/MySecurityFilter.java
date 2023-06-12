@@ -15,14 +15,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 
 public class MySecurityFilter extends OncePerRequestFilter {
-
     private final Logger logger = LoggerFactory.getLogger(MySecurityFilter.class);
 
     private final UserPort userPort;
@@ -35,6 +36,7 @@ public class MySecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         String BEARER_PREFIX = "Bearer ";
+
         try {
             if (isValidHeader(request)) {
                 Authentication auth = authentication(request.getHeader("Authorization").replace(BEARER_PREFIX, ""));
@@ -51,10 +53,12 @@ public class MySecurityFilter extends OncePerRequestFilter {
     }
 
     private Authentication authentication(String token) {
+        String ROLE_PREFIX = "ROLE_";
         DecodeToken userDecoded = Token.decode(token);
         User user = userPort.findByID(userDecoded.getId());
         if (user == null) throw new InvalidTokenException(token);
-        return new UsernamePasswordAuthenticationToken(userDecoded, "ROLE_" + user.getRole().toString(), Collections.emptyList());
+        GrantedAuthority authority = () -> ROLE_PREFIX + user.getRole();
+        return new UsernamePasswordAuthenticationToken(userDecoded, ROLE_PREFIX + user.getRole(), new ArrayList<>(Collections.singleton(authority)));
     }
 
     private void authenticationError(HttpServletResponse response) throws IOException {

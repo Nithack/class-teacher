@@ -33,7 +33,7 @@ public class ListUnapprovedTeachers {
                         teacher.getSalt(),
                         teacher.getApproved()
                 )));
-        return output.isEmpty() ? null : output;
+        return output;
     }
 
 }

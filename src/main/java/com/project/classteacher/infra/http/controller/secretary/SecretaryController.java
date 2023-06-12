@@ -4,8 +4,6 @@ import com.project.classteacher.application.usecase.classroom.CreateClassroom;
 import com.project.classteacher.application.usecase.classroom.UpdateClassroomById;
 import com.project.classteacher.application.usecase.teacher.ApproveTeacher;
 import com.project.classteacher.application.usecase.teacher.ListUnapprovedTeachers;
-import com.project.classteacher.domain.entity.Classroom;
-import com.project.classteacher.domain.entity.Teacher;
 import com.project.classteacher.infra.http.dtos.ClassroomOutputDTO;
 import com.project.classteacher.infra.http.dtos.ClassroomUpdateDTO;
 import com.project.classteacher.infra.http.dtos.CreateClassroomDTO;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/secretary")
@@ -35,19 +32,15 @@ public class SecretaryController {
 
     @GetMapping("/unapproved")
     public ResponseEntity<List<TeacherOutputDTO>> getUnapprovedTeachers() {
-        List<TeacherOutputDTO> unapprovedTeachers = listUnapprovedTeachers.execute()
-                .stream()
-                .map(TeacherOutputDTO::toDTO)
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(unapprovedTeachers);
+        var unapprovedTeachers = listUnapprovedTeachers.execute();
+        return ResponseEntity.ok(TeacherOutputDTO.toDTO(unapprovedTeachers));
     }
 
     @PostMapping("/approve/{id}")
     public ResponseEntity<TeacherOutputDTO> approveTeacher(
             @PathVariable("id") UUID id
     ) {
-        Teacher teacherApproved = approveTeacher.execute(id);
+        var teacherApproved = approveTeacher.execute(id);
         return ResponseEntity.ok(TeacherOutputDTO.toDTO(teacherApproved));
     }
 
@@ -55,8 +48,7 @@ public class SecretaryController {
     public ResponseEntity<ClassroomOutputDTO> createClassroom(
             @RequestBody CreateClassroomDTO createClassroomDTO
     ) throws ParseException {
-        Classroom classroom = createClassroomDTO.toDomain();
-        Classroom classroomCreated = createClassroom.execute(classroom);
+        var classroomCreated = createClassroom.execute(createClassroomDTO.toDomain());
         return ResponseEntity.ok(ClassroomOutputDTO.toDTO(classroomCreated));
     }
 
@@ -65,7 +57,7 @@ public class SecretaryController {
             @RequestBody @Valid ClassroomUpdateDTO createClassroomDTO,
             @PathVariable("id") UUID id
     ) throws ParseException {
-        Classroom classroomUpdated = updateClassroomById.execute(id, createClassroomDTO.toDomain());
+        var classroomUpdated = updateClassroomById.execute(id, createClassroomDTO.toDomain());
         return ResponseEntity.ok(ClassroomOutputDTO.toDTO(classroomUpdated));
     }
 

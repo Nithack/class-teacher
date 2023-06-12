@@ -24,30 +24,38 @@ public class MySecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
                         (authorize) -> {
-
-                            authorize.requestMatchers(
-                                    HttpMethod.POST, "/auth/login").permitAll();
-                            authorize.requestMatchers(
-                                    HttpMethod.POST, "/auth/register").permitAll();
-                            authorize.requestMatchers(
-                                    HttpMethod.POST, "/backoffice/register").permitAll();
-                            authorize.requestMatchers(
-                                    "/v2/api-docs",
-                                    "/v3/api-docs",
-                                    "/v3/api-docs/**",
-                                    "/swagger-resources",
-                                    "/swagger-resources/**",
-                                    "/configuration/ui",
-                                    "/configuration/security",
-                                    "/swagger-ui/**",
-                                    "/swagger-ui/",
-                                    "/webjars/**",
-                                    "/swagger-ui.html"
-                            ).permitAll();
-                            authorize.requestMatchers(
-                                    "/api/v1/auth/**"
-                            ).permitAll();
-                            authorize.anyRequest().authenticated();
+                            authorize
+                                    .requestMatchers(
+                                            HttpMethod.POST,
+                                            "/auth/login"
+                                    ).permitAll()
+                                    .requestMatchers(
+                                            HttpMethod.POST,
+                                            "/auth/register"
+                                    ).permitAll()
+                                    .requestMatchers(
+                                            "/secretary/**"
+                                    ).hasRole("SECRETARY")
+                                    .requestMatchers(
+                                            "/teacher/**"
+                                    ).hasRole("TEACHER")
+                                    .requestMatchers(
+                                            "/v2/api-docs",
+                                            "/v3/api-docs",
+                                            "/v3/api-docs/**",
+                                            "/swagger-resources",
+                                            "/swagger-resources/**",
+                                            "/configuration/ui",
+                                            "/configuration/security",
+                                            "/swagger-ui/**",
+                                            "/swagger-ui/",
+                                            "/webjars/**",
+                                            "/swagger-ui.html"
+                                    ).permitAll()
+                                    .requestMatchers(
+                                            "/api/v1/auth/**"
+                                    ).permitAll()
+                                    .anyRequest().authenticated();
 
                         }
                 )

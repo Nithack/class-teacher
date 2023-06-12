@@ -56,7 +56,7 @@ final class ListUnapprovedTeachersTest {
 
         Mockito.when(userPort.findTeacherById(this.DEFAULT_UUID)).thenReturn(null);
 
-        assertNull(listUnapprovedTeachers.execute());
+        assertTrue(listUnapprovedTeachers.execute().isEmpty());
     }
 
     private void assertTeacher(Teacher teacher, Teacher teacherExpected) {

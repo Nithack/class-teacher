@@ -68,6 +68,18 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
     }
 
     @Test
+    @DisplayName("Should be return 403 when not have permission")
+    public void should_ne_return_403_when_not_have_permission() throws Exception {
+        UserModel teacher = mockGenerate.createUser("teacher", Roles.TEACHER, true);
+        Token teacherToken = Token.encode(teacher.toDomain());
+        mockMvc.perform(get("/secretary/unapproved")
+
+                        .header("Authorization", teacherToken.getToken())
+                ).andExpect(status().isForbidden())
+                .andReturn();
+    }
+
+    @Test
     @DisplayName("Should be list unapproved teacher")
     public void should_be_list_unapproved_teacher() throws Exception {
 
@@ -79,11 +91,11 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
                 .toList();
 
         UserModel secretary = mockGenerate.createUser("secretary", Roles.SECRETARY, true);
-        Token userToken = Token.encode(secretary.toDomain());
+        Token secretaryToken = Token.encode(secretary.toDomain());
 
         var mvcResult = mockMvc.perform(get("/secretary/unapproved")
 
-                        .header("Authorization", userToken.getToken())
+                        .header("Authorization", secretaryToken.getToken())
                 ).andExpect(status().isOk())
                 .andReturn();
 
@@ -154,11 +166,13 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
 
         UserModel teacher = mockGenerate.createUser("teacher", Roles.TEACHER, true);
 
+        UserModel secretary = mockGenerate.createUser("secretary", Roles.SECRETARY, true);
+
         ClassroomModel classroom = mockGenerate.createClassroom(teacher.getId());
 
         var teacherFromUpdate = mockGenerate.createUser("teacher", Roles.TEACHER, true);
 
-        Token teacherToken = Token.encode(teacher.toDomain());
+        Token secretaryToken = Token.encode(secretary.toDomain());
 
         ClassroomUpdateDTO classroomDTO = TestBuilderUtil
                 .createClassroomUpdateDTO(
@@ -173,7 +187,7 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
         var responseContent = mockMvc.perform(put("/secretary/classroom/" + classroom.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBodyUpdate)
-                        .header("Authorization", teacherToken.getToken())
+                        .header("Authorization", secretaryToken.getToken())
                 )
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();

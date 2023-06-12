@@ -6,6 +6,7 @@ import com.project.classteacher.domain.enums.Roles;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -26,5 +27,11 @@ public class TeacherOutputDTO {
                 .role(teacher.getRole())
                 .approved(teacher.getApproved())
                 .build();
+    }
+
+    public static List<TeacherOutputDTO> toDTO(List<Teacher> teachers) {
+        return teachers.stream()
+                .map(TeacherOutputDTO::toDTO)
+                .toList();
     }
 }
