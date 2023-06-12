@@ -33,9 +33,16 @@ public class UserMongoDBAdapter implements UserPort {
     }
 
     @Override
-    public User findById(UUID id) {
-        UserModel output = this.user.findById(id).orElse(null);
-        return output == null ? null : output.toDomain();
+    public Teacher findTeacherById(UUID id) {
+        UserModel output = this.user.findOne(
+                Example.of(
+                        UserModel.builder()
+                                .id(id)
+                                .role(Roles.TEACHER.toString())
+                                .build()
+                )
+        ).orElse(null);
+        return output == null ? null : (Teacher) output.toDomain();
     }
 
     @Override

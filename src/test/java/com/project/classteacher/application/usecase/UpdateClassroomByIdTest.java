@@ -57,7 +57,7 @@ final class UpdateClassroomByIdTest {
                 new Date(),
                 null
         );
-        Mockito.when(userPort.findById(teacher.getId())).thenReturn(teacher);
+        Mockito.when(userPort.findTeacherById(teacher.getId())).thenReturn(teacher);
         Mockito.when(classroomPort.getByID(classroomLiterature.getId())).thenReturn(classroomLiterature);
         Mockito.when(classroomPort.save(Mockito.any(Classroom.class))).thenAnswer(invocation -> invocation.getArgument(0));
         var classroomSaved = updateClassroomById.execute(classroomLiterature.getId(), inputChanges);
@@ -81,7 +81,7 @@ final class UpdateClassroomByIdTest {
                 null
         );
 
-        Mockito.when(userPort.findById(this.DEFAULT_UUID)).thenReturn(null);
+        Mockito.when(userPort.findTeacherById(this.DEFAULT_UUID)).thenReturn(null);
 
         Assertions.assertThrows(ClassroomNotFoundException.class, () -> updateClassroomById.execute(this.DEFAULT_UUID, inputChanges));
     }

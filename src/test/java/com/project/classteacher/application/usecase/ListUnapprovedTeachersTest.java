@@ -57,7 +57,7 @@ final class ListUnapprovedTeachersTest {
     @DisplayName("should be throw exception when teacher not found")
     public void should_be_throw_exception_when_teacher_not_found() {
 
-        Mockito.when(userPort.findById(this.DEFAULT_UUID)).thenReturn(null);
+        Mockito.when(userPort.findTeacherById(this.DEFAULT_UUID)).thenReturn(null);
 
         Assertions.assertThrows(TeacherNotFoundException.class, () -> listUnapprovedTeachers.execute());
     }

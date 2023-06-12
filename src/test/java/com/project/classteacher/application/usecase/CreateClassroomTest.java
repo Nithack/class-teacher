@@ -1,5 +1,6 @@
 package com.project.classteacher.application.usecase;
 
+import com.project.classteacher.application.exceptions.TeacherNotApprovedException;
 import com.project.classteacher.application.exceptions.TeacherNotFoundException;
 import com.project.classteacher.application.port.ClassroomPort;
 import com.project.classteacher.application.port.UserPort;
@@ -42,7 +43,13 @@ public class CreateClassroomTest {
     @DisplayName("Should be create a classroom")
     public void should_be_create_a_classroom() {
 
-        var teacher = TestBuilderUtil.generateTeacher();
+        var teacher = TestBuilderUtil.createTeacher(
+                this.DEFAULT_UUID,
+                "John Doe",
+                "john@gmai.com",
+                "123456",
+                true
+        );
         var classroomLiterature = TestBuilderUtil.createClassroom(
                 this.DEFAULT_UUID,
                 "Literature",
@@ -50,7 +57,7 @@ public class CreateClassroomTest {
                 new Date(),
                 teacher.getId()
         );
-        when(userPort.findById(teacher.getId())).thenReturn(teacher);
+        when(userPort.findTeacherById(teacher.getId())).thenReturn(teacher);
         when(classroomPort.save(classroomLiterature)).thenReturn(classroomLiterature);
         var classroomSaved = createClassroom.execute(classroomLiterature);
 
@@ -64,6 +71,29 @@ public class CreateClassroomTest {
     }
 
     @Test
+    @DisplayName("Should return exception because teacher not approved")
+    public void should_return_exception_because_teacher_not_approved() {
+
+        var teacher = TestBuilderUtil.createTeacher(
+                this.DEFAULT_UUID,
+                "John Doe",
+                "john@gmai.com",
+                "123456",
+                false
+        );
+        var classroomLiterature = TestBuilderUtil.createClassroom(
+                this.DEFAULT_UUID,
+                "Literature",
+                "This is a literature classroom",
+                new Date(),
+                teacher.getId()
+        );
+        when(userPort.findTeacherById(teacher.getId())).thenReturn(teacher);
+        when(classroomPort.save(classroomLiterature)).thenReturn(classroomLiterature);
+        assertThrows(TeacherNotApprovedException.class, () -> createClassroom.execute(classroomLiterature));
+    }
+
+    @Test
     @DisplayName("Should be throw exception when teacher not found")
     public void should_be_throw_exception_when_teacher_not_found() {
 
@@ -74,7 +104,7 @@ public class CreateClassroomTest {
                 new Date(),
                 TestBuilderUtil.generateId()
         );
-        when(userPort.findById(this.DEFAULT_UUID)).thenReturn(null);
+        when(userPort.findTeacherById(this.DEFAULT_UUID)).thenReturn(null);
         assertThrows(TeacherNotFoundException.class, () -> createClassroom.execute(classroomLiterature));
     }
 }

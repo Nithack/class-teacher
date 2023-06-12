@@ -114,7 +114,7 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
     @Test
     public void should_be_create_new_classroom() throws Exception {
 
-        UserModel teacher = mockGenerate.createUser("teacher", Roles.TEACHER, false);
+        UserModel teacher = mockGenerate.createUser("teacher", Roles.TEACHER, true);
 
         UserModel secretary = mockGenerate.createUser("secretary", Roles.SECRETARY, true);
 
@@ -152,7 +152,7 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
     @Test
     public void should_be_update_classroom() throws Exception {
 
-        UserModel teacher = mockGenerate.createUser("teacher", Roles.TEACHER, false);
+        UserModel teacher = mockGenerate.createUser("teacher", Roles.TEACHER, true);
 
         ClassroomModel classroom = mockGenerate.createClassroom(teacher.getId());
 
@@ -168,7 +168,6 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
 
         String requestBodyUpdate = objectMapper.writeValueAsString(classroomDTO);
 
-
         assert classroomDTO.getTeacherId() != null;
         var responseContent = mockMvc.perform(put("/secretary/classroom/" + classroom.getId())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -177,8 +176,6 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
                 )
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
-
-
         ClassroomOutputDTO updatedClassroom = objectMapper.readValue(responseContent, new TypeReference<>() {
         });
 

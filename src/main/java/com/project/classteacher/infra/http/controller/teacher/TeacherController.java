@@ -4,6 +4,7 @@ import com.project.classteacher.application.usecase.classroom.ListClassroomByTea
 import com.project.classteacher.domain.entity.Classroom;
 import com.project.classteacher.domain.entity.DecodeToken;
 import com.project.classteacher.infra.http.dtos.ClassroomOutputDTO;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/teacher")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class TeacherController {
 
     private final ListClassroomByTeacherID listClassroomByTeacherID;

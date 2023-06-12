@@ -17,6 +17,8 @@ public class UpdateClassroomById {
     private final ClassroomPort classroomPort;
 
     public Classroom execute(UUID id, Classroom inputClassroom) {
+
+        var teacher = this.classroomPort.getByID(inputClassroom.getId());
         var classroom = this.classroomPort.getByID(id);
 
         if (classroom == null) {

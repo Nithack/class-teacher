@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.UUID;
+
 @Getter
 public class Secretary extends User {
     @Builder

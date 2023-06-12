@@ -24,9 +24,10 @@ public class MySecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+        String BEARER_PREFIX = "Bearer ";
         try {
             if (isValidHeader(request)) {
-                Authentication auth = authentication(request.getHeader("Authorization"));
+                Authentication auth = authentication(request.getHeader("Authorization").replace(BEARER_PREFIX, ""));
                 SecurityContextHolder.getContext().setAuthentication(auth);
                 request.setAttribute("user", auth.getPrincipal());
             }

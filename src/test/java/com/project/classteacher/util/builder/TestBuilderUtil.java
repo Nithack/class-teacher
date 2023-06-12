@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static java.lang.System.getProperty;
 
@@ -33,16 +34,28 @@ public class TestBuilderUtil {
                 generateId(),
                 "Secretary 1",
                 "secretary1@gmail.com",
-                "123456"
+                "123456",
+                Boolean.valueOf(ThreadLocalRandom.current().nextBoolean() ? "true" : "false")
         );
     }
 
-    public static Teacher createTeacher(UUID id, String name, String email, String password) {
+    public static Teacher generateUnapprovedTeacher() {
+        return createTeacher(
+                generateId(),
+                "Secretary 1",
+                "secretary1@gmail.com",
+                "123456",
+                false
+        );
+    }
+
+    public static Teacher createTeacher(UUID id, String name, String email, String password, Boolean approved) {
         return Teacher.builder()
                 .id(id)
                 .name(name)
                 .email(email)
                 .password(Password.create(password, DEFAULT_SALT))
+                .approved(approved)
                 .build();
     }
 

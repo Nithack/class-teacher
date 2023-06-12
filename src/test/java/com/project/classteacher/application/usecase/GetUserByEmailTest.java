@@ -44,7 +44,8 @@ public class GetUserByEmailTest {
                 this.DEFAULT_UUID,
                 "Teacher 1",
                 "teacher1@gmail.com",
-                "123456"
+                "123456",
+                true
         );
 
         Mockito.when(userPort.getByEmail(newTeacher.getEmail())).thenReturn(newTeacher);
@@ -86,7 +87,7 @@ public class GetUserByEmailTest {
     @DisplayName("should be throw exception when teacher not found")
     public void should_be_throw_exception_when_teacher_not_found() throws UserNotFoundException {
 
-        Mockito.when(userPort.findById(this.DEFAULT_UUID)).thenReturn(null);
+        Mockito.when(userPort.findTeacherById(this.DEFAULT_UUID)).thenReturn(null);
 
         Assertions.assertThrows(UserNotFoundException.class, () -> getUserbyEmail.execute("teste@gmail.com"));
     }

@@ -19,7 +19,7 @@ public final class ListClassroomByTeacherID {
     private final UserPort userPort;
 
     public List<Classroom> execute(UUID teacherId) {
-        var teacher = this.userPort.findById(teacherId);
+        var teacher = this.userPort.findTeacherById(teacherId);
         if (teacher == null) {
             throw new TeacherNotFoundException(teacherId);
         }

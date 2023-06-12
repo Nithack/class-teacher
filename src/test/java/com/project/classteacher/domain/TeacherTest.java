@@ -13,7 +13,7 @@ public class TeacherTest {
     @DisplayName("should be return teacher with approved status false")
     public void should_be_return_teacher_with_approved_status_false() {
 
-        var teacher = TestBuilderUtil.generateTeacher();
+        var teacher = TestBuilderUtil.generateUnapprovedTeacher();
         Assertions.assertFalse(teacher.isApproved());
     }
 

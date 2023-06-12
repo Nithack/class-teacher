@@ -42,7 +42,8 @@ public class SaveTeacherTest {
                 this.DEFAULT_UUID,
                 "Teacher 1",
                 "teacher1@gmail.com",
-                "123456"
+                "123456",
+                true
         );
         Mockito.when(userPort.save(newTeacher)).thenReturn(newTeacher);
         var teacherSaved = createTeacher.execute(newTeacher);
@@ -60,7 +61,8 @@ public class SaveTeacherTest {
                 this.DEFAULT_UUID,
                 "Teacher 1",
                 "teacher1@gmail.com",
-                "123456"
+                "123456",
+                true
         );
         Mockito.when(userPort.save(newTeacher)).thenReturn(newTeacher);
         var teacherSaved = createTeacher.execute(newTeacher);
