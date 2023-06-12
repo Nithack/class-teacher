@@ -1,6 +1,7 @@
 package com.project.classteacher.infra.http.config.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.classteacher.application.port.UserPort;
 import com.project.classteacher.domain.entity.DecodeToken;
 import com.project.classteacher.domain.entity.Token;
 import com.project.classteacher.infra.http.dtos.ErrorDTO;
@@ -21,6 +22,12 @@ import java.util.Collections;
 public class MySecurityFilter extends OncePerRequestFilter {
 
     private final Logger logger = LoggerFactory.getLogger(MySecurityFilter.class);
+
+    private final UserPort userPort;
+
+    public MySecurityFilter(UserPort userPort) {
+        this.userPort = userPort;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {

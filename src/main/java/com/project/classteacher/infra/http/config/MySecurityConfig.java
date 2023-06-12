@@ -1,6 +1,8 @@
 package com.project.classteacher.infra.http.config;
 
+import com.project.classteacher.application.port.UserPort;
 import com.project.classteacher.infra.http.config.filter.MySecurityFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -13,6 +15,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class MySecurityConfig {
+
+    @Autowired
+    private UserPort userPort;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -48,7 +54,7 @@ public class MySecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable);
 
-        http.addFilterBefore(new MySecurityFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new MySecurityFilter(userPort), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }
