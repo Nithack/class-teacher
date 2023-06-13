@@ -70,10 +70,16 @@ Para executar os testes utilizando o Docker Compose, siga os passos abaixo:
 2. No terminal, navegue até a pasta do projeto e execute o seguinte comando para iniciar os serviços necessários:
 
 ```bash
-docker-compose -f docker-compose-test.yml up
+docker-compose -f docker-compose-test.yml up -d
 ```
 
-3. Execute os testes utilizando o Gradle:
+3. Execute os testes utilizando via interface do IntelliJ:
+
+```bash
+gradle>>Tasks>>verification>>test
+```
+
+3.1 Execute os testes utilizando o Gradle:
 
 ```bash
 ./gradlew test
