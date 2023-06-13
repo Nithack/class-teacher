@@ -1,27 +1,20 @@
 spring:
+  cache:
+    type: redis
   data:
     mongodb:
-      uri: mongodb://class-teacher:class-teacher@localhost:27017/class-teacher?authSource=admin
-      host: localhost
-      port: 27017
-      password: class-teacher
-      username: class-teacher
-      database: class-teacher
+      uri: ${MONGO_DB_URI:mongodb://class-teacher:class-teacher@localhost:27017/class-teacher?authSource=admin}
       authentication-database: admin
 
   redis:
-    host: redis
-    port: 6379
-    password: class-teacher
-basic:
-  salt: class-teacher
-  server:
-    port: 8081
+    uri: ${REDIS_URI:redis://class-teacher:class-teacher@localhost:6379/0}
+
 manager:
-  SECRETARY_USER: andrey
-  SECRETARY_PASSWORD: andrey
+  SECRETARY_USER: ${MANAGER_SECRETARY_USER:secretary}
+  SECRETARY_PASSWORD: ${MANAGER_SECRETARY_PASSWORD:secretary}
 
 jwt:
-  expiration: 604800000
-  insurer: class-teacher
-  token_key: qwertyuiopasdfghjklzxcvbnm123456
+  salt: ${JWT_SALT:salt}
+  expiration: ${JWT_EXPIRATION:3600000}
+  insurer: ${JWT_INSURER:ClassTeacher}
+  token_key: ${JTW_TOKEN_KEY:qwertyuiopasdfghjklzxcvbnm123456}

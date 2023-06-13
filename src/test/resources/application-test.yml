@@ -20,10 +20,10 @@ spring:
     host: redis
     port: 6379
     password: class-teacher
+
+
 basic:
   salt: class-teacher
-  server:
-    port: 8081
 
 jwt:
   expiration: 604800000

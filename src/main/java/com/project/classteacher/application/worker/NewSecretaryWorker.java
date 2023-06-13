@@ -21,7 +21,7 @@ public class NewSecretaryWorker {
     private String SECRETARY_USER;
     @Value("${manager.SECRETARY_PASSWORD}")
     private String SECRETARY_PASSWORD;
-    @Value("${basic.salt}")
+    @Value("${jwt.salt}")
     private String DEFAULT_SALT;
 
     @PostConstruct
