@@ -42,7 +42,7 @@ public class SecretaryController {
             summary = "Get unapproved teachers",
             description = "Get all teachers that are not approved yet"
     )
-    @GetMapping("/unapproved")
+    @GetMapping("/teacher/unapproved")
     @Cacheable("list-unapproved-teachers")
     public ResponseEntity<List<TeacherOutputDTO>> getUnapprovedTeachers() {
         var unapprovedTeachers = listUnapprovedTeachers.execute();
@@ -53,7 +53,7 @@ public class SecretaryController {
             summary = "Approve teacher",
             description = "Approve a teacher by id"
     )
-    @PostMapping("/approve/{id}")
+    @PostMapping("/teacher/approve/{id}")
     @CacheEvict(value = {"list-unapproved-teachers", "list-teacher-classrooms"}, allEntries = true)
     public ResponseEntity<TeacherOutputDTO> approveTeacher(
             @PathVariable("id") UUID id

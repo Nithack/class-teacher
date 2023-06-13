@@ -93,7 +93,7 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
         UserModel secretary = mockGenerate.createUser("secretary", Roles.SECRETARY, true);
         Token secretaryToken = Token.encode(secretary.toDomain());
 
-        var mvcResult = mockMvc.perform(get("/secretary/unapproved")
+        var mvcResult = mockMvc.perform(get("/secretary/teacher/unapproved")
 
                         .header("Authorization", secretaryToken.getToken())
                 ).andExpect(status().isOk())
@@ -112,7 +112,7 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
 
         Token secretaryToken = Token.encode(secretary.toDomain());
 
-        mockMvc.perform(post("/secretary/approve/" + teacher.getId())
+        mockMvc.perform(post("/secretary/teacher/approve/" + teacher.getId())
 
                         .header("Authorization", secretaryToken.getToken())
                 ).andExpect(status().isOk())
