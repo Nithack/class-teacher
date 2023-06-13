@@ -21,11 +21,8 @@ spring:
     port: 6379
     password: class-teacher
 
-
-basic:
-  salt: class-teacher
-
 jwt:
+  salt: class-teacher
   expiration: 604800000
   insurer: class-teacher
   token_key: qwertyuiopasdfghjklzxcvbnm123456
