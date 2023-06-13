@@ -7,6 +7,8 @@ import com.project.classteacher.domain.entity.Token;
 import com.project.classteacher.infra.http.dtos.CreateTeacherDTO;
 import com.project.classteacher.infra.http.dtos.LoginDTO;
 import com.project.classteacher.infra.http.dtos.RegisteredUserDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -18,6 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
+@Tag(
+        name = "Auth",
+        description = "Endpoints for authentication"
+)
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -26,6 +32,10 @@ public class AuthController {
 
     // create login endpoint
     @PostMapping("/login")
+    @Operation(
+            summary = "Login",
+            description = "Login with email and password"
+    )
     public ResponseEntity<Token> login(
             @RequestBody @Valid LoginDTO loginDTO
     ) {
@@ -37,6 +47,10 @@ public class AuthController {
 
     @PostMapping("/register")
     @CacheEvict("list-unapproved-teachers")
+    @Operation(
+            summary = "Register",
+            description = "Register a new teacher"
+    )
     public ResponseEntity<RegisteredUserDTO> register(
             @RequestBody @Valid CreateTeacherDTO teacherDTO
     ) {

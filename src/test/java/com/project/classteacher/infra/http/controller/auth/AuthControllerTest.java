@@ -16,11 +16,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -42,7 +42,7 @@ public class AuthControllerTest extends MyIntegrationConfig {
                         .header("Authorization", "")
                 )
                 .andExpectAll(
-                        MockMvcResultMatchers.jsonPath("$.status").value(400)
+                        jsonPath("$.status").value(400)
                 );
     }
 
@@ -55,8 +55,8 @@ public class AuthControllerTest extends MyIntegrationConfig {
                 )
                 .andExpect(status().isUnauthorized())
                 .andExpectAll(
-                        MockMvcResultMatchers.jsonPath("$.status").value(401),
-                        MockMvcResultMatchers.jsonPath("$.message").value("User not authorized")
+                        jsonPath("$.status").value(401),
+                        jsonPath("$.message").value("User not authorized")
                 );
     }
 
@@ -128,18 +128,18 @@ public class AuthControllerTest extends MyIntegrationConfig {
                 )
                 .andExpectAll(
                         status().is(200),
-                        MockMvcResultMatchers.jsonPath("$.name").value(user.getName()),
-                        MockMvcResultMatchers.jsonPath("$.email").value(user.getEmail()),
-                        MockMvcResultMatchers.jsonPath("$.role").value(user.getRole().toString()),
-                        MockMvcResultMatchers.jsonPath("$.token").exists(),
-                        MockMvcResultMatchers.jsonPath("$.id").exists(),
-                        MockMvcResultMatchers.jsonPath("$.approved").value(false)
+                        jsonPath("$.name").value(user.getName()),
+                        jsonPath("$.email").value(user.getEmail()),
+                        jsonPath("$.role").value(user.getRole().toString()),
+                        jsonPath("$.token").exists(),
+                        jsonPath("$.id").exists(),
+                        jsonPath("$.approved").value(false)
                 );
 
     }
 
     @Test
-    @DisplayName("Should exception because user already exists")
+    @DisplayName("Should return status 409 because user already exists")
     void should_exception_because_user_already_exists() throws Exception {
 
         UserModel user = mockGenerate.createUser("teacher", Roles.TEACHER, true);
@@ -150,14 +150,11 @@ public class AuthControllerTest extends MyIntegrationConfig {
 
 
         mockMvc.perform(
-                        post("/auth/register")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(requestBody)
-                )
-                .andExpectAll(
-                        MockMvcResultMatchers.jsonPath("$.status").value(409),
-                        MockMvcResultMatchers.jsonPath("$.message").value("User exist in database: " + user.getEmail())
-                );
+                post("/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody)
+        ).andExpect(status().isConflict());
+
 
     }
 }

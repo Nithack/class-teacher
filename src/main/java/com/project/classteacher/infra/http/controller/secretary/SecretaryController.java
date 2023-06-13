@@ -8,7 +8,9 @@ import com.project.classteacher.infra.http.dtos.ClassroomOutputDTO;
 import com.project.classteacher.infra.http.dtos.ClassroomUpdateDTO;
 import com.project.classteacher.infra.http.dtos.CreateClassroomDTO;
 import com.project.classteacher.infra.http.dtos.TeacherOutputDTO;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -23,6 +25,10 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/secretary")
 @RequiredArgsConstructor
+@Tag(
+        name = "Secretary",
+        description = "Endpoints for secretary manager teachers and classrooms"
+)
 @SecurityRequirement(name = "bearerAuth")
 public class SecretaryController {
 
@@ -32,6 +38,10 @@ public class SecretaryController {
     final private CreateClassroom createClassroom;
     final private UpdateClassroomById updateClassroomById;
 
+    @Operation(
+            summary = "Get unapproved teachers",
+            description = "Get all teachers that are not approved yet"
+    )
     @GetMapping("/unapproved")
     @Cacheable("list-unapproved-teachers")
     public ResponseEntity<List<TeacherOutputDTO>> getUnapprovedTeachers() {
@@ -39,6 +49,10 @@ public class SecretaryController {
         return ResponseEntity.ok(TeacherOutputDTO.toDTO(unapprovedTeachers));
     }
 
+    @Operation(
+            summary = "Approve teacher",
+            description = "Approve a teacher by id"
+    )
     @PostMapping("/approve/{id}")
     @CacheEvict(value = {"list-unapproved-teachers", "list-teacher-classrooms"}, allEntries = true)
     public ResponseEntity<TeacherOutputDTO> approveTeacher(
@@ -48,6 +62,10 @@ public class SecretaryController {
         return ResponseEntity.ok(TeacherOutputDTO.toDTO(teacherApproved));
     }
 
+    @Operation(
+            summary = "Create classroom",
+            description = "Create a new classroom"
+    )
     @PostMapping("/classroom")
     @CacheEvict("list-teacher-classrooms")
     public ResponseEntity<ClassroomOutputDTO> createClassroom(
@@ -57,6 +75,10 @@ public class SecretaryController {
         return ResponseEntity.ok(ClassroomOutputDTO.toDTO(classroomCreated));
     }
 
+    @Operation(
+            summary = "Update classroom",
+            description = "Update a existing classroom by id"
+    )
     @PutMapping("/classroom/{id}")
     @CacheEvict("list-teacher-classrooms")
     public ResponseEntity<ClassroomOutputDTO> updateClassroomById(

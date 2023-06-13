@@ -1,4 +1,4 @@
-package com.project.classteacher.infra.http.controller.handler;
+package com.project.classteacher.infra.http.handler;
 
 import com.project.classteacher.application.exceptions.*;
 import com.project.classteacher.infra.http.dtos.ErrorDTO;
