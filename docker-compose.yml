@@ -1,4 +1,27 @@
+version: '3'
 services:
+  class-teacher-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - class-teacher-data:/data
+    environment:
+      JWT_INSURER: class-teacher
+      JTW_TOKEN_KEY: qwertyuiopasdfghjklzxcvbnm123456
+      JWT_EXPIRATION: 3600000
+      MONGO_DB_URI: mongodb://class-teacher:class-teacher@mongodb:27017/class-teacher?authSource=admin
+      MONGO_DB_DATA_BASE: class-teacher
+      MANAGER_SECRETARY_USER: test
+      MANAGER_SECRETARY_PASSWORD: test
+      APPLICATION_PORT: 3000
+    depends_on:
+      - mongodb
+    networks:
+      - class-teacher-net
+
   mongodb:
     image: mongo
     container_name: mongo_db
@@ -10,6 +33,9 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=class-teacher
       - MONGO_INITDB_ROOT_PASSWORD=class-teacher
       - MONGO_INITDB_DATABASE=class-teacher
+    networks:
+      - class-teacher-net
+
   mongo-express:
     image: mongo-express
     container_name: mongo_express
@@ -21,16 +47,12 @@ services:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=class-teacher
       - ME_CONFIG_MONGODB_ADMINPASSWORD=class-teacher
       - ME_CONFIG_MONGODB_SERVER=mongodb
-  redis:
-    image: redis
-    container_name: redis
-    ports:
-      - 6379:6379
-    environment:
-      - REDIS_PASSWORD=class-teacher
-      - REDIS_USERNAME=class-teacher
-    volumes:
-      - redis:/data
+    networks:
+      - class-teacher-net
+
 volumes:
   mongo: { }
-  redis: { }
+  class-teacher-data: { }
+
+networks:
+  class-teacher-net:

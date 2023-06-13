@@ -21,6 +21,9 @@ spring:
     port: 6379
     password: class-teacher
 
+server:
+  port: 3000
+  
 jwt:
   salt: class-teacher
   expiration: 604800000

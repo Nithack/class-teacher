@@ -2,9 +2,9 @@
 
 ## Sobre
 
-A Class Teacher API é um serviço criado para permitir que professores monitorem as informações de sala de aula. Esta API
-foi desenvolvida usando Spring Boot 3.1, Redis para cache dos dados, MongoDB como banco de dados, e Docker e Docker
-Compose para contenização e orquestração do ambiente.
+A Class Teacher API é um serviço criado para permitir que professores monitorem as informações da sala de aula. Esta API
+foi desenvolvida usando Spring Boot 3.1, MongoDB como banco de dados, e Docker e Docker Compose para a contenização e
+orquestração do ambiente.
 
 ## Endpoints
 
@@ -23,6 +23,15 @@ Compose para contenização e orquestração do ambiente.
 * **POST /secretary/teacher/approve/{id}**: Aprova um professor por id.
 * **POST /secretary/classroom**: Cria uma nova sala de aula.
 * **PUT /secretary/classroom/{id}**: Atualiza uma sala de aula existente por id.
+
+### Swagger UI
+
+Para explorar e testar os endpoints da API, você pode utilizar a Swagger UI através do seguinte link após iniciar a
+aplicação:
+
+```
+http://localhost:3000/swagger-ui/index.html
+```
 
 ## Instalação
 
@@ -46,18 +55,28 @@ git clone https://github.com/Nithack/class-teacher-api.git
 cd class-teacher-api
 ```
 
-3. Crie um arquivo `.env` na raiz do projeto com todas as variáveis de ambiente necessárias.
-
-4. Inicie o ambiente Docker:
+3. Inicie o ambiente Docker:
 
 ```bash
 docker-compose up -d
 ```
 
-5. Rode a aplicação com o Gradle:
+## Testes
+
+Para executar os testes utilizando o Docker Compose, siga os passos abaixo:
+
+1. Certifique-se que o Docker e Docker Compose estão corretamente instalados no seu ambiente.
+
+2. No terminal, navegue até a pasta do projeto e execute o seguinte comando para iniciar os serviços necessários:
 
 ```bash
-./gradlew bootRun
+docker-compose -f docker-compose-test.yml up
+```
+
+3. Execute os testes utilizando o Gradle:
+
+```bash
+./gradlew test
 ```
 
 ## Contato

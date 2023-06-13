@@ -1,13 +1,19 @@
 spring:
   cache:
-    type: redis
+    expiration: ${SPRING_CACHE_EXPIRATION:3600000}
   data:
     mongodb:
       uri: ${MONGO_DB_URI:mongodb://class-teacher:class-teacher@localhost:27017/class-teacher?authSource=admin}
       authentication-database: admin
 
   redis:
-    uri: ${REDIS_URI:redis://class-teacher:class-teacher@localhost:6379/0}
+    port: ${REDIS_PORT:6379}
+    host: ${REDIS_HOST:localhost}
+    password: ${REDIS_PASSWORD:class-teacher}
+    database: ${REDIS_DATABASE:0}
+
+server:
+  port: ${APPLICATION_PORT:3000}
 
 manager:
   SECRETARY_USER: ${MANAGER_SECRETARY_USER:secretary}
