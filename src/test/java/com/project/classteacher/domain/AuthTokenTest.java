@@ -7,16 +7,12 @@ import com.project.classteacher.domain.entity.User;
 import com.project.classteacher.util.builder.TestBuilderUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 @DisplayName("Auth Token Test")
-@SpringBootTest
-@ActiveProfiles("test")
 public class AuthTokenTest {
     @Test()
     @DisplayName("should be return Token decoded")
