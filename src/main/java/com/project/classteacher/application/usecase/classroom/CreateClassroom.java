@@ -7,7 +7,6 @@ import com.project.classteacher.application.port.UserPort;
 import com.project.classteacher.domain.entity.Classroom;
 import com.project.classteacher.domain.entity.Teacher;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -19,7 +18,7 @@ public class CreateClassroom {
     private final ClassroomPort classroomPort;
     private final UserPort userPort;
 
-    public Classroom execute(@NotNull Classroom classroom) {
+    public Classroom execute(Classroom classroom) {
         Teacher teacher = this.userPort.findTeacherById(classroom.getTeacherId());
 
         if (teacher == null) throw new TeacherNotFoundException(classroom.getTeacherId());
