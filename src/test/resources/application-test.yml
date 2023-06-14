@@ -16,14 +16,9 @@ spring:
       authentication-database: admin
       embedded:
         version: 3.0.1
-  redis:
-    host: redis
-    port: 6379
-    password: class-teacher
-
 server:
   port: 3000
-  
+
 jwt:
   salt: class-teacher
   expiration: 604800000
