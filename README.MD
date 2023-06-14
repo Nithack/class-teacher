@@ -33,6 +33,28 @@ aplicação:
 http://localhost:3000/swagger-ui/index.html
 ```
 
+### Configurações
+
+```bash
+JWT_INSURER: class-teacher
+JTW_TOKEN_KEY: qwertyuiopasdfghjklzxcvbnm123456
+JWT_EXPIRATION: 3600000
+MONGO_DB_URI: mongodb://class-teacher:class-teacher@mongodb:27017/class-teacher?authSource=admin
+MONGO_DB_DATA_BASE: class-teacher
+MANAGER_SECRETARY_USER: test
+MANAGER_SECRETARY_PASSWORD: test
+APPLICATION_PORT: 3000
+```
+
+Para logar como secretário, utilize as seguintes credenciais:
+
+```json
+{
+  "email": "test",
+  "password": "test"
+}
+```
+
 ## Instalação
 
 Requisitos:

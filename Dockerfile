@@ -6,7 +6,7 @@ COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
 
 # Compila o projeto
-RUN gradle bootJar -x test --no-daemon
+RUN gradle bootJar --no-daemon
 
 # Segunda etapa do build - Usa o OpenJDK para rodar a aplicação
 FROM openjdk:17-jdk-alpine
