@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableWebSecurity
 public class MySecurityConfig {
@@ -59,8 +61,8 @@ public class MySecurityConfig {
 
                         }
                 )
-                .formLogin(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable);
+                .formLogin(withDefaults())
+                .cors(withDefaults());
 
         http.addFilterBefore(new MySecurityFilter(userPort), UsernamePasswordAuthenticationFilter.class);
         return http.build();
