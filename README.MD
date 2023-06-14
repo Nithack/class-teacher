@@ -50,7 +50,7 @@ Para logar como secretário, utilize as seguintes credenciais:
 
 ```json
 {
-  "user": "test",
+  "email": "test",
   "password": "test"
 }
 ```
