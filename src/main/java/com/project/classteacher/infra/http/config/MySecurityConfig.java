@@ -61,7 +61,7 @@ public class MySecurityConfig {
 
                         }
                 )
-                .formLogin(withDefaults())
+                .formLogin(AbstractHttpConfigurer::disable)
                 .cors(withDefaults());
 
         http.addFilterBefore(new MySecurityFilter(userPort), UsernamePasswordAuthenticationFilter.class);
