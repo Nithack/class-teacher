@@ -19,12 +19,14 @@ public class GetUserByEmail {
         if (user == null) {
             throw new UserNotFoundException(email);
         }
-        UserFactory.createUser(
+        UserFactory.buildExistingUser(
                 user.getId(),
                 user.getName(),
                 user.getEmail(),
                 user.getPassword(),
-                user.getRole()
+                user.getRole(),
+                user.getSalt(),
+                user.isApproved()
         );
         return user;
     }
