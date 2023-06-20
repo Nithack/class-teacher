@@ -15,9 +15,7 @@ public class CreateTeacher {
 
     public Teacher execute(Teacher teacher) {
         User user = this.userPort.getByEmail(teacher.getEmail());
-        if (user != null) {
-            throw new ExistsUserException(teacher.getEmail());
-        }
+        if (user != null) throw new ExistsUserException(teacher.getEmail());
         return this.userPort.save(teacher);
     }
 }
