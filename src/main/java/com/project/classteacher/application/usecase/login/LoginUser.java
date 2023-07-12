@@ -26,7 +26,7 @@ public class LoginUser {
 
     private void validateUser(User user, String email, String password) {
         if (user == null) throw new UserNotFoundException(email);
-        if (!user.isValidPassword(password)) throw new InvalidPasswordException(password);
-        if (user.getRole() == Roles.TEACHER && !user.isApproved()) throw new TeacherNotApprovedException(user.getId());
+        if (Boolean.FALSE.equals(user.isValidPassword(password))) throw new InvalidPasswordException(password);
+        if (user.getRole() == Roles.TEACHER && Boolean.TRUE.equals(!user.isApproved())) throw new TeacherNotApprovedException(user.getId());
     }
 }

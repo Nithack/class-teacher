@@ -6,10 +6,17 @@ import com.project.classteacher.domain.entity.Teacher;
 import com.project.classteacher.domain.entity.User;
 import com.project.classteacher.domain.enums.Roles;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Random;
 import java.util.UUID;
 
 public class UserFactory {
+    private static final Random rando_salt = new SecureRandom();
+
+    private UserFactory() throws NoSuchAlgorithmException {
+        throw new NoSuchAlgorithmException("This class cannot be instantiated");
+    }
 
     public static User buildExistingUser(UUID id, String name, String email, String password, Roles role, String salt, Boolean approved) {
         return switch (role) {
@@ -20,10 +27,10 @@ public class UserFactory {
 
     public static User createUser(UUID id, String name, String email, String password, Roles role) {
         if (id == null) id = User.generateID();
-        String RANDOM_SALT = String.valueOf(new Random().nextInt(1000));
+
         return switch (role) {
-            case TEACHER -> createTeacher(id, name, email, Password.create(password, RANDOM_SALT), false);
-            case SECRETARY -> createSecretary(id, name, email, Password.create(password, RANDOM_SALT), true);
+            case TEACHER -> createTeacher(id, name, email, Password.create(password, rando_salt.toString()), false);
+            case SECRETARY -> createSecretary(id, name, email, Password.create(password, rando_salt.toString()), true);
         };
     }
 

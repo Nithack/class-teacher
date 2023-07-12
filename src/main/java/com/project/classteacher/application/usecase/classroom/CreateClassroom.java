@@ -22,7 +22,7 @@ public class CreateClassroom {
         Teacher teacher = this.userPort.findTeacherById(classroom.getTeacherId());
 
         if (teacher == null) throw new TeacherNotFoundException(classroom.getTeacherId());
-        if (!teacher.isApproved()) throw new TeacherNotApprovedException(classroom.getTeacherId());
+        if (Boolean.FALSE.equals(teacher.isApproved())) throw new TeacherNotApprovedException(classroom.getTeacherId());
 
         UUID newClassroomId = UUID.randomUUID();
         classroom.setId(newClassroomId);

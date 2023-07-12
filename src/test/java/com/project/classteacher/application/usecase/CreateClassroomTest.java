@@ -24,7 +24,7 @@ import static org.springframework.test.util.AssertionErrors.assertNotNull;
 
 @DisplayName("Create Classroom Test")
 @SpringBootTest(classes = CreateClassroom.class)
-public class CreateClassroomTest {
+class CreateClassroomTest {
 
     UUID DEFAULT_UUID;
     @MockBean
@@ -41,7 +41,7 @@ public class CreateClassroomTest {
 
     @Test
     @DisplayName("Should be create a classroom")
-    public void should_be_create_a_classroom() {
+    void should_be_create_a_classroom() {
 
         var teacher = TestBuilderUtil.createTeacher(
                 this.DEFAULT_UUID,
@@ -72,7 +72,7 @@ public class CreateClassroomTest {
 
     @Test
     @DisplayName("Should return exception because teacher not approved")
-    public void should_return_exception_because_teacher_not_approved() {
+    void should_return_exception_because_teacher_not_approved() {
 
         var teacher = TestBuilderUtil.createTeacher(
                 this.DEFAULT_UUID,
@@ -95,7 +95,7 @@ public class CreateClassroomTest {
 
     @Test
     @DisplayName("Should be throw exception when teacher not found")
-    public void should_be_throw_exception_when_teacher_not_found() {
+    void should_be_throw_exception_when_teacher_not_found() {
 
         var classroomLiterature = TestBuilderUtil.createClassroom(
                 this.DEFAULT_UUID,

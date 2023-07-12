@@ -20,8 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("Save Teacher Test")
 @SpringBootTest(classes = CreateTeacher.class)
-public class SaveTeacherTest {
-
+class SaveTeacherTest {
 
     UUID DEFAULT_UUID;
     @MockBean
@@ -36,7 +35,7 @@ public class SaveTeacherTest {
 
     @Test
     @DisplayName("Should be created new teacher with information")
-    public void should_be_created_new_teacher_with_id() {
+    void should_be_created_new_teacher_with_id() {
 
         var newTeacher = TestBuilderUtil.createTeacher(
                 this.DEFAULT_UUID,
@@ -48,14 +47,14 @@ public class SaveTeacherTest {
         Mockito.when(userPort.save(newTeacher)).thenReturn(newTeacher);
         var teacherSaved = createTeacher.execute(newTeacher);
         assertEquals(teacherSaved.getId(), this.DEFAULT_UUID);
-        assertEquals(teacherSaved.getName(), "Teacher 1");
-        assertEquals(teacherSaved.getEmail(), "teacher1@gmail.com");
+        assertEquals("Teacher 1", teacherSaved.getName());
+        assertEquals("teacher1@gmail.com", teacherSaved.getEmail());
         assertTrue(teacherSaved.isValidPassword("123456"));
     }
 
     @Test
     @DisplayName("Should be created new teacher with teacher role")
-    public void should_be_created_new_teacher_with_teacher_role() {
+    void should_be_created_new_teacher_with_teacher_role() {
 
         var newTeacher = TestBuilderUtil.createTeacher(
                 this.DEFAULT_UUID,

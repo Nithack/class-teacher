@@ -8,14 +8,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.util.AssertionErrors.*;
 
 @DisplayName("Password Test")
-public class PasswordTest {
+class PasswordTest {
 
     private static final String PASSWORD = "myPassword";
     private static final String SALT = "mySalt";
 
     @Test
     @DisplayName("Should create and validate password successfully")
-    public void shouldCreateAndValidatePassword() {
+    void shouldCreateAndValidatePassword() {
         Password password = Password.create(PASSWORD, SALT);
 
         var passwordByExistHash = new Password(password.getValue(), password.getSalt());
@@ -27,7 +27,7 @@ public class PasswordTest {
 
     @Test
     @DisplayName("Should validate password and return false for invalid password")
-    public void shouldValidatePasswordAndReturnFalseForInvalidPassword() {
+    void shouldValidatePasswordAndReturnFalseForInvalidPassword() {
         Password password = Password.create(PASSWORD, SALT);
 
         var passwordByExistHash = new Password(password.getValue(), password.getSalt());

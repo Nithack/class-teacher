@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.classteacher.config.MyIntegrationConfig;
 import com.project.classteacher.domain.entity.Token;
 import com.project.classteacher.domain.enums.Roles;
-import com.project.classteacher.infra.dataBase.mongoDB.model.ClassroomModel;
-import com.project.classteacher.infra.dataBase.mongoDB.model.UserModel;
+import com.project.classteacher.infra.database.mongodb.model.ClassroomModel;
+import com.project.classteacher.infra.database.mongodb.model.UserModel;
 import com.project.classteacher.util.builder.TestBuilderUtil;
 import com.project.classteacher.util.mock.MockGenerate;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-public class TeacherControllerTest extends MyIntegrationConfig {
+class TeacherControllerTest extends MyIntegrationConfig {
 
     @Autowired
     private MockMvc mockMvc;
@@ -37,7 +37,7 @@ public class TeacherControllerTest extends MyIntegrationConfig {
 
     @Test()
     @DisplayName("Should be return 403 when not have token")
-    public void should_be_return_401_when_not_have_token() throws Exception {
+    void should_be_return_401_when_not_have_token() throws Exception {
 
         mockMvc.perform(get("/teacher/classroom"))
                 .andExpect(status().is4xxClientError());
@@ -52,7 +52,7 @@ public class TeacherControllerTest extends MyIntegrationConfig {
 
     @Test
     @DisplayName("Should return list classroom by teacher id")
-    public void should_return_list_classroom_by_teacher_id() throws Exception {
+    void should_return_list_classroom_by_teacher_id() throws Exception {
 
         var QUANTITY = 10;
 
@@ -67,7 +67,7 @@ public class TeacherControllerTest extends MyIntegrationConfig {
         Token teacherToken = Token.encode(teacher.toDomain());
 
         var mvcResult = mockMvc.perform(get("/teacher/classroom")
-                        .header("Authorization", teacherToken.getToken())
+                        .header("Authorization", teacherToken.getValue())
                 ).andExpect(status().isOk())
                 .andReturn();
 

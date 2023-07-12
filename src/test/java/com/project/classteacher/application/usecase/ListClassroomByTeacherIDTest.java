@@ -41,7 +41,7 @@ final class ListClassroomByTeacherIDTest {
 
     @Test
     @DisplayName("should be list all classroom by teacher id")
-    public void should_be_list_all_classroom_by_teacher_id() {
+    void should_be_list_all_classroom_by_teacher_id() {
 
         var teacher = TestBuilderUtil.generateTeacher();
         var classroomLiterature = TestBuilderUtil.createClassroom(
@@ -70,14 +70,14 @@ final class ListClassroomByTeacherIDTest {
 
     @Test()
     @DisplayName("should be throw exception when teacher not found")
-    public void should_be_throw_exception_when_teacher_not_found() {
+    void should_be_throw_exception_when_teacher_not_found() {
 
         Mockito.when(userPort.findTeacherById(this.DEFAULT_UUID)).thenReturn(null);
 
         Assertions.assertThrows(TeacherNotFoundException.class, () -> listClassroomByTeacherID.execute(this.DEFAULT_UUID));
     }
 
-    public void assertClassroom(Classroom classroom, UUID expectedId, String expectedTitle, String expectedDescription, UUID expectedTeacherId) {
+    void assertClassroom(Classroom classroom, UUID expectedId, String expectedTitle, String expectedDescription, UUID expectedTeacherId) {
         assertEquals(expectedId, classroom.getId());
         assertEquals(expectedTitle, classroom.getTitle());
         assertEquals(expectedDescription, classroom.getDescription());

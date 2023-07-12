@@ -11,11 +11,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @DisplayName("Factory User Test")
-public class FactoryUserTest {
+class FactoryUserTest {
 
     @Test
     @DisplayName("Should be created new secretary")
-    public void should_be_created_new_secretary() {
+    void should_be_created_new_secretary() {
 
         var secretary = UserFactory.createUser(null, "Secretary", "Secretary@gmail.com", "123456", Roles.SECRETARY);
 
@@ -25,7 +25,7 @@ public class FactoryUserTest {
 
     @Test
     @DisplayName("Should be created new teacher")
-    public void should_be_created_new_teacher() {
+    void should_be_created_new_teacher() {
 
         var teacher = UserFactory.createUser(null, "Teacher", "teacher@gmail.com", "123456", Roles.TEACHER);
 
@@ -36,7 +36,7 @@ public class FactoryUserTest {
 
     @Test
     @DisplayName("Should be created user based on existing user")
-    public void should_be_created_user_based_on_existing_user() {
+    void should_be_created_user_based_on_existing_user() {
 
         var teacher = UserFactory.buildExistingUser(
                 TestBuilderUtil.generateId(),

@@ -1,8 +1,8 @@
 package com.project.classteacher.config.container.test;
 
 import com.project.classteacher.config.container.mongodb.MongoContainerConfig;
-import com.project.classteacher.infra.dataBase.mongoDB.repository.ClassroomMongoDBRepository;
-import com.project.classteacher.infra.dataBase.mongoDB.repository.UserMongoDBRepository;
+import com.project.classteacher.infra.database.mongodb.repository.ClassroomMongodbRepository;
+import com.project.classteacher.infra.database.mongodb.repository.UserMongodbRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +14,17 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Import(MongoContainerConfig.class)
-public class MongoContainerTest {
+class MongoContainerTest {
 
     @Autowired
-    private UserMongoDBRepository userMongoDBRepository;
+    private UserMongodbRepository userMongoDBRepository;
 
     @Autowired
-    private ClassroomMongoDBRepository classroomMongoDBRepository;
+    private ClassroomMongodbRepository classroomMongoDBRepository;
 
     @Test
     @DisplayName("MongoDBContainer should be test repository")
-    public void should_be_test_repository() {
+    void should_be_test_repository() {
         System.out.println("userMongoDBRepository = " + userMongoDBRepository);
         System.out.println("classroomMongoDBRepository = " + classroomMongoDBRepository);
 

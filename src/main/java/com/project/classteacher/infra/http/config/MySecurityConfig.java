@@ -25,46 +25,43 @@ public class MySecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
-                        (authorize) -> {
-                            authorize
-                                    .requestMatchers(
-                                            HttpMethod.POST,
-                                            "/auth/login"
-                                    ).permitAll()
-                                    .requestMatchers(
-                                            HttpMethod.POST,
-                                            "/auth/register"
-                                    ).permitAll()
-                                    .requestMatchers(
-                                            "/secretary/**"
-                                    ).hasRole("SECRETARY")
-                                    .requestMatchers(
-                                            "/teacher/**"
-                                    ).hasRole("TEACHER")
-                                    .requestMatchers(
-                                            "/v2/api-docs",
-                                            "/v3/api-docs",
-                                            "/v3/api-docs/**",
-                                            "/swagger-resources",
-                                            "/swagger-resources/**",
-                                            "/configuration/ui",
-                                            "/configuration/security",
-                                            "/swagger-ui/**",
-                                            "/swagger-ui/",
-                                            "/webjars/**",
-                                            "/swagger-ui.html"
-                                    ).permitAll()
-                                    .requestMatchers(
-                                            "/api/v1/auth/**"
-                                    ).permitAll()
-                                    .anyRequest().authenticated();
-
-                        }
+                        authorize -> authorize
+                                .requestMatchers(
+                                        HttpMethod.POST,
+                                        "/auth/login"
+                                ).permitAll()
+                                .requestMatchers(
+                                        HttpMethod.POST,
+                                        "/auth/register"
+                                ).permitAll()
+                                .requestMatchers(
+                                        "/secretary/**"
+                                ).hasRole("SECRETARY")
+                                .requestMatchers(
+                                        "/teacher/**"
+                                ).hasRole("TEACHER")
+                                .requestMatchers(
+                                        "/v2/api-docs",
+                                        "/v3/api-docs",
+                                        "/v3/api-docs/**",
+                                        "/swagger-resources",
+                                        "/swagger-resources/**",
+                                        "/configuration/ui",
+                                        "/configuration/security",
+                                        "/swagger-ui/**",
+                                        "/swagger-ui/",
+                                        "/webjars/**",
+                                        "/swagger-ui.html"
+                                ).permitAll()
+                                .requestMatchers(
+                                        "/api/v1/auth/**"
+                                ).permitAll()
+                                .anyRequest().authenticated()
                 )
                 .formLogin(AbstractHttpConfigurer::disable)
                 .cors(withDefaults());
 
-        http.addFilterBefore(new MySecurityFilter(userPort), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new MySecurityFilter(this.userPort), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }
