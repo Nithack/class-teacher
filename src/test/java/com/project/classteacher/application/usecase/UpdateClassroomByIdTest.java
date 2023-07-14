@@ -40,7 +40,7 @@ final class UpdateClassroomByIdTest {
 
     @Test
     @DisplayName("should be list all classroom by teacher id")
-    public void should_be_list_all_classroom_by_teacher_id() {
+    void should_be_list_all_classroom_by_teacher_id() {
 
         var teacher = TestBuilderUtil.generateApprovedTeacher();
         var classroomLiterature = TestBuilderUtil.createClassroom(
@@ -81,7 +81,7 @@ final class UpdateClassroomByIdTest {
 
     @Test()
     @DisplayName("should be throw exception when teacher not found")
-    public void should_be_throw_exception_when_teacher_not_found() {
+    void should_be_throw_exception_when_teacher_not_found() {
 
         var inputChanges = TestBuilderUtil.createClassroom(
                 null,

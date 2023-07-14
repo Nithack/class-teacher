@@ -2,10 +2,10 @@ package com.project.classteacher.util.mock;
 
 import com.project.classteacher.domain.entity.Password;
 import com.project.classteacher.domain.enums.Roles;
-import com.project.classteacher.infra.dataBase.mongoDB.model.ClassroomModel;
-import com.project.classteacher.infra.dataBase.mongoDB.model.UserModel;
-import com.project.classteacher.infra.dataBase.mongoDB.repository.ClassroomMongoDBRepository;
-import com.project.classteacher.infra.dataBase.mongoDB.repository.UserMongoDBRepository;
+import com.project.classteacher.infra.database.mongodb.model.ClassroomModel;
+import com.project.classteacher.infra.database.mongodb.model.UserModel;
+import com.project.classteacher.infra.database.mongodb.repository.ClassroomMongodbRepository;
+import com.project.classteacher.infra.database.mongodb.repository.UserMongodbRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,9 +19,9 @@ import java.util.concurrent.ThreadLocalRandom;
 public class MockGenerate {
 
     @Autowired
-    private UserMongoDBRepository userMongoDBRepository;
+    private UserMongodbRepository userMongoDBRepository;
     @Autowired
-    private ClassroomMongoDBRepository classroomMongoDBRepository;
+    private ClassroomMongodbRepository classroomMongoDBRepository;
 
     public List<UserModel> generateMultiplesTeachers(int quantity) {
         List<UserModel> userList = new java.util.ArrayList<>(Collections.emptyList());

@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("Save Secretary Test")
 @SpringBootTest(classes = CreateSecretary.class)
-public class CreateSecretaryTest {
+class CreateSecretaryTest {
 
     UUID DEFAULT_UUID;
     @MockBean
@@ -37,7 +37,7 @@ public class CreateSecretaryTest {
 
     @Test
     @DisplayName("Should be created new secretary with information")
-    public void should_be_created_new_secretary_with_id() {
+    void should_be_created_new_secretary_with_id() {
 
         var secretary = TestBuilderUtil.createSecretary(
                 this.DEFAULT_UUID,
@@ -51,14 +51,14 @@ public class CreateSecretaryTest {
 
 
         assertEquals(secretarySaved.getId(), this.DEFAULT_UUID);
-        assertEquals(secretarySaved.getName(), "Secretary 1");
-        assertEquals(secretarySaved.getEmail(), "secretary1@gmail.com");
+        assertEquals("Secretary 1", secretarySaved.getName());
+        assertEquals("secretary1@gmail.com", secretarySaved.getEmail());
         assertTrue(secretarySaved.isValidPassword("123456"));
     }
 
     @Test
     @DisplayName("Should be created new secretary with secretary role")
-    public void should_be_created_new_secretary_with_secretary_role() {
+    void should_be_created_new_secretary_with_secretary_role() {
 
         var secretary = TestBuilderUtil.generateSecretary();
 

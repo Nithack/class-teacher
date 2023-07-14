@@ -1,8 +1,8 @@
 package com.project.classteacher.config;
 
 import com.project.classteacher.config.container.mongodb.MongoContainerConfig;
-import com.project.classteacher.infra.dataBase.mongoDB.repository.ClassroomMongoDBRepository;
-import com.project.classteacher.infra.dataBase.mongoDB.repository.UserMongoDBRepository;
+import com.project.classteacher.infra.database.mongodb.repository.ClassroomMongodbRepository;
+import com.project.classteacher.infra.database.mongodb.repository.UserMongodbRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,12 +20,12 @@ import java.util.Objects;
 @EnableCaching()
 public class MyIntegrationConfig {
     @Autowired
-    private UserMongoDBRepository userMongoDBRepository;
+    private UserMongodbRepository userMongoDBRepository;
 
     @Autowired
     private CacheManager cacheManager;
     @Autowired
-    private ClassroomMongoDBRepository classroomMongoDBRepository;
+    private ClassroomMongodbRepository classroomMongoDBRepository;
 
 
     @BeforeEach

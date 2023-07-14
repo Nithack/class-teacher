@@ -6,7 +6,7 @@ import com.project.classteacher.domain.entity.DecodeToken;
 import com.project.classteacher.domain.entity.Token;
 import com.project.classteacher.domain.entity.User;
 import com.project.classteacher.domain.enums.Roles;
-import com.project.classteacher.infra.dataBase.mongoDB.model.UserModel;
+import com.project.classteacher.infra.database.mongodb.model.UserModel;
 import com.project.classteacher.infra.http.dtos.CreateTeacherDTO;
 import com.project.classteacher.infra.http.dtos.LoginDTO;
 import com.project.classteacher.util.builder.TestBuilderUtil;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-public class AuthControllerTest extends MyIntegrationConfig {
+class AuthControllerTest extends MyIntegrationConfig {
 
     @Autowired
     private MockMvc mockMvc;
@@ -35,7 +35,7 @@ public class AuthControllerTest extends MyIntegrationConfig {
 
     @Test
     @DisplayName("Should return 400 when missing user and password")
-    public void should_return_status_code_200_when_login() throws Exception {
+    void should_return_status_code_200_when_login() throws Exception {
 
         mockMvc.perform(post("/auth/login")
 
@@ -79,7 +79,7 @@ public class AuthControllerTest extends MyIntegrationConfig {
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-        String tokenResponse = objectMapper.readTree(result).get("token").asText();
+        String tokenResponse = objectMapper.readTree(result).get("value").asText();
 
         DecodeToken resultToken = Token.decode(tokenResponse);
         assertAll(

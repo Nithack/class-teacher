@@ -29,13 +29,13 @@ final class ListUnapprovedTeachersTest {
     private ListUnapprovedTeachers listUnapprovedTeachers;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         this.DEFAULT_UUID = TestBuilderUtil.generateId();
     }
 
     @Test
     @DisplayName("should be list all classroom by teacher id")
-    public void should_be_list_all_classroom_by_teacher_id() {
+    void should_be_list_all_classroom_by_teacher_id() {
 
         var teacherUnapprovedOne = TestBuilderUtil.generateTeacher();
         var teacherUnapprovedTwo = TestBuilderUtil.generateTeacher();
@@ -52,7 +52,7 @@ final class ListUnapprovedTeachersTest {
 
     @Test()
     @DisplayName("should return null when teachers not found")
-    public void should_return_null_when_teacher_not_found() {
+    void should_return_null_when_teacher_not_found() {
 
         Mockito.when(userPort.findTeacherById(this.DEFAULT_UUID)).thenReturn(null);
 

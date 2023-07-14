@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 
 
 @DisplayName("Teacher Test")
-public class TeacherTest {
+class TeacherTest {
     @Test()
     @DisplayName("should be return teacher with approved status false")
-    public void should_be_return_teacher_with_approved_status_false() {
+    void should_be_return_teacher_with_approved_status_false() {
 
         var teacher = TestBuilderUtil.generateUnapprovedTeacher();
         Assertions.assertFalse(teacher.isApproved());
@@ -20,7 +20,7 @@ public class TeacherTest {
 
     @Test()
     @DisplayName("should be return teacher with approved status true")
-    public void should_be_return_teacher_with_approved_status_true() {
+    void should_be_return_teacher_with_approved_status_true() {
 
         var teacher = TestBuilderUtil.generateTeacher();
         teacher.approve();

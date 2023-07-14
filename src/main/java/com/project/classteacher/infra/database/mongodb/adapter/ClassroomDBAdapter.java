@@ -1,9 +1,9 @@
-package com.project.classteacher.infra.dataBase.mongoDB.adapter;
+package com.project.classteacher.infra.database.mongodb.adapter;
 
 import com.project.classteacher.application.port.ClassroomPort;
 import com.project.classteacher.domain.entity.Classroom;
-import com.project.classteacher.infra.dataBase.mongoDB.model.ClassroomModel;
-import com.project.classteacher.infra.dataBase.mongoDB.repository.ClassroomMongoDBRepository;
+import com.project.classteacher.infra.database.mongodb.model.ClassroomModel;
+import com.project.classteacher.infra.database.mongodb.repository.ClassroomMongodbRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ import java.util.UUID;
 public class ClassroomDBAdapter implements ClassroomPort {
 
     @Autowired
-    private ClassroomMongoDBRepository classroom;
+    private ClassroomMongodbRepository classroom;
 
     @Override
     public List<Classroom> listByTeacherId(UUID teacherId) {
@@ -28,10 +28,7 @@ public class ClassroomDBAdapter implements ClassroomPort {
                         .build()
         );
 
-        List<Classroom> result = this.classroom.findAll(query).stream().map(ClassroomModel::toDomain).filter(Objects::nonNull).toList();
-        if (result.isEmpty()) return null;
-
-        return result;
+        return this.classroom.findAll(query).stream().map(ClassroomModel::toDomain).filter(Objects::nonNull).toList();
     }
 
     @Override

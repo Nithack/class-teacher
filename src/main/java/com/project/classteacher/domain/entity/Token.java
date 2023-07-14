@@ -24,6 +24,7 @@ public class Token {
     static String INSURER;
     static String TOKEN_KEY;
     static Integer EXPIRATION_TIME;
+    private String value;
 
 
     static {
@@ -31,8 +32,6 @@ public class Token {
         TOKEN_KEY = getProperty("TOKEN_KEY", "qwertyuiopasdfghjklzxcvbnm123456");
         EXPIRATION_TIME = Integer.parseInt(getProperty("EXPIRATION_TIME", "3600000"));
     }
-
-    private String token;
 
     public static Token encode(User user) {
         String token = Jwts.builder()
@@ -45,7 +44,7 @@ public class Token {
                 .setExpiration(new Date(new Date().getTime() + EXPIRATION_TIME))
                 .signWith(Keys.hmacShaKeyFor(TOKEN_KEY.getBytes()), SignatureAlgorithm.HS256)
                 .compact();
-        return Token.builder().token(token).build();
+        return Token.builder().value(token).build();
     }
 
     public static DecodeToken decode(String token) throws InvalidTokenException {
@@ -55,7 +54,7 @@ public class Token {
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
-            if (isInvalidToken(claims)) throw new InvalidTokenException(token);
+            if (Boolean.TRUE.equals(isInvalidToken(claims))) throw new InvalidTokenException(token);
             return DecodeToken.builder()
                     .id(UUID.fromString(claims.get("id", String.class)))
                     .email(claims.get("email", String.class))

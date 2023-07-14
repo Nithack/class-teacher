@@ -25,7 +25,7 @@ public class RegisteredUserDTO {
                 .id(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())
-                .token(token.getToken())
+                .token(token.getValue())
                 .role(user.getRole())
                 .approved(user.getApproved())
                 .build();

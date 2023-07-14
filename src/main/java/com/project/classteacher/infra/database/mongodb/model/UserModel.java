@@ -1,4 +1,4 @@
-package com.project.classteacher.infra.dataBase.mongoDB.model;
+package com.project.classteacher.infra.database.mongodb.model;
 
 import com.project.classteacher.application.factory.UserFactory;
 import com.project.classteacher.domain.entity.User;

@@ -13,10 +13,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 @DisplayName("Auth Token Test")
-public class AuthTokenTest {
+class AuthTokenTest {
     @Test()
     @DisplayName("should be return Token decoded")
-    public void should_be_return_token_decoded() {
+    void should_be_return_token_decoded() {
 
 
         User decodedToken = TestBuilderUtil.generateUser();
@@ -25,7 +25,7 @@ public class AuthTokenTest {
                 decodedToken
         );
 
-        DecodeToken authToken = Token.decode(token.getToken());
+        DecodeToken authToken = Token.decode(token.getValue());
 
         assertAll(
                 () -> assertEquals("Name validated", authToken.getName(), decodedToken.getName()),
@@ -37,13 +37,13 @@ public class AuthTokenTest {
 
     @Test()
     @DisplayName("should be return AuthToken encoded")
-    public void should_be_return_token_encoded() {
+    void should_be_return_token_encoded() {
 
         User user = TestBuilderUtil.generateUser();
 
         Token token = Token.encode(user);
 
-        DecodeToken authToken = Token.decode(token.getToken());
+        DecodeToken authToken = Token.decode(token.getValue());
 
         assertAll(
                 () -> assertEquals("Name validated", authToken.getName(), user.getName()),
@@ -55,23 +55,24 @@ public class AuthTokenTest {
 
     @Test
     @DisplayName("should be return exception when token is expired")
-    public void should_be_return_exception_when_token_is_expired() {
+    void should_be_return_exception_when_token_is_expired() {
         User decodedToken = TestBuilderUtil.generateUser();
 
 
         Token expiredToken = Token.builder()
-                .token(TestBuilderUtil.createExpiredToken(decodedToken))
+                .value(TestBuilderUtil.createExpiredToken(decodedToken))
                 .build();
 
 
+        var token = expiredToken.getValue();
         assertThrows(InvalidTokenException.class, () -> {
-            DecodeToken authToken = Token.decode(expiredToken.getToken());
+            DecodeToken authToken = Token.decode(token);
         });
     }
 
     @Test
     @DisplayName("should be return exception when token is invalid")
-    public void should_be_return_exception_when_token_is_invalid() {
+    void should_be_return_exception_when_token_is_invalid() {
         assertThrows(InvalidTokenException.class, () -> {
             DecodeToken authToken = Token.decode("invalid token");
         });

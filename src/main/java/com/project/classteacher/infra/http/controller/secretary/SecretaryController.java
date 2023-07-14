@@ -18,7 +18,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,11 +31,11 @@ import java.util.UUID;
 @SecurityRequirement(name = "bearerAuth")
 public class SecretaryController {
 
-    final private ListUnapprovedTeachers listUnapprovedTeachers;
+    private final ListUnapprovedTeachers listUnapprovedTeachers;
 
-    final private ApproveTeacher approveTeacher;
-    final private CreateClassroom createClassroom;
-    final private UpdateClassroomById updateClassroomById;
+    private final ApproveTeacher approveTeacher;
+    private final CreateClassroom createClassroom;
+    private final UpdateClassroomById updateClassroomById;
 
     @Operation(
             summary = "Get unapproved teachers",
@@ -70,7 +69,7 @@ public class SecretaryController {
     @CacheEvict("list-teacher-classrooms")
     public ResponseEntity<ClassroomOutputDTO> createClassroom(
             @RequestBody CreateClassroomDTO createClassroomDTO
-    ) throws ParseException {
+    ) {
         var classroomCreated = createClassroom.execute(createClassroomDTO.toDomain());
         return ResponseEntity.ok(ClassroomOutputDTO.toDTO(classroomCreated));
     }
@@ -84,7 +83,7 @@ public class SecretaryController {
     public ResponseEntity<ClassroomOutputDTO> updateClassroomById(
             @RequestBody @Valid ClassroomUpdateDTO createClassroomDTO,
             @PathVariable("id") UUID id
-    ) throws ParseException {
+    ) {
         var classroomUpdated = updateClassroomById.execute(id, createClassroomDTO.toDomain());
         return ResponseEntity.ok(ClassroomOutputDTO.toDTO(classroomUpdated));
     }

@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.classteacher.config.MyIntegrationConfig;
 import com.project.classteacher.domain.entity.Token;
 import com.project.classteacher.domain.enums.Roles;
-import com.project.classteacher.infra.dataBase.mongoDB.model.ClassroomModel;
-import com.project.classteacher.infra.dataBase.mongoDB.model.UserModel;
-import com.project.classteacher.infra.dataBase.mongoDB.repository.UserMongoDBRepository;
+import com.project.classteacher.infra.database.mongodb.model.ClassroomModel;
+import com.project.classteacher.infra.database.mongodb.model.UserModel;
+import com.project.classteacher.infra.database.mongodb.repository.UserMongodbRepository;
 import com.project.classteacher.infra.http.dtos.ClassroomOutputDTO;
 import com.project.classteacher.infra.http.dtos.ClassroomUpdateDTO;
 import com.project.classteacher.infra.http.dtos.CreateClassroomDTO;
@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-public class SecretaryControllerTest extends MyIntegrationConfig {
+class SecretaryControllerTest extends MyIntegrationConfig {
 
     @Autowired
     private MockMvc mockMvc;
@@ -39,7 +39,7 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private UserMongoDBRepository userMongoDBRepository;
+    private UserMongodbRepository userMongoDBRepository;
 
     @Autowired
     private MockGenerate mockGenerate;
@@ -51,7 +51,7 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
 
     @Test()
     @DisplayName("Should be return 403 when not have token")
-    public void should_be_return_401_when_not_have_token() throws Exception {
+    void should_be_return_401_when_not_have_token() throws Exception {
 
         mockMvc.perform(get("/secretary/unapproved"))
                 .andExpect(status().is4xxClientError());
@@ -69,19 +69,19 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
 
     @Test
     @DisplayName("Should be return 403 when not have permission")
-    public void should_ne_return_403_when_not_have_permission() throws Exception {
+    void should_ne_return_403_when_not_have_permission() throws Exception {
         UserModel teacher = mockGenerate.createUser("teacher", Roles.TEACHER, true);
         Token teacherToken = Token.encode(teacher.toDomain());
         mockMvc.perform(get("/secretary/unapproved")
 
-                        .header("Authorization", teacherToken.getToken())
+                        .header("Authorization", teacherToken.getValue())
                 ).andExpect(status().isForbidden())
                 .andReturn();
     }
 
     @Test
     @DisplayName("Should be list unapproved teacher")
-    public void should_be_list_unapproved_teacher() throws Exception {
+    void should_be_list_unapproved_teacher() throws Exception {
 
         var QUANTITY = 10;
         List<UserModel> users = mockGenerate.generateMultiplesTeachers(QUANTITY);
@@ -95,7 +95,7 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
 
         var mvcResult = mockMvc.perform(get("/secretary/teacher/unapproved")
 
-                        .header("Authorization", secretaryToken.getToken())
+                        .header("Authorization", secretaryToken.getValue())
                 ).andExpect(status().isOk())
                 .andReturn();
 
@@ -104,7 +104,7 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
 
     @Test
     @DisplayName("Should be approved teacher")
-    public void should_be_approved_teacher() throws Exception {
+    void should_be_approved_teacher() throws Exception {
 
         UserModel teacher = mockGenerate.createUser("teacher", Roles.TEACHER, false);
 
@@ -114,7 +114,7 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
 
         mockMvc.perform(post("/secretary/teacher/approve/" + teacher.getId())
 
-                        .header("Authorization", secretaryToken.getToken())
+                        .header("Authorization", secretaryToken.getValue())
                 ).andExpect(status().isOk())
                 .andReturn();
 
@@ -124,7 +124,7 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
 
     @DisplayName("Should be create new classroom")
     @Test
-    public void should_be_create_new_classroom() throws Exception {
+    void should_be_create_new_classroom() throws Exception {
 
         UserModel teacher = mockGenerate.createUser("teacher", Roles.TEACHER, true);
 
@@ -146,7 +146,7 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
         var responseContent = mockMvc.perform(post("/secretary/classroom")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
-                .header("Authorization", secretaryToken.getToken())
+                .header("Authorization", secretaryToken.getValue())
         ).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
         ClassroomOutputDTO updatedClassroom = objectMapper.readValue(responseContent, new TypeReference<>() {
@@ -162,7 +162,7 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
 
     @DisplayName("Should be update classroom")
     @Test
-    public void should_be_update_classroom() throws Exception {
+    void should_be_update_classroom() throws Exception {
 
         UserModel teacher = mockGenerate.createUser("teacher", Roles.TEACHER, true);
 
@@ -187,7 +187,7 @@ public class SecretaryControllerTest extends MyIntegrationConfig {
         var responseContent = mockMvc.perform(put("/secretary/classroom/" + classroom.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBodyUpdate)
-                        .header("Authorization", secretaryToken.getToken())
+                        .header("Authorization", secretaryToken.getValue())
                 )
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();

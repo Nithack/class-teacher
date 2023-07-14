@@ -34,7 +34,7 @@ public class UpdateClassroomById {
         if (teacherId != null) {
             var teacher = this.userPort.findTeacherById(teacherId);
             if (teacher == null) throw new TeacherNotFoundException(teacherId);
-            if (!teacher.isApproved()) throw new TeacherNotApprovedException(teacherId);
+            if (Boolean.FALSE.equals(teacher.isApproved())) throw new TeacherNotApprovedException(teacherId);
         }
     }
 
